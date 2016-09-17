@@ -37,14 +37,18 @@ namespace SPES_Modelverifier_Base
             //step 3: validate cross model references
         }
 
-        List<Model> GenerateModels()
+        /// <summary>
+        /// Creates the target models based on supplied mapping list and the target model. If more than one model type needs to be created, overwrite and implement own logic. 
+        /// </summary>
+        /// <returns></returns>
+        internal virtual List<Model> GenerateModels()
         {
             //generate empty list
             var models = new List<Model>();
 
             //go through all pages and add model elements
             foreach (Page page in this.visioApplication.ActiveDocument.Pages)
-                models.Add(new Model(page));
+                models.Add(Activator.CreateInstance(Mapping.TargetModel.GetType(), page, Mapping) as Model);       
 
             return models;
         }

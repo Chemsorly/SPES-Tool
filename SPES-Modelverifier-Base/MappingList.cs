@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SPES_Modelverifier_Base.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +9,32 @@ namespace SPES_Modelverifier_Base
 {
     public abstract class MappingList
     {
-        public abstract Dictionary<Type, String> Mapping { get; }
+        /// <summary>
+        /// Overwrite target for the model type
+        /// </summary>
+        internal abstract Model TargetModel { get; }
 
-           /* Define the VisioShape <-> BaseObject mapping here
-            * 
-            * Example:
-            * {typeof(Models.Function), "Function" },
-            * {typeof(Models.Message), "Message" },
-            * {typeof(Models.MSCRef), "MSC-Reference" }
-            */        
+        /// <summary>
+        /// Overwrite target for all model objects
+        /// </summary>
+        internal abstract Dictionary<Type, String> Mapping { get; }
+
+        /* Define the VisioShape <-> BaseObject mapping here
+         * 
+         * Example:
+         * {typeof(Models.Function), "Function" },
+         * {typeof(Models.Message), "Message" },
+         * {typeof(Models.MSCRef), "MSC-Reference" }
+         */
+
+        public List<String> GetAllVisioStrings()
+        {
+            return Mapping.Select(t => t.Value).ToList();
+        }
+
+        public List<Type> GetAllObjectTypes()
+        {
+            return Mapping.Select(t => t.Key).ToList();
+        }
     }
 }

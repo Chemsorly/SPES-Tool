@@ -7,10 +7,21 @@ using System.Threading.Tasks;
 
 namespace SPES_Modelverifier_Base.Models
 {
-    abstract class Model
+    internal abstract class Model
     {
+        /// <summary>
+        /// the list of all shapes on a sheet
+        /// </summary>
         public List<BaseObject> ObjectList = new List<BaseObject>();
+
+        /// <summary>
+        /// the factory to use
+        /// </summary>
         public ModelFactory Factory { get; }
+
+        /// <summary>
+        /// the page name
+        /// </summary>
         public String PageName { get; }
 
         public Model(Page pPage, MappingList pMapping)
@@ -34,6 +45,9 @@ namespace SPES_Modelverifier_Base.Models
             }
         }
 
+        /// <summary>
+        /// validates basic intra model spezifications. Can be overwritten and extended by calling base.Validate()
+        /// </summary>
         public virtual void Validate()
         {
             //check if sheet is not empty
@@ -62,6 +76,7 @@ namespace SPES_Modelverifier_Base.Models
 
 
             //check model type
+            throw new NotImplementedException();
 
             //check if evry function, external function and dependency has at minimum 1 connector added
 

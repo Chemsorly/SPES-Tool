@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SPES_Modelverifier_Base.Models
 {
-    abstract class NRO
+    internal abstract class NRO
     {
     }
 }
