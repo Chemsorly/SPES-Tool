@@ -12,12 +12,12 @@ namespace SPES_Modelverifier_Base
         /// <summary>
         /// Overwrite target for the model type
         /// </summary>
-        internal abstract Model TargetModel { get; }
+        public abstract Type TargetModel { get; }
 
         /// <summary>
         /// Overwrite target for all model objects
         /// </summary>
-        internal abstract Dictionary<Type, String> Mapping { get; }
+        public abstract Dictionary<Type, String> Mapping { get; }
 
         /* Define the VisioShape <-> BaseObject mapping here
          * 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SPES_Modelverifier_Base.Models
 {
-    internal abstract class BaseObject
+    public abstract class BaseObject
     {
         public String text { get; set; }
         public String uniquename { get; set; }

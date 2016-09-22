@@ -10,7 +10,11 @@ namespace SPES_Modelverifier_Base
 {
     public abstract class ModelNetwork
     {
-        public abstract List<String> ModelFiles { get; }
+        /// <summary>
+        /// the shape template files located in the MyShapes folder, e.g. "HMSC.vssx"
+        /// </summary>
+        public abstract List<String> ShapeTemplateFiles { get; }
+        public abstract Type MappingListType { get; }
 
         Application visioApplication;
         MappingList Mapping;
@@ -26,9 +30,14 @@ namespace SPES_Modelverifier_Base
         /// </summary>
         /// <param name="pApplication">the visio application with the open document</param>
         /// <param name="pMappingList">the type of the visio-object mapping</param>
-        public ModelNetwork(Application pApplication, Type pMappingList)
+        public ModelNetwork(Application pApplication)
         {
+            //nullchecks
+            if (pApplication == null)
+                throw new ArgumentNullException("application");
+
             visioApplication = pApplication;
+            Mapping = Activator.CreateInstance(MappingListType) as MappingList;
             this.visioApplication.DocumentOpenedEvent += DocumentLoadedHandler;
             this.visioApplication.DocumentCreatedEvent += DocumentLoadedHandler;
         }
@@ -58,7 +67,7 @@ namespace SPES_Modelverifier_Base
 
             //go through all pages and add model elements
             foreach (Page page in this.visioApplication.ActiveDocument.Pages)
-                models.Add(Activator.CreateInstance(Mapping.TargetModel.GetType(), page, Mapping) as Model);       
+                models.Add(Activator.CreateInstance(Mapping.TargetModel, page, Mapping) as Model);       
 
             return models;
         }
@@ -73,10 +82,10 @@ namespace SPES_Modelverifier_Base
             try
             {
                 //check if current opening document is not on the shape list
-                if(!ModelFiles.Any(t => t == doc.Name))
+                if(!ShapeTemplateFiles.Any(t => t == doc.Name))
                 {
                     //cycle all files that have to be opened
-                    foreach(var file in ModelFiles)
+                    foreach(var file in ShapeTemplateFiles)
                     {
                         //check if already opened, if not -> open
                         if (!this.visioApplication.Documents.Any(t => t.Name == file))
@@ -96,8 +105,7 @@ namespace SPES_Modelverifier_Base
         /// <param name="error">exception</param>
         void NotifyErrorReceived(Exception error)
         {
-            if (OnErrorReceivedEvent != null)
-                OnErrorReceivedEvent(error);
+            OnErrorReceivedEvent?.Invoke(error);
         }
 
         /// <summary>
@@ -106,8 +114,9 @@ namespace SPES_Modelverifier_Base
         /// <param name="message">message</param>
         void NotifyLogMessageReceived(String message)
         {
-            if (OnLogMessageReceivedEvent != null)
-                OnLogMessageReceivedEvent(message);
+            OnLogMessageReceivedEvent?.Invoke(message);
         }
+
+        public override string ToString() => this.GetType().Name;
     }
 }

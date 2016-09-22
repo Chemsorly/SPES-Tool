@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SPES_Modelverifier_Base.Models
 {
-    internal abstract class Model
+    public abstract class Model
     {
         /// <summary>
         /// the list of all shapes on a sheet
@@ -17,7 +17,7 @@ namespace SPES_Modelverifier_Base.Models
         /// <summary>
         /// the factory to use
         /// </summary>
-        public ModelFactory Factory { get; }
+        internal ModelFactory Factory { get; }
 
         /// <summary>
         /// the page name
@@ -76,7 +76,7 @@ namespace SPES_Modelverifier_Base.Models
 
 
             //check model type
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
 
             //check if evry function, external function and dependency has at minimum 1 connector added
 
