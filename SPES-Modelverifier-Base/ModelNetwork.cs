@@ -10,8 +10,16 @@ namespace SPES_Modelverifier_Base
 {
     public abstract class ModelNetwork
     {
+        public abstract List<String> ModelFiles { get; }
+
         Application visioApplication;
         MappingList Mapping;
+
+        public delegate void OnErrorReceived(Exception error);
+        public event OnErrorReceived OnErrorReceivedEvent;
+
+        public delegate void OnLogMessageReceived(String message);
+        public event OnLogMessageReceived OnLogMessageReceivedEvent;
 
         /// <summary>
         /// creates a new instance of the model verifier for a specific model type
@@ -21,6 +29,8 @@ namespace SPES_Modelverifier_Base
         public ModelNetwork(Application pApplication, Type pMappingList)
         {
             visioApplication = pApplication;
+            this.visioApplication.DocumentOpenedEvent += DocumentLoadedHandler;
+            this.visioApplication.DocumentCreatedEvent += DocumentLoadedHandler;
         }
 
         /// <summary>
@@ -51,6 +61,53 @@ namespace SPES_Modelverifier_Base
                 models.Add(Activator.CreateInstance(Mapping.TargetModel.GetType(), page, Mapping) as Model);       
 
             return models;
+        }
+
+        /// <summary>
+        /// gets fired when a document gets loaded into the visio application. tries to load the shapes
+        /// </summary>
+        /// <param name="doc">newly opened document</param>
+        void DocumentLoadedHandler(IVDocument doc)
+        {
+            //load in shapes
+            try
+            {
+                //check if current opening document is not on the shape list
+                if(!ModelFiles.Any(t => t == doc.Name))
+                {
+                    //cycle all files that have to be opened
+                    foreach(var file in ModelFiles)
+                    {
+                        //check if already opened, if not -> open
+                        if (!this.visioApplication.Documents.Any(t => t.Name == file))
+                            this.visioApplication.Documents.OpenEx(file, (short)NetOffice.VisioApi.Enums.VisOpenSaveArgs.visOpenDocked);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                NotifyErrorReceived(ex);
+            }
+        }
+
+        /// <summary>
+        /// notify when exception appeared
+        /// </summary>
+        /// <param name="error">exception</param>
+        void NotifyErrorReceived(Exception error)
+        {
+            if (OnErrorReceivedEvent != null)
+                OnErrorReceivedEvent(error);
+        }
+
+        /// <summary>
+        /// notify when a log message appeared
+        /// </summary>
+        /// <param name="message">message</param>
+        void NotifyLogMessageReceived(String message)
+        {
+            if (OnLogMessageReceivedEvent != null)
+                OnLogMessageReceivedEvent(message);
         }
     }
 }

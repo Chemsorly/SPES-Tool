@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPES-Modelverifier-Base", "SPES-Modelverifier-Base\SPES-Modelverifier-Base.csproj", "{B43F3525-9A96-40D4-9E2B-BD9BF9104008}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITU-Scenario", "ITU-Scenario\ITU-Scenario.csproj", "{77C6D225-B8D8-49C6-89D5-C20D2B1A07CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B43F3525-9A96-40D4-9E2B-BD9BF9104008}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B43F3525-9A96-40D4-9E2B-BD9BF9104008}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B43F3525-9A96-40D4-9E2B-BD9BF9104008}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77C6D225-B8D8-49C6-89D5-C20D2B1A07CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77C6D225-B8D8-49C6-89D5-C20D2B1A07CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77C6D225-B8D8-49C6-89D5-C20D2B1A07CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77C6D225-B8D8-49C6-89D5-C20D2B1A07CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
