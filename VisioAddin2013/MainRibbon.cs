@@ -6,6 +6,7 @@ using Microsoft.Office.Tools.Ribbon;
 using SPES_Modelverifier_Base;
 using NetOffice.VisioApi;
 using ITU_Scenario;
+using SPES_Funktionsnetz;
 
 namespace VisioAddin2013
 {
@@ -21,6 +22,7 @@ namespace VisioAddin2013
 
             //add modelverifiers
             modelverifiers.Add(new ScenarioNetwork(application));
+            modelverifiers.Add(new FunktionsnetzNetwork(application));
 
             //add modelverifiers to dropdown menu
             foreach (var obj in modelverifiers)

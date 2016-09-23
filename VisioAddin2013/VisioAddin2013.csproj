@@ -214,6 +214,10 @@
       <Project>{77C6D225-B8D8-49C6-89D5-C20D2B1A07CD}</Project>
       <Name>ITU-Scenario</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SPES-Funktionsnetz\SPES-Funktionsnetz.csproj">
+      <Project>{0D5C987D-6A0C-436D-BA67-842531D147D5}</Project>
+      <Name>SPES-Funktionsnetz</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SPES-Modelverifier-Base\SPES-Modelverifier-Base.csproj">
       <Project>{B43F3525-9A96-40D4-9E2B-BD9BF9104008}</Project>
       <Name>SPES-Modelverifier-Base</Name>

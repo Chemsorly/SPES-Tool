@@ -9,5 +9,10 @@ namespace SPES_Modelverifier_Base.Models
     public abstract class Item : BaseObject
     {
         public List<Connection> Connections { get; }
+
+        public Item()
+        {
+            Connections = new List<Connection>();
+        }
     }
 }
