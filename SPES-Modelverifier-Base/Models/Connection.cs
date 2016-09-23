@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SPES_Modelverifier_Base.Models
 {
-    internal abstract class Connection : BaseObject
+    public abstract class Connection : BaseObject
     {
         /// <summary>
         /// a connection item has to define what it can be connected to. Empty list means it can connect any object derived from BaseObject

@@ -9,24 +9,17 @@ using System.Threading.Tasks;
 
 namespace SPES_Modelverifier_Base
 {
-    class ModelFactory
+    static class ModelFactory
     {
-        MappingList Mappings { get; }
-
-        internal ModelFactory(MappingList pMappings)
-        {
-            Mappings = pMappings;
-        } 
-
-        public BaseObject GetInstanceFromShape(Shape pShape)
+        public static BaseObject GetInstanceFromShape(Shape pShape, MappingList pMappings)
         {
             //get type mapping for shape
-            var pair = Mappings.Mapping.FirstOrDefault(t => t.Value == GetBaseNameFromUniquename(pShape.Name));
+            var pair = pMappings.Mapping.FirstOrDefault(t => t.Key == GetBaseNameFromUniquename(pShape.Name));
 
             //create object
             BaseObject modelObject;
             if (pair.Key != null)
-                modelObject = Activator.CreateInstance(pair.Key) as BaseObject;
+                modelObject = Activator.CreateInstance(pair.Value) as BaseObject;
             else
                 modelObject = new NRO();
 

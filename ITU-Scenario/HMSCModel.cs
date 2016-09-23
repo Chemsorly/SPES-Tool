@@ -8,10 +8,12 @@ using SPES_Modelverifier_Base;
 
 namespace ITU_Scenario
 {
-    class ScenarioModel : SPES_Modelverifier_Base.Models.Model
+    public class HMSCModel : SPES_Modelverifier_Base.Models.Model
     {
-        public ScenarioModel(Page pPage, MappingList pMapping) : base(pPage, pMapping)
+        public HMSCModel(Page pPage, MappingList pMapping) : base(pPage, pMapping)
         {
         }
+
+        public override List<Type> AllowedItems => null;
     }
 }

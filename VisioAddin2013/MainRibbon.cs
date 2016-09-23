@@ -59,12 +59,12 @@ namespace VisioAddin2013
 
         private void ExportButton_Click(object sender, RibbonControlEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void ImportButton_Click(object sender, RibbonControlEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         // not needed atm, maybe later for dynamic shape loading

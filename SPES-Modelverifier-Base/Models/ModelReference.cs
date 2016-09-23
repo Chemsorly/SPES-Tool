@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SPES_Modelverifier_Base.Models
 {
-    internal abstract class ModelReference : Item
+    public abstract class ModelReference : Item
     {
+        public abstract List<Type> AllowedReferenceTypes { get; }
         public Model LinkedModel { get; }
-        public bool ContextReference { get; }
     }
 }

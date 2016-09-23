@@ -10,31 +10,38 @@ namespace SPES_Modelverifier_Base
     public abstract class MappingList
     {
         /// <summary>
-        /// Overwrite target for the model type
+        /// Overwrite target for the model types. Types have to derive from Model
         /// </summary>
-        public abstract Type TargetModel { get; }
+        public abstract List<Type> TargetModels { get; }
+        /*Define the list of model types. The program picks the right one based on a probability check
+         * 
+         * Example:
+         * typeof(HMSCmodel),
+         * typeof(BMSCmodel)
+         */
+
 
         /// <summary>
         /// Overwrite target for all model objects
         /// </summary>
-        public abstract Dictionary<Type, String> Mapping { get; }
+        public abstract Dictionary<String,Type> Mapping { get; }
 
         /* Define the VisioShape <-> BaseObject mapping here
          * 
          * Example:
-         * {typeof(Models.Function), "Function" },
-         * {typeof(Models.Message), "Message" },
-         * {typeof(Models.MSCRef), "MSC-Reference" }
+         * {"Function", typeof(Models.Function) },
+         * {"Message", typeof(Models.Message) },
+         * {"MSC-Reference", typeof(Models.MSCRef)  }
          */
 
         public List<String> GetAllVisioStrings()
         {
-            return Mapping.Select(t => t.Value).ToList();
+            return Mapping.Select(t => t.Key).ToList();
         }
 
         public List<Type> GetAllObjectTypes()
         {
-            return Mapping.Select(t => t.Key).ToList();
+            return Mapping.Select(t => t.Value).ToList();
         }
     }
 }

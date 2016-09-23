@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SPES_Modelverifier_Base.Models
 {
-    internal abstract class Item : BaseObject
+    public abstract class Item : BaseObject
     {
         public List<Connection> Connections { get; }
     }

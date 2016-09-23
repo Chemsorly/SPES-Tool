@@ -1,4 +1,5 @@
-﻿using NetOffice.VisioApi;
+﻿using MoreLinq;
+using NetOffice.VisioApi;
 using SPES_Modelverifier_Base.Models;
 using System;
 using System.Collections.Generic;
@@ -67,9 +68,29 @@ namespace SPES_Modelverifier_Base
 
             //go through all pages and add model elements
             foreach (Page page in this.visioApplication.ActiveDocument.Pages)
-                models.Add(Activator.CreateInstance(Mapping.TargetModel, page, Mapping) as Model);       
+                models.Add(Activator.CreateInstance(GetTargetModelType(page), page, Mapping) as Model);       
 
             return models;
+        }
+
+        Type GetTargetModelType(Page pPage)
+        {
+            //check how many model types exist, if one return that one
+            if (Mapping.TargetModels.Count == 1)
+                return Mapping.TargetModels.First();
+
+            //create a model for each model type
+            List<Model> models = new List<Model>();
+            foreach (Type type in Mapping.TargetModels)
+                models.Add(Activator.CreateInstance(type, pPage, Mapping) as Model);
+
+            //calculate rating
+            Dictionary<Type, int> ratings = new Dictionary<Type, int>();
+            foreach (var model in models)
+                ratings.Add(model.GetType(), model.CalculateRating());
+
+            //return type with highest probability rating
+            return ratings.MaxBy(t => t.Value).Key;
         }
 
         /// <summary>
