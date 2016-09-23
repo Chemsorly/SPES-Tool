@@ -9,13 +9,19 @@ namespace SPES_Funktionsnetz
 {
     class FunktionsnetzMapping : MappingList
     {
-        public override Dictionary<string, Type> Mapping
+        public override Dictionary<string, Type> Mapping => new Dictionary<String, Type>()
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+            //Funktionsnetz
+            { "Function", typeof(Function) },
+            { "external Function", typeof(ContextFunction) },
+            { "Interaction", typeof(Interaction) },
+            { "Dependency", typeof(Dependency) },
+            { "Dependency Connector", typeof(DependencyConnection) },
+
+            //Automata            
+            { "Step", typeof(Step) },
+            { "Connection", typeof(NodeConnection) }
+        };
 
         public override List<Type> TargetModels => new List<Type>() { typeof(FunktionsnetzModel), typeof(AutomataModel) };
     }

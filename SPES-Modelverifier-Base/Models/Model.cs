@@ -52,13 +52,10 @@ namespace SPES_Modelverifier_Base.Models
 
 
             //check if elements exist double on any sheet
-            List<BaseObject> duplicates = ObjectList.Where(t => !String.IsNullOrEmpty(t.text)).Select(t => t)
-                .GroupBy(x => x)
-                .Where(group => group.Count() > 1)
-                .Select(group => group.Key)
-                .ToList();
-            if (duplicates.Any())
-                throw new ValidationFailedException(duplicates.First(), this.PageName + " contains elements with duplicate text" );
+            List<BaseObject> objects = ObjectList.Where(t => !String.IsNullOrEmpty(t.text)).ToList();
+            foreach(var obj in objects)
+                if(objects.Count(t => t.text == obj.text) > 1)
+                    throw new ValidationFailedException(obj, this.PageName + " contains elements with duplicate text");
 
             //set connections in the connector objects
             ObjectList.ForEach(t =>
@@ -67,11 +64,8 @@ namespace SPES_Modelverifier_Base.Models
                     (t as Connection).SetConnections(ObjectList);
             });
 
-
-            //check model type
-            //throw new NotImplementedException();
-
-            //check if evry function, external function and dependency has at minimum 1 connector added
+            //do checks on objects, if implemented
+            ObjectList.ForEach(t => t.Validate());
         }
 
         /// <summary>

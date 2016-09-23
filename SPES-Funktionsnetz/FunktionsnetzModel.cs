@@ -14,6 +14,6 @@ namespace SPES_Funktionsnetz
         {
         }
 
-        public override List<Type> AllowedItems => null;
+        public override List<Type> AllowedItems => new List<Type>() { typeof(Function), typeof(ContextFunction), typeof(Interaction), typeof(Dependency), typeof(DependencyConnection) };
     }
 }

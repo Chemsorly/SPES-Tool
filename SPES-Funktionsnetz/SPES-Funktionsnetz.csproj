@@ -60,6 +60,13 @@
     <Compile Include="FunktionsnetzMapping.cs" />
     <Compile Include="FunktionsnetzModel.cs" />
     <Compile Include="FunktionsnetzNetwork.cs" />
+    <Compile Include="Items\ContextFunction.cs" />
+    <Compile Include="Items\Dependency.cs" />
+    <Compile Include="Items\DependencyConnection.cs" />
+    <Compile Include="Items\Function.cs" />
+    <Compile Include="Items\Interaction.cs" />
+    <Compile Include="Items\NodeConnection.cs" />
+    <Compile Include="Items\Step.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,9 +78,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Items\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

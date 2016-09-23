@@ -16,5 +16,10 @@ namespace SPES_Modelverifier_Base.Models
         public double locationy { get; set; }
         public double height { get; set; }
         public double width { get; set; }
+
+        public virtual void Validate()
+        {
+
+        }
     }
 }
