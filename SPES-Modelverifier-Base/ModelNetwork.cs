@@ -15,14 +15,27 @@ namespace SPES_Modelverifier_Base
         /// the shape template files located in the MyShapes folder, e.g. "HMSC.vssx"
         /// </summary>
         public abstract List<String> ShapeTemplateFiles { get; }
+
+        /// <summary>
+        /// the derived type implementation of MappingType
+        /// </summary>
         public abstract Type MappingListType { get; }
 
-        Application visioApplication;
+        protected Application visioApplication;
         MappingList Mapping;
+        protected List<Model> ModelList;
 
+        /// <summary>
+        /// event handler for error messages
+        /// </summary>
+        /// <param name="error">exception</param>
         public delegate void OnErrorReceived(Exception error);
         public event OnErrorReceived OnErrorReceivedEvent;
 
+        /// <summary>
+        /// event handler for log messages
+        /// </summary>
+        /// <param name="message">log message</param>
         public delegate void OnLogMessageReceived(String message);
         public event OnLogMessageReceived OnLogMessageReceivedEvent;
 
@@ -49,12 +62,21 @@ namespace SPES_Modelverifier_Base
         public virtual void Verify()
         {
             //step 1: create entities
-            var models = GenerateModels();
+            ModelList = GenerateModels();
 
             //step 2: validate connections between entities
-            models.ForEach(t => t.Validate());
+            ModelList.ForEach(t => t.Validate());
 
             //step 3: validate cross model references
+            foreach (var model in ModelList)
+                foreach (var modelref in model.ObjectList.Where(t => t is ModelReference))
+                {
+                    var correspondingmodel = ModelList.FirstOrDefault(t => t.PageName == modelref.text);
+                    if (correspondingmodel == null)
+                        throw new ValidationFailedException(modelref, "Could not locate matching submodel.");
+                    else
+                        (modelref as ModelReference).LinkedModel = correspondingmodel;
+                }                      
         }
 
         /// <summary>

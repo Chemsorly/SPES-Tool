@@ -9,6 +9,6 @@ namespace SPES_Modelverifier_Base.Models
     public abstract class ModelReference : Item
     {
         public abstract List<Type> AllowedReferenceTypes { get; }
-        public Model LinkedModel { get; }
+        public Model LinkedModel { get; set; }
     }
 }

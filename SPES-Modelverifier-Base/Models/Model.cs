@@ -52,7 +52,7 @@ namespace SPES_Modelverifier_Base.Models
 
 
             //check if elements exist double on any sheet
-            List<BaseObject> objects = ObjectList.Where(t => !String.IsNullOrEmpty(t.text)).ToList();
+            List<BaseObject> objects = ObjectList.Where(t => t is Item && !String.IsNullOrEmpty(t.text) && !((t as Item).CanHaveDuplicateText)).ToList();
             foreach(var obj in objects)
                 if(objects.Count(t => t.text == obj.text) > 1)
                     throw new ValidationFailedException(obj, this.PageName + " contains elements with duplicate text");
