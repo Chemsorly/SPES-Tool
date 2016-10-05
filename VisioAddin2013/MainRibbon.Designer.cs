@@ -36,10 +36,10 @@
         {
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
+            this.ModelTargetDropDown = this.Factory.CreateRibbonDropDown();
             this.VerifyButton = this.Factory.CreateRibbonButton();
             this.ImportButton = this.Factory.CreateRibbonButton();
             this.ExportButton = this.Factory.CreateRibbonButton();
-            this.ModelTargetDropDown = this.Factory.CreateRibbonDropDown();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.SuspendLayout();
@@ -60,6 +60,13 @@
             this.group1.Label = "SPES";
             this.group1.Name = "group1";
             // 
+            // ModelTargetDropDown
+            // 
+            this.ModelTargetDropDown.Label = "dropDown1";
+            this.ModelTargetDropDown.Name = "ModelTargetDropDown";
+            this.ModelTargetDropDown.ShowLabel = false;
+            this.ModelTargetDropDown.SelectionChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ModelTargetDropDown_SelectionChanged);
+            // 
             // VerifyButton
             // 
             this.VerifyButton.Label = "Verify";
@@ -77,12 +84,6 @@
             this.ExportButton.Label = "Export";
             this.ExportButton.Name = "ExportButton";
             this.ExportButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ExportButton_Click);
-            // 
-            // ModelTargetDropDown
-            // 
-            this.ModelTargetDropDown.Label = "dropDown1";
-            this.ModelTargetDropDown.Name = "ModelTargetDropDown";
-            this.ModelTargetDropDown.ShowLabel = false;
             // 
             // MainRibbon
             // 

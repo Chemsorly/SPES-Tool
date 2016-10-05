@@ -52,8 +52,6 @@ namespace SPES_Modelverifier_Base
 
             visioApplication = pApplication;
             Mapping = Activator.CreateInstance(MappingListType) as MappingList;
-            this.visioApplication.DocumentOpenedEvent += DocumentLoadedHandler;
-            this.visioApplication.DocumentCreatedEvent += DocumentLoadedHandler;
         }
 
         /// <summary>
@@ -77,6 +75,43 @@ namespace SPES_Modelverifier_Base
                     else
                         (modelref as ModelReference).LinkedModel = correspondingmodel;
                 }                      
+        }
+
+        public void LoadShapes()
+        {
+            //load in shapes
+            try
+            {
+                //check if current opening document is not on the shape list
+                if (!ShapeTemplateFiles.Any(t => this.visioApplication.Documents.Any(c => c.Name == t)))
+                {
+                    //cycle all files that have to be opened
+                    foreach (var file in ShapeTemplateFiles)
+                    {
+                        //check if already opened, if not -> open
+                        if (!this.visioApplication.Documents.Any(t => t.Name == file))
+                            this.visioApplication.Documents.OpenEx(file, (short)NetOffice.VisioApi.Enums.VisOpenSaveArgs.visOpenDocked);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                NotifyErrorReceived(ex);
+            }
+        }
+
+        public void UnloadShapes()
+        {
+            try
+            {
+                List<IVDocument> documents = this.visioApplication.Documents.Where(t => ShapeTemplateFiles.Any(c => c == t.Name)).ToList();
+                for (int i = 0; i < documents.Count; i++)
+                    documents[i].Close();
+            }
+            catch(Exception ex)
+            {
+                NotifyErrorReceived(ex);
+            }
         }
 
         /// <summary>
@@ -113,33 +148,6 @@ namespace SPES_Modelverifier_Base
 
             //return type with highest probability rating
             return ratings.MaxBy(t => t.Value).Key;
-        }
-
-        /// <summary>
-        /// gets fired when a document gets loaded into the visio application. tries to load the shapes
-        /// </summary>
-        /// <param name="doc">newly opened document</param>
-        void DocumentLoadedHandler(IVDocument doc)
-        {
-            //load in shapes
-            try
-            {
-                //check if current opening document is not on the shape list
-                if(!ShapeTemplateFiles.Any(t => t == doc.Name))
-                {
-                    //cycle all files that have to be opened
-                    foreach(var file in ShapeTemplateFiles)
-                    {
-                        //check if already opened, if not -> open
-                        if (!this.visioApplication.Documents.Any(t => t.Name == file))
-                            this.visioApplication.Documents.OpenEx(file, (short)NetOffice.VisioApi.Enums.VisOpenSaveArgs.visOpenDocked);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                NotifyErrorReceived(ex);
-            }
         }
 
         /// <summary>
