@@ -45,7 +45,7 @@ namespace VisioAddin2013
             if(application.ActiveDocument != null)
                 ModelTargetDropDown_SelectionChanged(null, null);
 
-            //subscribe to events
+            //subscribe to application events
             application.DocumentCreatedEvent += Application_DocumentLoadedOrCreated;
             application.DocumentOpenedEvent += Application_DocumentLoadedOrCreated;
         }

@@ -55,7 +55,7 @@ namespace SPES_Modelverifier_Base
         }
 
         /// <summary>
-        /// verification method for general verification purposes. Overwrite for additional model-specific checks and call base.Verify() to do base checks.
+        /// verification method for general verification purposes. Overwrite for additional model-specific checks and call base.Verify() to do base checks. Throws exception if verification fails
         /// </summary>
         public virtual void Verify()
         {
@@ -77,16 +77,27 @@ namespace SPES_Modelverifier_Base
                 }                      
         }
 
+        /// <summary>
+        /// exports the model to a given XML file. the model has to be verified prior for the export to work
+        /// </summary>
+        /// <param name="pFile"></param>
         public virtual void Export(String pFile)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// imports a given model from an XML file and tries to reconstruct it with the current loaded stencils
+        /// </summary>
+        /// <param name="pFile"></param>
         public virtual void Import(String pFile)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// loads the stencils for the model network
+        /// </summary>
         public void LoadShapes()
         {
             //load in shapes
@@ -110,6 +121,9 @@ namespace SPES_Modelverifier_Base
             }
         }
 
+        /// <summary>
+        /// unloads the model network specific stencils
+        /// </summary>
         public void UnloadShapes()
         {
             try
@@ -140,6 +154,11 @@ namespace SPES_Modelverifier_Base
             return models;
         }
 
+        /// <summary>
+        /// returns the model type for the target visio page. if more than one exists, the most likely one will be returned (based on the amount of matching shapes)
+        /// </summary>
+        /// <param name="pPage"></param>
+        /// <returns></returns>
         Type GetTargetModelType(Page pPage)
         {
             //check how many model types exist, if one return that one
@@ -178,6 +197,10 @@ namespace SPES_Modelverifier_Base
             OnLogMessageReceivedEvent?.Invoke(message);
         }
 
+        /// <summary>
+        /// returns the name (not full name)
+        /// </summary>
+        /// <returns></returns>
         public override string ToString() => this.GetType().Name;
     }
 }
