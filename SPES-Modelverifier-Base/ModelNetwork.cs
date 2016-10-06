@@ -77,6 +77,16 @@ namespace SPES_Modelverifier_Base
                 }                      
         }
 
+        public virtual void Export(String pFile)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void Import(String pFile)
+        {
+            throw new NotImplementedException();
+        }
+
         public void LoadShapes()
         {
             //load in shapes

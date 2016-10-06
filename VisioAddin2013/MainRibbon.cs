@@ -7,6 +7,7 @@ using SPES_Modelverifier_Base;
 using NetOffice.VisioApi;
 using ITU_Scenario;
 using SPES_Funktionsnetz;
+using System.Windows.Forms;
 
 namespace VisioAddin2013
 {
@@ -17,10 +18,11 @@ namespace VisioAddin2013
         ModelNetwork previousModelverifier = null;
         ModelNetwork activeModelverifier => modelverifiers.FirstOrDefault(t => t.ToString() == this.ModelTargetDropDown.SelectedItem?.Label);
 
+        bool initialized = false;
         private void MainRibbon_Load(object sender, RibbonUIEventArgs e)
         {
             //get current application
-            var application = Application.GetActiveInstance();
+            var application = NetOffice.VisioApi.Application.GetActiveInstance();
 
             //add modelverifiers
             modelverifiers.Add(new ScenarioNetwork(application));
@@ -36,12 +38,16 @@ namespace VisioAddin2013
 
                 //sub to log messages etc.
                 obj.OnErrorReceivedEvent += delegate (Exception pEx) { System.Windows.Forms.MessageBox.Show(pEx.Message); };
-                obj.OnLogMessageReceivedEvent += delegate (String pMessage) { System.Windows.Forms.MessageBox.Show(pMessage); };
+                //obj.OnLogMessageReceivedEvent += delegate (String pMessage) { System.Windows.Forms.MessageBox.Show(pMessage); };
             }
 
             //call selection changed for init shape load (only if document is loaded)
             if(application.ActiveDocument != null)
                 ModelTargetDropDown_SelectionChanged(null, null);
+
+            //subscribe to events
+            application.DocumentCreatedEvent += Application_DocumentLoadedOrCreated;
+            application.DocumentOpenedEvent += Application_DocumentLoadedOrCreated;
         }
 
         private void Verify_Click(object sender, RibbonControlEventArgs e)
@@ -72,12 +78,46 @@ namespace VisioAddin2013
 
         private void ExportButton_Click(object sender, RibbonControlEventArgs e)
         {
-            //throw new NotImplementedException();
+            try
+            {
+                SaveFileDialog dialog = new SaveFileDialog();
+                dialog.AddExtension = true;
+                dialog.DefaultExt = "xml";
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    this.activeModelverifier.Export(dialog.FileName);
+                    MessageBox.Show("Export successful");
+                }
+            }
+            catch(Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Export failed: " + ex.Message,
+                        "ERROR",
+                        System.Windows.Forms.MessageBoxButtons.OK,
+                        System.Windows.Forms.MessageBoxIcon.Error);
+            }
         }
 
         private void ImportButton_Click(object sender, RibbonControlEventArgs e)
         {
-            //throw new NotImplementedException();
+            try
+            {
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.DefaultExt = "xml";
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    this.activeModelverifier.Import(dialog.FileName);
+                    MessageBox.Show("Import successful");
+                }
+            }
+            catch(Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Import failed: " + ex.Message,
+                        "ERROR",
+                        System.Windows.Forms.MessageBoxButtons.OK,
+                        System.Windows.Forms.MessageBoxIcon.Error);
+            }
         }
 
         private void ModelTargetDropDown_SelectionChanged(object sender, RibbonControlEventArgs e)
@@ -89,12 +129,13 @@ namespace VisioAddin2013
             previousModelverifier = activeModelverifier;
         }
 
-        // not needed atm, maybe later for dynamic shape loading
-        //private void ModelTarget_SelectionChanged(object sender, RibbonControlEventArgs e)
-        //{
-        //    RibbonDropDownItem sel = (e.Control as RibbonDropDown).SelectedItem;
-        //    if (modelverifiers.Exists(t => t.ToString() == sel.Label))
-        //        activeModelverifier = modelverifiers.First(t => t.ToString() == sel.Label);
-        //}
+        private void Application_DocumentLoadedOrCreated(IVDocument pDoc)
+        {
+            if (!initialized)
+            {
+                ModelTargetDropDown_SelectionChanged(null, null);
+                initialized = true;
+            }
+        }
     }
 }
