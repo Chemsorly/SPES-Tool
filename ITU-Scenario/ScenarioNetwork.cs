@@ -15,7 +15,7 @@ namespace ITU_Scenario
 
         public ScenarioNetwork(Application pApplication) : base(pApplication)
         {
-
+            
         }
                 
     }

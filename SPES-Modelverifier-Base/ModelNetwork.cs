@@ -51,7 +51,19 @@ namespace SPES_Modelverifier_Base
                 throw new ArgumentNullException("application");
 
             visioApplication = pApplication;
+
+            //gets called when
+            visioApplication.DocumentCreatedEvent += VisioApplication_DocumentCreatedEvent;
+            visioApplication.DocumentOpenedEvent += VisioApplication_DocumentCreatedEvent;
+
+
             Mapping = Activator.CreateInstance(MappingListType) as MappingList;
+        }
+
+        private void VisioApplication_DocumentCreatedEvent(IVDocument doc)
+        {
+            if (!doc.GlueSettings.HasFlag(NetOffice.VisioApi.Enums.VisGlueSettings.visGlueToGeometry))
+                doc.GlueSettings = doc.GlueSettings | NetOffice.VisioApi.Enums.VisGlueSettings.visGlueToGeometry;
         }
 
         /// <summary>
