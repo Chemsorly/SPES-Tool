@@ -10,13 +10,23 @@ namespace ITU_Scenario
 {
     public class ScenarioNetwork : ModelNetwork
     {
-        public override List<string> ShapeTemplateFiles => new List<String> { "Basic MSC with Inline Expressions.vsx", "HMSC.vsx" };
-        public override Type MappingListType => typeof(ScenarioMapping);
+        protected override List<string> ShapeTemplateFiles => new List<String> { "Basic MSC with Inline Expressions.vsx", "HMSC.vsx" };
+        protected override Type MappingListType => typeof(ScenarioMapping);
 
         public ScenarioNetwork(Application pApplication) : base(pApplication)
         {
             
         }
-                
+
+        /// <summary>
+        /// extra glueing settings are necessary for the shapes
+        /// </summary>
+        /// <param name="doc"></param>
+        protected override void VisioApplication_DocumentCreatedOrLoadedEvent(IVDocument doc)
+        {
+            //set glue to geometry to true, to allow connectors to connect the instance shapes
+            if (!doc.GlueSettings.HasFlag(NetOffice.VisioApi.Enums.VisGlueSettings.visGlueToGeometry))
+                doc.GlueSettings = doc.GlueSettings | NetOffice.VisioApi.Enums.VisGlueSettings.visGlueToGeometry;
+        }
     }
 }

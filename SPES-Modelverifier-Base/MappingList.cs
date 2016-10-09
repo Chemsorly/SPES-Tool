@@ -12,7 +12,7 @@ namespace SPES_Modelverifier_Base
         /// <summary>
         /// Overwrite target for the model types. Types have to derive from Model
         /// </summary>
-        public abstract List<Type> TargetModels { get; }
+        protected internal abstract List<Type> TargetModels { get; }
         /*Define the list of model types. The program picks the right one based on a probability check
          * 
          * Example:
@@ -24,7 +24,7 @@ namespace SPES_Modelverifier_Base
         /// <summary>
         /// Overwrite target for all model objects
         /// </summary>
-        public abstract Dictionary<String,Type> Mapping { get; }
+        protected internal abstract Dictionary<String,Type> Mapping { get; }
 
         /* Define the VisioShape <-> BaseObject mapping here
          * 

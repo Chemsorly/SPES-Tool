@@ -14,16 +14,16 @@ namespace SPES_Modelverifier_Base
         /// <summary>
         /// the shape template files located in the MyShapes folder, e.g. "HMSC.vssx"
         /// </summary>
-        public abstract List<String> ShapeTemplateFiles { get; }
+        protected abstract List<String> ShapeTemplateFiles { get; }
 
         /// <summary>
         /// the derived type implementation of MappingType
         /// </summary>
-        public abstract Type MappingListType { get; }
+        protected abstract Type MappingListType { get; }
 
-        protected Application visioApplication;
+        Application visioApplication;
         MappingList Mapping;
-        protected List<Model> ModelList;
+        List<Model> ModelList;
 
         /// <summary>
         /// event handler for error messages
@@ -52,19 +52,18 @@ namespace SPES_Modelverifier_Base
 
             visioApplication = pApplication;
 
-            //gets called when
-            visioApplication.DocumentCreatedEvent += VisioApplication_DocumentCreatedEvent;
-            visioApplication.DocumentOpenedEvent += VisioApplication_DocumentCreatedEvent;
-
+            //gets called when document is loaded
+            visioApplication.DocumentCreatedEvent += VisioApplication_DocumentCreatedOrLoadedEvent;
+            visioApplication.DocumentOpenedEvent += VisioApplication_DocumentCreatedOrLoadedEvent;
 
             Mapping = Activator.CreateInstance(MappingListType) as MappingList;
         }
 
-        private void VisioApplication_DocumentCreatedEvent(IVDocument doc)
-        {
-            if (!doc.GlueSettings.HasFlag(NetOffice.VisioApi.Enums.VisGlueSettings.visGlueToGeometry))
-                doc.GlueSettings = doc.GlueSettings | NetOffice.VisioApi.Enums.VisGlueSettings.visGlueToGeometry;
-        }
+        /// <summary>
+        /// define extra operations to be set during document initialization, e.g. settings
+        /// </summary>
+        /// <param name="doc"></param>
+        protected virtual void VisioApplication_DocumentCreatedOrLoadedEvent(IVDocument doc) { }
 
         /// <summary>
         /// verification method for general verification purposes. Overwrite for additional model-specific checks and call base.Verify() to do base checks. Throws exception if verification fails
@@ -154,7 +153,7 @@ namespace SPES_Modelverifier_Base
         /// Creates the target models based on supplied mapping list and the target model. If more than one model type needs to be created, overwrite and implement own logic. 
         /// </summary>
         /// <returns></returns>
-        internal virtual List<Model> GenerateModels()
+        protected virtual List<Model> GenerateModels()
         {
             //generate empty list
             var models = new List<Model>();
