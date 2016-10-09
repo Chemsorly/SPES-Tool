@@ -42,8 +42,6 @@ release_master:
     /nologo 
     /p:Configuration=Release 
     /t:Publish
-    /p:ProductName="SPES-Modelverifier %PROJECT_VERSION%"
-    /p:AssemblyName=SPES_Modelverifier
     /p:PublishDir=C:\Dropbox\Public\VS_Releases\SPES-Modelverifier\%CI_BUILD_REF_NAME%\
     /p:InstallUrl=https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/%CI_BUILD_REF_NAME%/
     /p:UpdateUrl=https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/%CI_BUILD_REF_NAME%/'
