@@ -9,7 +9,7 @@ namespace SPES_Funktionsnetz
 {
     class FunktionsnetzMapping : MappingList
     {
-        public override Dictionary<string, Type> Mapping => new Dictionary<String, Type>()
+        protected override Dictionary<string, Type> Mapping => new Dictionary<String, Type>()
         {
             //Funktionsnetz
             { "Function", typeof(Function) },
@@ -23,6 +23,6 @@ namespace SPES_Funktionsnetz
             { "Connection", typeof(NodeConnection) }
         };
 
-        public override List<Type> TargetModels => new List<Type>() { typeof(FunktionsnetzModel), typeof(AutomataModel) };
+        protected override List<Type> TargetModels => new List<Type>() { typeof(FunktionsnetzModel), typeof(AutomataModel) };
     }
 }

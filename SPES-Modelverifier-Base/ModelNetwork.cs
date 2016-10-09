@@ -21,9 +21,9 @@ namespace SPES_Modelverifier_Base
         /// </summary>
         protected abstract Type MappingListType { get; }
 
-        Application visioApplication;
-        MappingList Mapping;
-        List<Model> ModelList;
+        protected Application visioApplication;
+        protected MappingList Mapping;
+        protected List<Model> ModelList;
 
         /// <summary>
         /// event handler for error messages

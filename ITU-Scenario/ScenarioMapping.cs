@@ -10,7 +10,7 @@ namespace ITU_Scenario
 {
     public class ScenarioMapping : MappingList
     {
-        public override Dictionary<String,Type> Mapping => new Dictionary<String, Type>()
+        protected override Dictionary<String,Type> Mapping => new Dictionary<String, Type>()
         {
             //HMSC
             { "Connection Point", typeof(ConnectionPoint) },
@@ -26,6 +26,6 @@ namespace ITU_Scenario
             { "Message (Right)", typeof(Message) }
         };
 
-        public override List<Type>TargetModels => new List<Type>() { typeof(HMSCModel), typeof(BMSCModel) };
+        protected override List<Type>TargetModels => new List<Type>() { typeof(HMSCModel), typeof(BMSCModel) };
     }
 }

@@ -13,9 +13,9 @@ namespace SPES_Funktionsnetz
         {
         }
 
-        public override Type MappingListType => typeof(FunktionsnetzMapping);
+        protected override Type MappingListType => typeof(FunktionsnetzMapping);
 
-        public override List<string> ShapeTemplateFiles => new List<string>() { "FunctionalDesign_Function.vssx", "FunctionalDesign_Funktionsnetz.vssx" };
+        protected override List<string> ShapeTemplateFiles => new List<string>() { "FunctionalDesign_Function.vssx", "FunctionalDesign_Funktionsnetz.vssx" };
 
         /// <summary>
         /// overriden verify method to also include model specific checks (e.g. cross model checking)
