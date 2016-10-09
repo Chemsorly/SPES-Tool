@@ -1,0 +1,49 @@
+stages:
+    - build
+    - release
+    
+before_script:
+    - echo %CI_BUILD_ID%
+    - echo %CI_BUILD_REF%
+    - echo %CI_BUILD_REF_NAME%
+    - echo %CI_BUILD_REPO%
+    - echo %CI_BUILD_TAG%
+    - echo %CI_BUILD_NAME%
+    - echo %CI_BUILD_STAGE%
+    - echo %CI_BUILD_TRIGGERED%
+    - echo %CI_PROJECT_DIR%
+    - echo %CI_PROJECT_ID%
+    - echo %CI_SERVER%
+    - echo %CI_SERVER_NAME%
+    - echo %CI_SERVER_REVISION%
+    - echo %CI_SERVER_VERSION%
+    
+build:
+    stage: build
+    only:
+    - branches
+    script:
+    - '"C:\Gitlab-Multirunner\nuget.exe" restore "SPES-Modelverifier-Base.sln"'
+    - '"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" 
+    /p:Configuration=Debug'
+    - '"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" 
+    /p:Configuration=Release'
+    
+release_master:
+    stage: release
+    only:
+    - master
+    script:
+    - '"C:\Gitlab-Multirunner\nuget.exe" restore "SPES-Modelverifier-Base.sln"'
+    - '"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" 
+    /p:ApplicationVersion=0.0.1.* 
+    /p:ApplicationRevision=%CI_BUILD_ID% 
+    /maxcpucount 
+    /nologo 
+    /p:Configuration=Release 
+    /t:Publish
+    /p:ProductName="SPES-Modelverifier %PROJECT_VERSION%"
+    /p:AssemblyName=SPES_Modelverifier
+    /p:PublishDir=C:\Dropbox\Public\VS_Releases\SPES-Modelverifier\%CI_BUILD_REF_NAME%\
+    /p:InstallUrl=https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/%CI_BUILD_REF_NAME%/
+    /p:UpdateUrl=https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/%CI_BUILD_REF_NAME%/'
