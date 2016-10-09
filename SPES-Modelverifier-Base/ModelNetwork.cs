@@ -168,7 +168,7 @@ namespace SPES_Modelverifier_Base
         /// <summary>
         /// returns the model type for the target visio page. if more than one exists, the most likely one will be returned (based on the amount of matching shapes)
         /// </summary>
-        /// <param name="pPage"></param>
+        /// <param name="pPage">the visio page</param>
         /// <returns></returns>
         Type GetTargetModelType(Page pPage)
         {
