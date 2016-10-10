@@ -17,8 +17,8 @@ namespace VisioAddin2013
 
         ModelNetwork previousModelverifier = null;
         ModelNetwork activeModelverifier => modelverifiers.FirstOrDefault(t => t.ToString() == this.ModelTargetDropDown.SelectedItem?.Label);
-
         bool initialized = false;
+
         private void MainRibbon_Load(object sender, RibbonUIEventArgs e)
         {
             //get current application
@@ -124,6 +124,7 @@ namespace VisioAddin2013
         {
             if (previousModelverifier != null)
                 previousModelverifier.UnloadShapes();
+
 
             activeModelverifier.LoadShapes();
             previousModelverifier = activeModelverifier;

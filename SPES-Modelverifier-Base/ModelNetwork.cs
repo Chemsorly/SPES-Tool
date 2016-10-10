@@ -115,7 +115,7 @@ namespace SPES_Modelverifier_Base
             try
             {
                 //check if current opening document is not on the shape list
-                if (!ShapeTemplateFiles.Any(t => this.visioApplication.Documents.Any(c => c.Name == t)))
+                if (!ShapeTemplateFiles.Any(t => this.visioApplication.Documents.Any(c => c.Name == t)) && !visioApplication.ActiveDocument.Name.Contains(".vsx") && !visioApplication.ActiveDocument.Name.Contains(".vssx"))
                 {
                     //cycle all files that have to be opened
                     foreach (var file in ShapeTemplateFiles)
