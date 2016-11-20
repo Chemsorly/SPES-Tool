@@ -18,6 +18,7 @@ namespace ITU_Scenario
             { "End Symbol", typeof(EndSymbol) },
             { "MSC Reference", typeof(BMSCReference) },
             { "Connection Arrow", typeof(ConnectionArrow) },
+            { "Inline Expr: loop", typeof(InlineExpressionLoop) },
 
             //BMSC            
             { "Line Instance", typeof(Instance) },

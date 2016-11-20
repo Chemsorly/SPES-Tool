@@ -66,6 +66,7 @@
     <Compile Include="ModelNetwork.cs" />
     <Compile Include="Models\BaseObject.cs" />
     <Compile Include="Models\Connection.cs" />
+    <Compile Include="Models\Container.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Model.cs" />
     <Compile Include="Models\ModelReference.cs" />

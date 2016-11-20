@@ -1,4 +1,5 @@
-﻿using NetOffice.VisioApi;
+﻿using MoreLinq;
+using NetOffice.VisioApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace SPES_Modelverifier_Base.Models
         /// <summary>
         /// the list of all shapes on a sheet
         /// </summary>
-        public List<BaseObject> ObjectList = new List<BaseObject>();
+        public List<BaseObject> ObjectList { get; }
 
         /// <summary>
         /// the page name
@@ -32,7 +33,12 @@ namespace SPES_Modelverifier_Base.Models
         public Model(Page pPage, MappingList pMapping)
         {
             this.PageName = pPage.Name;
-            this.ObjectList = GenerateObjects(pPage, pMapping);
+
+            //generate objects
+            this.ObjectList = GenerateObjects(this,pPage, pMapping);
+
+            //populate containers
+            this.ObjectList.Where(t => t is Container).ForEach(t => (t as Container).FindContainingItems());
         }
 
         /// <summary>
@@ -80,14 +86,14 @@ namespace SPES_Modelverifier_Base.Models
                 return ObjectList.Count;
         }
 
-        static List<BaseObject> GenerateObjects(Page pPage, MappingList pMapping)
+        static List<BaseObject> GenerateObjects(Model pParentmodel, Page pPage, MappingList pMapping)
         {
             List<BaseObject> ObjectList = new List<BaseObject>();
 
             //transform all shapes into model objects
             foreach (Shape shape in pPage.Shapes)
             {
-                BaseObject modelObject = ModelFactory.GetInstanceFromShape(shape, pMapping);
+                BaseObject modelObject = ModelFactory.GetInstanceFromShape(pParentmodel,shape, pMapping);
                 if (modelObject != null)
                 {
                     ObjectList.Add(modelObject);

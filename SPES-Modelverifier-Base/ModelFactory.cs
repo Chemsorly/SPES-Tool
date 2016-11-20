@@ -11,7 +11,7 @@ namespace SPES_Modelverifier_Base
 {
     static class ModelFactory
     {
-        public static BaseObject GetInstanceFromShape(Shape pShape, MappingList pMappings)
+        public static BaseObject GetInstanceFromShape(Model pParentmodel, Shape pShape, MappingList pMappings)
         {
             //get type mapping for shape
             var pair = pMappings.Mapping.FirstOrDefault(t => t.Key == GetBaseNameFromUniquename(pShape.Name));
@@ -26,6 +26,7 @@ namespace SPES_Modelverifier_Base
             //fill base data
             if (modelObject != null)
             {
+                modelObject.ParentModel = pParentmodel;
                 modelObject.uniquename = pShape.Name;
                 modelObject.visiopage = pShape.ContainingPage.Name;
                 modelObject.visioshape = pShape;

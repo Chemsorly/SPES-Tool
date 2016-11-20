@@ -12,6 +12,7 @@ namespace SPES_Modelverifier_Base.Models
         public String uniquename { get; set; }
         public String visiopage { get; set; }
         public NetOffice.VisioApi.IVShape visioshape { get; internal set; }
+        public Model ParentModel { get; set; }
         public double locationx { get; set; }
         public double locationy { get; set; }
         public double height { get; set; }
