@@ -24,10 +24,6 @@ namespace SPES_Modelverifier_Base.Models
                 //check if all connection items are outgoing connections
                 if (this.Connections.Any(t => t.FromObject != this))
                     throw new ValidationFailedException(this, "Start Item connections contains an invalid connection (does not equal outgoing)");
-
-                //check if start item is unique
-                if (this.ParentModel.ObjectList.Count(t => t is StartEndItem && (t as StartEndItem).IsStart) > 1)
-                    throw new ValidationFailedException(this, "Model contains more than one start item.");
             }
             else
                 //check if all connection items are ingoing connections

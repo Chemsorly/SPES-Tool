@@ -62,6 +62,17 @@ namespace SPES_Modelverifier_Base.Models
                 if(objects.Count(t => t.text == obj.text) > 1)
                     throw new ValidationFailedException(obj, this.PageName + " contains elements with duplicate text");
 
+            //ONLY CHECK IF AT LEAST ONE OF THOSE OBJECTS EXIST; deadlock check here
+            var startenditems = this.ObjectList.Where(t => t is StartEndItem);
+            if (startenditems.Any())
+            {
+                //check if start item is unique; check if minimum one end item exists;
+                if (startenditems.Count(t => (t as StartEndItem).IsStart) > 1)
+                    throw new ValidationFailedException(startenditems.First(t => (t as StartEndItem).IsStart), "Model contains more than one start item.");
+                if (startenditems.Count(t => !(t as StartEndItem).IsStart) == 0)
+                    throw new ValidationFailedException(startenditems.First(), "Model contains no enditems.");           
+            }
+
             //set connections in the connector objects
             ObjectList.ForEach(t =>
             {

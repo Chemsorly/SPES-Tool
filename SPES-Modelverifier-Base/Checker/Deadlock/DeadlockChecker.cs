@@ -23,6 +23,9 @@ namespace SPES_Modelverifier_Base.Checker.Deadlock
         {
             //create a tree for every model
             pModels.ForEach(t => TreeList.Add(new Tree(t)));
+
+            //call validate function for each tree
+            TreeList.ForEach(t => t.Validate());
         }
     }
 }

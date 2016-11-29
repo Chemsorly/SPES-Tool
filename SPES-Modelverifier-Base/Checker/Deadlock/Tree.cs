@@ -22,5 +22,10 @@ namespace SPES_Modelverifier_Base.Checker.Deadlock
             StartNode = new Node(startitem as Item, 1);
         }
 
+        public void Validate()
+        {
+            //check 
+        }
+
     }
 }

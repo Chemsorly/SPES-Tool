@@ -85,7 +85,12 @@ namespace SPES_Modelverifier_Base
                         throw new ValidationFailedException(modelref, "Could not locate matching submodel.");
                     else
                         (modelref as ModelReference).LinkedModel = correspondingmodel;
-                }                      
+                }
+
+            //step 4: other stuff
+            //deadlock check via path checking //TODO move to model level
+            var checker = new Checker.Deadlock.DeadlockChecker();
+            checker.Initialize(this.ModelList.Where(t => t.ObjectList.Any(u => u is StartEndItem)).ToList());
         }
 
         /// <summary>
