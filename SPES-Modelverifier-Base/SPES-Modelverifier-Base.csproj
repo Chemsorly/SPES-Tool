@@ -71,6 +71,7 @@
     <Compile Include="Models\Model.cs" />
     <Compile Include="Models\ModelReference.cs" />
     <Compile Include="Models\NRO.cs" />
+    <Compile Include="Models\StartEndItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValidationFailedException.cs" />
   </ItemGroup>
