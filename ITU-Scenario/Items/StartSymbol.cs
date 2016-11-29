@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace ITU_Scenario
 {
-    internal class StartSymbol : Item
+    internal class StartSymbol : StartEndItem
     {
+        public override bool IsStart => true;
     }
 }

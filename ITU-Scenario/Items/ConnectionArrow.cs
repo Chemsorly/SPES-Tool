@@ -15,6 +15,6 @@ namespace ITU_Scenario
             typeof(EndSymbol),
             typeof(BMSCReference)};
 
-        public override bool Inverted => false;
+        public override bool Inverted => true;
     }
 }
