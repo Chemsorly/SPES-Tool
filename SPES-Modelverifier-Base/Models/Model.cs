@@ -56,7 +56,6 @@ namespace SPES_Modelverifier_Base.Models
                     if (!AllowedItems.Any(t => t == element.GetType()) && element.GetType() != typeof(NRO))
                         throw new ValidationFailedException(element, "Object is not allowed on the model.");
 
-
             //check if elements exist double on any sheet
             List<BaseObject> objects = ObjectList.Where(t => t is Item && !String.IsNullOrEmpty(t.text) && !((t as Item).CanHaveDuplicateText)).ToList();
             foreach(var obj in objects)

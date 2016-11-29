@@ -61,6 +61,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Checker\Deadlock\DeadlockChecker.cs" />
+    <Compile Include="Checker\Deadlock\Node.cs" />
+    <Compile Include="Checker\Deadlock\Tree.cs" />
     <Compile Include="MappingList.cs" />
     <Compile Include="ModelFactory.cs" />
     <Compile Include="ModelNetwork.cs" />

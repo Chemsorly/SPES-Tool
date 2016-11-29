@@ -26,7 +26,7 @@ namespace SPES_Modelverifier_Base.Models
                     throw new ValidationFailedException(this, "Start Item connections contains an invalid connection (does not equal outgoing)");
 
                 //check if start item is unique
-                if(this.ParentModel.ObjectList.Count(t => t is StartEndItem && (t as StartEndItem).IsStart) > 1)
+                if (this.ParentModel.ObjectList.Count(t => t is StartEndItem && (t as StartEndItem).IsStart) > 1)
                     throw new ValidationFailedException(this, "Model contains more than one start item.");
             }
             else
