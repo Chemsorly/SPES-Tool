@@ -20,9 +20,9 @@ namespace SPES_Modelverifier_Base.Checker.Deadlock
             CurrentDepth = pDepth;
 
             //case depth > 100 (TODO proper abort function)
-            if(CurrentDepth > 100)
-                throw new ValidationFailedException(Current, "Path length > 100 found");
-
+            if (CurrentDepth > 100)
+                //throw new ValidationFailedException(Current, "Path length > 100 found");
+                return;
             //expand tree
             NextNodes = GetAllNextNodes(this);
 
