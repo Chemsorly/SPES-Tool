@@ -1,4 +1,5 @@
-﻿using SPES_Modelverifier_Base.Models;
+﻿using MoreLinq;
+using SPES_Modelverifier_Base.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace SPES_Modelverifier_Base.Checker.Deadlock
         public void Initialize(List<Model> pModels)
         {
             //create a tree for every model
-            pModels.ForEach(t => TreeList.Add(new Tree(t)));
+            pModels.Where(t => t.ObjectList.Any(u => u is StartEndItem)).ForEach(t => TreeList.Add(new Tree(t)));
 
             //call validate function for each tree
             TreeList.ForEach(t => t.Validate());

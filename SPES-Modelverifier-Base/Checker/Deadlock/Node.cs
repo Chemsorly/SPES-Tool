@@ -18,6 +18,7 @@ namespace SPES_Modelverifier_Base.Checker.Deadlock
         {
             Current = pCurrent;
             CurrentDepth = pDepth;
+            NextNodes = new List<Node>();
 
             //case depth > 100 (TODO proper abort function)
             if (CurrentDepth > 100)
