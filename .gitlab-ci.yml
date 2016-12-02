@@ -35,21 +35,21 @@ release_master:
     - master
     script:
     - '"C:\Gitlab-Multirunner\nuget.exe" restore "SPES-Modelverifier-Base.sln"'
-    - '"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe .\VisioAddin2013\VisioAddin2013.csproj" 
+    - '"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" 
     /p:ApplicationRevision=%CI_BUILD_ID% 
     /maxcpucount 
     /nologo 
     /p:Configuration=Release 
-    /t:Publish
+    /t:VisioAddin2013:Publish
     /p:PublishDir=C:\Dropbox\Public\VS_Releases\SPES-Modelverifier\%CI_BUILD_REF_NAME%\2013-2016\
     /p:InstallUrl=https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2013-2016/
     /p:UpdateUrl=https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2013-2016/'
-    - '"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe .\VisioAddin2010\VisioAddin2010.csproj" 
+    - '"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" 
     /p:ApplicationRevision=%CI_BUILD_ID% 
     /maxcpucount 
     /nologo 
     /p:Configuration=Release 
-    /t:Publish
+    /t:VisioAddin2010:Publish
     /p:PublishDir=C:\Dropbox\Public\VS_Releases\SPES-Modelverifier\%CI_BUILD_REF_NAME%\2010\
     /p:InstallUrl=https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2010/
     /p:UpdateUrl=https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2010/'
