@@ -41,7 +41,7 @@
     <PublishUrl>publish\</PublishUrl>
     <InstallUrl>https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/master/2010/</InstallUrl>
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <ApplicationVersion>1.0.0.16</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
