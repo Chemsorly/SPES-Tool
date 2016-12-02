@@ -33,7 +33,7 @@
     <TargetFrameworkProfile />
     <BootstrapperEnabled>false</BootstrapperEnabled>
     <PublishUrl>publish\</PublishUrl>
-    <InstallUrl>https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/master/</InstallUrl>
+    <InstallUrl>https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/master/2013-2016/</InstallUrl>
     <TargetCulture>en</TargetCulture>
     <ApplicationVersion>1.0.0.6</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
@@ -244,7 +244,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>VisioAddin2013_TemporaryKey.pfx</ManifestKeyFile>
