@@ -31,11 +31,11 @@
     <DefineConstants>VSTO40</DefineConstants>
     <IsWebBootstrapper>True</IsWebBootstrapper>
     <TargetFrameworkProfile />
-    <BootstrapperEnabled>false</BootstrapperEnabled>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>publish\</PublishUrl>
-    <InstallUrl>https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/master/2013-2016/</InstallUrl>
+    <InstallUrl>https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/master/2013/</InstallUrl>
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.6</ApplicationVersion>
+    <ApplicationVersion>1.0.0.10</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
