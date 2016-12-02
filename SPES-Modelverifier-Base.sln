@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisioAddin2013", "VisioAddi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPES-Funktionsnetz", "SPES-Funktionsnetz\SPES-Funktionsnetz.csproj", "{0D5C987D-6A0C-436D-BA67-842531D147D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisioAddin2010", "VisioAddin2010\VisioAddin2010.csproj", "{0E43CD0E-0EE1-4C47-B5B9-9612D3A4C4D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{0D5C987D-6A0C-436D-BA67-842531D147D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D5C987D-6A0C-436D-BA67-842531D147D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D5C987D-6A0C-436D-BA67-842531D147D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E43CD0E-0EE1-4C47-B5B9-9612D3A4C4D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E43CD0E-0EE1-4C47-B5B9-9612D3A4C4D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E43CD0E-0EE1-4C47-B5B9-9612D3A4C4D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E43CD0E-0EE1-4C47-B5B9-9612D3A4C4D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
