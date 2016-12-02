@@ -36,8 +36,7 @@ release_master:
     script:
     - '"C:\Gitlab-Multirunner\nuget.exe" restore "SPES-Modelverifier-Base.sln"'
     - '"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" 
-    /p:ApplicationVersion=%PROJECT_VERSION%.* 
-    /p:ApplicationRevision=%CI_BUILD_ID% 
+    /p:ApplicationVersion=%PROJECT_VERSION% 
     /maxcpucount 
     /nologo 
     /p:Configuration=Release 
@@ -46,8 +45,7 @@ release_master:
     /p:InstallUrl=https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2013-2016/
     /p:UpdateUrl=https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2013-2016/'
     - '"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" 
-    /p:ApplicationVersion=%PROJECT_VERSION%.* 
-    /p:ApplicationRevision=%CI_BUILD_ID% 
+    /p:ApplicationVersion=%PROJECT_VERSION% 
     /maxcpucount 
     /nologo 
     /p:Configuration=Release 
