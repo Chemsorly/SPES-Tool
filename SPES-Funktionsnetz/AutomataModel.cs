@@ -10,10 +10,6 @@ namespace SPES_Funktionsnetz
 {
     class AutomataModel : SPES_Modelverifier_Base.Models.Model
     {
-        public AutomataModel(Page pPage, MappingList pMapping) : base(pPage, pMapping)
-        {
-        }
-
         public override List<Type> AllowedItems => new List<Type>() { typeof(Step), typeof(NodeConnection) };
     }
 }

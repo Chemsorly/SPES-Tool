@@ -24,6 +24,8 @@ namespace SPES_Modelverifier_Base
         protected Application visioApplication;
         protected MappingList Mapping;
         protected List<Model> ModelList;
+        protected List<ValidationFailedMessage> CollectedValidationMessages;
+
 
         /// <summary>
         /// event handler for error messages
@@ -50,6 +52,7 @@ namespace SPES_Modelverifier_Base
             if (pApplication == null)
                 throw new ArgumentNullException("application");
 
+            CollectedValidationMessages = new List<ValidationFailedMessage>();
             visioApplication = pApplication;
 
             //gets called when document is loaded
@@ -68,13 +71,20 @@ namespace SPES_Modelverifier_Base
         /// <summary>
         /// verification method for general verification purposes. Overwrite for additional model-specific checks and call base.Verify() to do base checks. Throws exception if verification fails
         /// </summary>
-        public virtual void Verify()
+        public virtual List<ValidationFailedMessage> Validate()
         {
+            //create empty list (empty = no errors)
+            CollectedValidationMessages = new List<ValidationFailedMessage>();
+
             //step 1: create entities
             ModelList = GenerateModels();
+            if (CollectedValidationMessages.Any())
+                return CollectedValidationMessages;
 
             //step 2: validate connections between entities
             ModelList.ForEach(t => t.Validate());
+            if (CollectedValidationMessages.Any())
+                return CollectedValidationMessages;
 
             //step 3: validate cross model references
             foreach (var model in ModelList)
@@ -82,15 +92,21 @@ namespace SPES_Modelverifier_Base
                 {
                     var correspondingmodel = ModelList.FirstOrDefault(t => t.PageName == modelref.text);
                     if (correspondingmodel == null)
-                        throw new ValidationFailedException(modelref, "Could not locate matching submodel.");
+                        CollectedValidationMessages.Add(new ValidationFailedMessage(3, "Could not locate matching submodel.", modelref));
                     else
                         (modelref as ModelReference).LinkedModel = correspondingmodel;
                 }
 
+            if (CollectedValidationMessages.Any())
+                return CollectedValidationMessages;
+
             //step 4: other stuff
             //deadlock check via path checking //TODO move to model level
             var checker = new Checker.Deadlock.DeadlockChecker();
+            checker.ValidationFailedEvent += delegate (ValidationFailedMessage pMessage) { CollectedValidationMessages.Add(pMessage); };
             checker.Initialize(this.ModelList.Where(t => t.ObjectList.Any(u => u is StartEndItem)).ToList());
+
+            return CollectedValidationMessages;
         }
 
         /// <summary>
@@ -165,7 +181,12 @@ namespace SPES_Modelverifier_Base
 
             //go through all pages and add model elements
             foreach (Page page in this.visioApplication.ActiveDocument.Pages)
-                models.Add(Activator.CreateInstance(GetTargetModelType(page), page, Mapping) as Model);       
+            {
+                var model = Activator.CreateInstance(GetTargetModelType(page)) as Model;
+                model.ValidationFailedEvent += delegate (ValidationFailedMessage pMessage) { CollectedValidationMessages.Add(pMessage); };
+                model.Initialize(page, Mapping);
+                models.Add(model);
+            }
 
             return models;
         }
@@ -184,7 +205,12 @@ namespace SPES_Modelverifier_Base
             //create a model for each model type
             List<Model> models = new List<Model>();
             foreach (Type type in Mapping.TargetModels)
-                models.Add(Activator.CreateInstance(type, pPage, Mapping) as Model);
+            {
+                var model = Activator.CreateInstance(type) as Model;
+                model.ValidationFailedEvent += delegate (ValidationFailedMessage pMessage) { CollectedValidationMessages.Add(pMessage); };
+                model.Initialize(pPage, Mapping);
+                models.Add(model);
+            }
 
             //calculate rating
             Dictionary<Type, int> ratings = new Dictionary<Type, int>();

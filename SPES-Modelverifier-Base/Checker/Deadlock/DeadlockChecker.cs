@@ -10,23 +10,34 @@ namespace SPES_Modelverifier_Base.Checker.Deadlock
 {
     public class DeadlockChecker
     {
-        List<Tree> TreeList { get; }
+        List<Tree> TreeList { get; set; }
 
         /// <summary>
-        /// init pattern for events
+        /// event to throw in case of validation exception
         /// </summary>
-        public DeadlockChecker()
-        {
-            TreeList = new List<Tree>();
-        }
+        public event ValidationFailedDelegate ValidationFailedEvent;
 
         public void Initialize(List<Model> pModels)
         {
+            //create treelist
+            TreeList = new List<Tree>();
+
             //create a tree for every model
             pModels.Where(t => t.ObjectList.Any(u => u is StartEndItem)).ForEach(t => TreeList.Add(new Tree(t)));
 
             //call validate function for each tree
-            TreeList.ForEach(t => t.Validate());
+            TreeList.ForEach(t =>
+            {
+                try
+                {
+                    t.Validate();
+                }
+                catch(ValidationFailedException ex)
+                {
+                    ValidationFailedEvent?.Invoke(new ValidationFailedMessage(4, ex));
+                }
+            });
+
         }
     }
 }

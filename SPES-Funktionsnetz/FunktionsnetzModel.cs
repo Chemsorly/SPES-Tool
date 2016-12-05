@@ -10,10 +10,6 @@ namespace SPES_Funktionsnetz
 {
     class FunktionsnetzModel : SPES_Modelverifier_Base.Models.Model
     {
-        public FunktionsnetzModel(Page pPage, MappingList pMapping) : base(pPage, pMapping)
-        {
-        }
-
         public override List<Type> AllowedItems => new List<Type>() { typeof(Function), typeof(ContextFunction), typeof(Interaction), typeof(Dependency), typeof(DependencyConnection) };
     }
 }

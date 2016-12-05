@@ -10,10 +10,6 @@ namespace ITU_Scenario
 {
     public class HMSCModel : SPES_Modelverifier_Base.Models.Model
     {
-        public HMSCModel(Page pPage, MappingList pMapping) : base(pPage, pMapping)
-        {
-        }
-
         public override List<Type> AllowedItems => null;
     }
 }

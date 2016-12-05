@@ -13,7 +13,6 @@ namespace SPES_Modelverifier_Base
         /// the model object the exception is referencing to
         /// </summary>
         public BaseObject ExceptionObject { get; set; }
-
         /// <summary>
         /// constructor
         /// </summary>

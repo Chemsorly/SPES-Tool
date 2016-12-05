@@ -17,6 +17,7 @@ namespace VisioAddin2013
 
         ModelNetwork previousModelverifier = null;
         ModelNetwork activeModelverifier => modelverifiers.FirstOrDefault(t => t.ToString() == this.ModelTargetDropDown.SelectedItem?.Label);
+        ResultForm activeResultForm { get; set; }
         bool initialized = false;
 
         private void MainRibbon_Load(object sender, RibbonUIEventArgs e)
@@ -56,15 +57,21 @@ namespace VisioAddin2013
             {
                 try
                 {
-                    this.activeModelverifier.Verify();
-                    System.Windows.Forms.MessageBox.Show("Verification successful!", "Success!", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
-                }
-                catch (ValidationFailedException ex)
-                {
-                    System.Windows.Forms.MessageBox.Show(String.Format("Sheet: {0} \nShape: {1}\nMessage: {2}", ex.ExceptionObject.visiopage, ex.ExceptionObject.uniquename, ex.Message),
-                        "Validation failed!",
-                        System.Windows.Forms.MessageBoxButtons.OK,
-                        System.Windows.Forms.MessageBoxIcon.Error);
+                    var results = this.activeModelverifier.Validate();
+                    if(results.Count > 0)
+                    {
+                        //show results window
+                        if (activeResultForm != null)
+                            activeResultForm.Dispose();
+
+                        ResultForm window = new ResultForm(results);
+                        activeResultForm = window;
+                        window.Show();
+                    }
+                    else
+                    {
+                        System.Windows.Forms.MessageBox.Show("Verification successful!", "Success!", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
+                    }
                 }
                 catch (Exception ex)
                 {

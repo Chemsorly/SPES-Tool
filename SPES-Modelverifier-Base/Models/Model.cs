@@ -18,24 +18,29 @@ namespace SPES_Modelverifier_Base.Models
         /// <summary>
         /// the list of all shapes on a sheet
         /// </summary>
-        public List<BaseObject> ObjectList { get; }
+        public List<BaseObject> ObjectList { get; private set; }
 
         /// <summary>
         /// the page name
         /// </summary>
-        public String PageName { get; }
+        public String PageName { get; private set; }
+
+        /// <summary>
+        /// event to throw in case of validation exception
+        /// </summary>
+        public event ValidationFailedDelegate ValidationFailedEvent;
 
         /// <summary>
         /// constructor
         /// </summary>
         /// <param name="pPage">the visio page</param>
         /// <param name="pMapping">the mapping to create the objects</param>
-        public Model(Page pPage, MappingList pMapping)
+        public void Initialize(Page pPage, MappingList pMapping)
         {
             this.PageName = pPage.Name;
 
             //generate objects
-            this.ObjectList = GenerateObjects(this,pPage, pMapping);
+            this.ObjectList = GenerateObjects(this, pPage, pMapping);
 
             //populate containers
             this.ObjectList.Where(t => t is Container).ForEach(t => (t as Container).FindContainingItems());
@@ -54,13 +59,13 @@ namespace SPES_Modelverifier_Base.Models
             if (AllowedItems != null)
                 foreach (var element in ObjectList)                
                     if (!AllowedItems.Any(t => t == element.GetType()) && element.GetType() != typeof(NRO))
-                        throw new ValidationFailedException(element, "Object is not allowed on the model.");
+                        ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, "element not allowed", element));
 
             //check if elements exist double on any sheet
             List<BaseObject> objects = ObjectList.Where(t => t is Item && !String.IsNullOrEmpty(t.text) && !((t as Item).CanHaveDuplicateText)).ToList();
             foreach(var obj in objects)
                 if(objects.Count(t => t.text == obj.text) > 1)
-                    throw new ValidationFailedException(obj, this.PageName + " contains elements with duplicate text");
+                    ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, $"{this.PageName} contains elements with duplicate text", obj));
 
             //ONLY CHECK IF AT LEAST ONE OF THOSE OBJECTS EXIST; deadlock check here
             var startenditems = this.ObjectList.Where(t => t is StartEndItem);
@@ -68,20 +73,39 @@ namespace SPES_Modelverifier_Base.Models
             {
                 //check if start item is unique; check if minimum one end item exists;
                 if (startenditems.Count(t => (t as StartEndItem).IsStart) > 1)
-                    throw new ValidationFailedException(startenditems.First(t => (t as StartEndItem).IsStart), "Model contains more than one start item.");
+                    ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, "Model contains more than one start item.", startenditems.First(t => (t as StartEndItem).IsStart)));
                 if (startenditems.Count(t => !(t as StartEndItem).IsStart) == 0)
-                    throw new ValidationFailedException(startenditems.First(), "Model contains no enditems.");           
+                    ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, "Model contains no enditems", startenditems.First()));
             }
 
             //set connections in the connector objects
             ObjectList.ForEach(t =>
             {
                 if (t is Connection)
-                    (t as Connection).SetConnections(ObjectList);
+                {
+                    try
+                    {
+                        (t as Connection).SetConnections(ObjectList);
+                    }
+                    catch(ValidationFailedException ex)
+                    {
+                        ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, ex));
+                    }
+                }
             });
 
             //do checks on objects, if implemented
-            ObjectList.ForEach(t => t.Validate());
+            ObjectList.ForEach(t =>
+            {
+                try
+                {
+                    t.Validate();
+                }
+                catch(ValidationFailedException ex)
+                {
+                    ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, ex));
+                }
+            });
         }
 
         /// <summary>
@@ -96,7 +120,7 @@ namespace SPES_Modelverifier_Base.Models
                 return ObjectList.Count;
         }
 
-        static List<BaseObject> GenerateObjects(Model pParentmodel, Page pPage, MappingList pMapping)
+        List<BaseObject> GenerateObjects(Model pParentmodel, Page pPage, MappingList pMapping)
         {
             List<BaseObject> ObjectList = new List<BaseObject>();
 
@@ -111,7 +135,7 @@ namespace SPES_Modelverifier_Base.Models
                 else
                 {
                     //exception of no matching model object type is found
-                    throw new Exception($"Could not match shape: \"{shape.Name}\"");
+                    ValidationFailedEvent?.Invoke(new ValidationFailedMessage(1, $"could not match shape {shape.Name}", null));
                 }
             }
 
