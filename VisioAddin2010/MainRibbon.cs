@@ -53,10 +53,7 @@ namespace VisioAddin2010
 
         private void ModelTargetDropDown_SelectionChanged(object sender, RibbonControlEventArgs e)
         {
-            if (previousModelverifier != null)
-                previousModelverifier.UnloadShapes();
-
-
+            previousModelverifier?.UnloadShapes();
             activeModelverifier.LoadShapes();
             previousModelverifier = activeModelverifier;
         }
@@ -65,9 +62,11 @@ namespace VisioAddin2010
         {
             try
             {
-                SaveFileDialog dialog = new SaveFileDialog();
-                dialog.AddExtension = true;
-                dialog.DefaultExt = "xml";
+                SaveFileDialog dialog = new SaveFileDialog
+                {
+                    AddExtension = true,
+                    DefaultExt = "xml"
+                };
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
@@ -120,8 +119,7 @@ namespace VisioAddin2010
         {
             try
             {
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.DefaultExt = "xml";
+                OpenFileDialog dialog = new OpenFileDialog {DefaultExt = "xml"};
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     this.activeModelverifier.Import(dialog.FileName);
