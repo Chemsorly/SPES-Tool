@@ -27,14 +27,14 @@ namespace SPES_Modelverifier_Base
             if (modelObject != null)
             {
                 modelObject.ParentModel = pParentmodel;
-                modelObject.uniquename = pShape.Name;
-                modelObject.visiopage = pShape.ContainingPage.Name;
-                modelObject.visioshape = pShape;
-                modelObject.text = pShape.Text;
-                modelObject.locationx = pShape.Cells("PinX").Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric);
-                modelObject.locationy = pShape.Cells("PinY").Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric);
-                modelObject.width = pShape.Cells("Width").Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric);
-                modelObject.height = pShape.Cells("Height").Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric);
+                modelObject.Uniquename = pShape.Name;
+                modelObject.Visiopage = pShape.ContainingPage.Name;
+                modelObject.Visioshape = pShape;
+                modelObject.Text = pShape.Text;
+                modelObject.Locationx = pShape.Cells("PinX").Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric);
+                modelObject.Locationy = pShape.Cells("PinY").Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric);
+                modelObject.Width = pShape.Cells("Width").Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric);
+                modelObject.Height = pShape.Cells("Height").Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric);
             }
             else
                 throw new Exception("oops, something went wrong: could not create model object");

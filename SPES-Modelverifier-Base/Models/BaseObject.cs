@@ -8,15 +8,20 @@ namespace SPES_Modelverifier_Base.Models
 {
     public abstract class BaseObject
     {
-        public String text { get; set; }
-        public String uniquename { get; set; }
-        public String visiopage { get; set; }
-        public NetOffice.VisioApi.IVShape visioshape { get; internal set; }
+        public String Text { get; set; }
+        public String Uniquename { get; set; }
+        public String Visiopage { get; set; }
+        public NetOffice.VisioApi.IVShape Visioshape { get; internal set; }
         public Model ParentModel { get; set; }
-        public double locationx { get; set; }
-        public double locationy { get; set; }
-        public double height { get; set; }
-        public double width { get; set; }
+        public double Locationx { get; set; }
+        public double Locationy { get; set; }
+        public double Height { get; set; }
+        public double Width { get; set; }
+
+        public Coordinate Locationtopleft => new Coordinate() {X = Locationx - Width * 0.5, Y = Locationy + Height * 0.5 } ;
+        public Coordinate Locationtopright => new Coordinate() { X = Locationx + Width * 0.5, Y = Locationy - Height * 0.5 };
+        public Coordinate Locationbottomleft => new Coordinate() { X = Locationx - Width * 0.5, Y = Locationy + Height * 0.5 };
+        public Coordinate Locationbottomright => new Coordinate() { X = Locationx + Width * 0.5, Y = Locationy - Height * 0.5 };
 
         public virtual void Validate()
         {
@@ -26,6 +31,12 @@ namespace SPES_Modelverifier_Base.Models
         public virtual void Initialize()
         {
             
+        }
+
+        public struct Coordinate
+        {
+            public double X;
+            public double Y;
         }
     }
 }

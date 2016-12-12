@@ -51,14 +51,14 @@ namespace SPES_Modelverifier_Base.Models
                     (ToObject as Item).Connections.Add(this);
             }
             else
-                throw new ValidationFailedException(this, this.GetType().Name + " " + this.uniquename + " doesn't connect to two allowed types and/or connected items are null.");
+                throw new ValidationFailedException(this, this.GetType().Name + " " + this.Uniquename + " doesn't connect to two allowed types and/or connected items are null.");
         }
 
         private BaseObject GetObjectConnectingTo(List<BaseObject> pAllObjects)
         {
             try
             {
-                return pAllObjects.Find(t => t.visioshape == this.visioshape.Connects[1].ToSheet);
+                return pAllObjects.Find(t => t.Visioshape == this.Visioshape.Connects[1].ToSheet);
             }
             catch { return null; }
         }
@@ -67,7 +67,7 @@ namespace SPES_Modelverifier_Base.Models
         {
             try
             {
-                return pAllObjects.Find(t => t.visioshape == this.visioshape.Connects[2].ToSheet);
+                return pAllObjects.Find(t => t.Visioshape == this.Visioshape.Connects[2].ToSheet);
             }
             catch { return null; }
         }

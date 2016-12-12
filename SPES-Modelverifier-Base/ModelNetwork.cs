@@ -90,7 +90,7 @@ namespace SPES_Modelverifier_Base
             foreach (var model in ModelList)
                 foreach (var modelref in model.ObjectList.Where(t => t is ModelReference))
                 {
-                    var correspondingmodel = ModelList.FirstOrDefault(t => t.PageName == modelref.text);
+                    var correspondingmodel = ModelList.FirstOrDefault(t => t.PageName == modelref.Text);
                     if (correspondingmodel == null)
                         CollectedValidationMessages.Add(new ValidationFailedMessage(3, "Could not locate matching submodel.", modelref));
                     else

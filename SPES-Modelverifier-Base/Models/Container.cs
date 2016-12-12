@@ -49,8 +49,8 @@ namespace SPES_Modelverifier_Base.Models
             //check if model has correctly been initialized in advance
             Debug.Assert(!ParentModel.ObjectsInitialized);
 
-            var neighbours = this.visioshape.SpatialNeighbors((short)NetOffice.VisioApi.Enums.VisSpatialRelationCodes.visSpatialContain, 0, 0);
-            return neighbours.Select(item => this.ParentModel.ObjectList.Find(t => t.uniquename == item.Name)).ToList();
+            var neighbours = this.Visioshape.SpatialNeighbors((short)NetOffice.VisioApi.Enums.VisSpatialRelationCodes.visSpatialContain, 0, 0);
+            return neighbours.Select(item => this.ParentModel.ObjectList.Find(t => t.Uniquename == item.Name)).ToList();
         }
 
         /// <summary>
@@ -124,5 +124,6 @@ namespace SPES_Modelverifier_Base.Models
             //if none found, return null
             return null;
         }
+
     }
 }

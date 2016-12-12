@@ -53,13 +53,31 @@ namespace SPES_Modelverifier_Base.Models
         /// <param name="pMapping">the mapping to create the objects</param>
         public void Initialize(Page pPage, MappingList pMapping)
         {
+            //var init
             this.PageName = pPage.Name;
 
-            //generate objects
+            //generate and initialize objects
             this.ObjectList = GenerateObjects(this, pPage, pMapping);
-
-            //initialize objects
             this.ObjectList.ForEach(t => t.Initialize());
+            this.ObjectsInitialized = true;
+
+            //set connections
+            this.ObjectList.ForEach(t =>
+            {
+                var connection = t as Connection;
+                if (connection != null)
+                {
+                    try
+                    {
+                        connection.SetConnections(ObjectList);
+                    }
+                    catch (ValidationFailedException ex)
+                    {
+                        ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, ex));
+                    }
+                }
+            });
+            this.ConnectionsInitialized = true;
         }
 
         /// <summary>
@@ -78,9 +96,9 @@ namespace SPES_Modelverifier_Base.Models
                         ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, "element not allowed", element));
 
             //check if elements exist double on any sheet
-            List<BaseObject> objects = ObjectList.Where(t => t is Item && !String.IsNullOrEmpty(t.text) && !((t as Item).CanHaveDuplicateText)).ToList();
+            List<BaseObject> objects = ObjectList.Where(t => t is Item && !String.IsNullOrEmpty(t.Text) && !((t as Item).CanHaveDuplicateText)).ToList();
             foreach(var obj in objects)
-                if(objects.Count(t => t.text == obj.text) > 1)
+                if(objects.Count(t => t.Text == obj.Text) > 1)
                     ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, $"{this.PageName} contains elements with duplicate text", obj));
 
             //ONLY CHECK IF AT LEAST ONE OF THOSE OBJECTS EXIST; deadlock check here
@@ -94,21 +112,6 @@ namespace SPES_Modelverifier_Base.Models
                     ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, "Model contains no enditems", startenditems.First()));
             }
 
-            //set connections in the connector objects
-            ObjectList.ForEach(t =>
-            {
-                if (t is Connection)
-                {
-                    try
-                    {
-                        (t as Connection).SetConnections(ObjectList);
-                    }
-                    catch(ValidationFailedException ex)
-                    {
-                        ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, ex));
-                    }
-                }
-            });
 
             //do checks on objects, if implemented
             ObjectList.ForEach(t =>
