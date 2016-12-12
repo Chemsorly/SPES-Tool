@@ -93,8 +93,7 @@ namespace VisioAddin2010
                     if (results.Count > 0)
                     {
                         //show results window
-                        if (activeResultForm != null)
-                            activeResultForm.Dispose();
+                        activeResultForm?.Dispose();
 
                         ResultForm window = new ResultForm(results);
                         activeResultForm = window;
