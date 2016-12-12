@@ -11,9 +11,9 @@ namespace SPES_Modelverifier_Base.Checker.Deadlock
     /// <summary>
     /// simple tree with n child nodes (with n >= 0). does path checking for validation
     /// </summary>
-    class Tree
+    internal class Tree
     {
-        Node StartNode { get; }
+        private Node StartNode { get; }
 
         public Tree (Model pModel)
         {
@@ -33,7 +33,7 @@ namespace SPES_Modelverifier_Base.Checker.Deadlock
 
         }
 
-        void ValidateAllNodesInValidPaths(Node pRoot)
+        private void ValidateAllNodesInValidPaths(Node pRoot)
         {
             //http://stackoverflow.com/questions/5691926/traverse-every-unique-path-from-root-to-leaf-in-an-arbitrary-tree-structure
             //create list and traverse tree. only return paths with enditem as leaf
@@ -49,7 +49,7 @@ namespace SPES_Modelverifier_Base.Checker.Deadlock
                 throw new ValidationFailedException(missingitems.First(), "Item has no valid path.");
         }
 
-        void Traverse(Node pRoot, List<Node> pPath, List<List<Node>> pValidpaths)
+        private void Traverse(Node pRoot, List<Node> pPath, List<List<Node>> pValidpaths)
         {
             pPath.Add(pRoot);
 

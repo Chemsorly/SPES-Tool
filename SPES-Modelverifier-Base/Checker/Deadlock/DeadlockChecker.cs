@@ -10,7 +10,7 @@ namespace SPES_Modelverifier_Base.Checker.Deadlock
 {
     public class DeadlockChecker
     {
-        List<Tree> TreeList { get; set; }
+        private List<Tree> TreeList { get; set; }
 
         /// <summary>
         /// event to throw in case of validation exception

@@ -120,7 +120,7 @@ namespace SPES_Modelverifier_Base.Models
                 return ObjectList.Count;
         }
 
-        List<BaseObject> GenerateObjects(Model pParentmodel, Page pPage, MappingList pMapping)
+        private List<BaseObject> GenerateObjects(Model pParentmodel, Page pPage, MappingList pMapping)
         {
             List<BaseObject> ObjectList = new List<BaseObject>();
 

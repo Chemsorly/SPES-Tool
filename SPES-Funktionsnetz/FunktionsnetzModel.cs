@@ -8,7 +8,7 @@ using SPES_Modelverifier_Base;
 
 namespace SPES_Funktionsnetz
 {
-    class FunktionsnetzModel : SPES_Modelverifier_Base.Models.Model
+    internal class FunktionsnetzModel : SPES_Modelverifier_Base.Models.Model
     {
         public override List<Type> AllowedItems => new List<Type>() { typeof(Function), typeof(ContextFunction), typeof(Interaction), typeof(Dependency), typeof(DependencyConnection) };
     }

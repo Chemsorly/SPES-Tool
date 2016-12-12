@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SPES_Funktionsnetz
 {
-    class Step : Item
+    internal class Step : Item
     {
     }
 }

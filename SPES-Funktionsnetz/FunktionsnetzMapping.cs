@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SPES_Funktionsnetz
 {
-    class FunktionsnetzMapping : MappingList
+    internal class FunktionsnetzMapping : MappingList
     {
         protected override Dictionary<string, Type> Mapping => new Dictionary<String, Type>()
         {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SPES_Modelverifier_Base
 {
-    static class ModelFactory
+    internal static class ModelFactory
     {
         public static BaseObject GetInstanceFromShape(Model pParentmodel, Shape pShape, MappingList pMappings)
         {
@@ -42,7 +42,7 @@ namespace SPES_Modelverifier_Base
             return modelObject;
         }
 
-        static String GetBaseNameFromUniquename(String pName)
+        private static String GetBaseNameFromUniquename(String pName)
         {
             return Regex.Replace(pName, @"(\.\d+)", "");
         }

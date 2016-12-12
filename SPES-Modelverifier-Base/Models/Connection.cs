@@ -54,7 +54,7 @@ namespace SPES_Modelverifier_Base.Models
                 throw new ValidationFailedException(this, this.GetType().Name + " " + this.uniquename + " doesn't connect to two allowed types and/or connected items are null.");
         }
 
-        BaseObject GetObjectConnectingTo(List<BaseObject> pAllObjects)
+        private BaseObject GetObjectConnectingTo(List<BaseObject> pAllObjects)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace SPES_Modelverifier_Base.Models
             catch { return null; }
         }
 
-        BaseObject GetObjectConnectingFrom(List<BaseObject> pAllObjects)
+        private BaseObject GetObjectConnectingFrom(List<BaseObject> pAllObjects)
         {
             try
             {

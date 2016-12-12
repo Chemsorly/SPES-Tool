@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SPES_Funktionsnetz
 {
-    class ContextFunction : Item
+    internal class ContextFunction : Item
     {
     }
 }

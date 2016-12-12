@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SPES_Funktionsnetz
 {
-    class NodeConnection : Connection
+    internal class NodeConnection : Connection
     {
         public override List<Type> AllowedConnectionTypes => new List<Type>() { typeof(Step) };
 

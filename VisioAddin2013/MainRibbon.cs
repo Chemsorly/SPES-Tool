@@ -13,12 +13,12 @@ namespace VisioAddin2013
 {
     public partial class MainRibbon 
     {
-        List<ModelNetwork> modelverifiers = new List<ModelNetwork>();
+        private List<ModelNetwork> modelverifiers = new List<ModelNetwork>();
 
-        ModelNetwork previousModelverifier = null;
-        ModelNetwork activeModelverifier => modelverifiers.FirstOrDefault(t => t.ToString() == this.ModelTargetDropDown.SelectedItem?.Label);
-        ResultForm activeResultForm { get; set; }
-        bool initialized = false;
+        private ModelNetwork previousModelverifier = null;
+        private ModelNetwork activeModelverifier => modelverifiers.FirstOrDefault(t => t.ToString() == this.ModelTargetDropDown.SelectedItem?.Label);
+        private ResultForm activeResultForm { get; set; }
+        private bool initialized = false;
 
         private void MainRibbon_Load(object sender, RibbonUIEventArgs e)
         {

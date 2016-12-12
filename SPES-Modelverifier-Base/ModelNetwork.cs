@@ -196,7 +196,7 @@ namespace SPES_Modelverifier_Base
         /// </summary>
         /// <param name="pPage">the visio page</param>
         /// <returns></returns>
-        Type GetTargetModelType(Page pPage)
+        private Type GetTargetModelType(Page pPage)
         {
             //check how many model types exist, if one return that one
             if (Mapping.TargetModels.Count == 1)
@@ -225,7 +225,7 @@ namespace SPES_Modelverifier_Base
         /// notify when exception appeared
         /// </summary>
         /// <param name="error">exception</param>
-        void NotifyErrorReceived(Exception error)
+        private void NotifyErrorReceived(Exception error)
         {
             OnErrorReceivedEvent?.Invoke(error);
         }
@@ -234,7 +234,7 @@ namespace SPES_Modelverifier_Base
         /// notify when a log message appeared
         /// </summary>
         /// <param name="message">message</param>
-        void NotifyLogMessageReceived(String message)
+        private void NotifyLogMessageReceived(String message)
         {
             OnLogMessageReceivedEvent?.Invoke(message);
         }

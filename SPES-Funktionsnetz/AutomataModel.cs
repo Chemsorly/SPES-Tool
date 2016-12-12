@@ -8,7 +8,7 @@ using SPES_Modelverifier_Base;
 
 namespace SPES_Funktionsnetz
 {
-    class AutomataModel : SPES_Modelverifier_Base.Models.Model
+    internal class AutomataModel : SPES_Modelverifier_Base.Models.Model
     {
         public override List<Type> AllowedItems => new List<Type>() { typeof(Step), typeof(NodeConnection) };
     }

@@ -8,20 +8,34 @@ namespace SPES_Modelverifier_Base.Models
 {
     public abstract class Container : BaseObject
     {
-        public List<BaseObject> ContainingItems { get; }
+        private List<BaseObject> containingItems;
+
+        public IEnumerable<BaseObject> ContainingItems => containingItems ?? (containingItems = GetContainingItems());
 
         public Container()
         {
-            ContainingItems = new List<BaseObject>();
+
         }
 
-        public void FindContainingItems()
+        public List<BaseObject> GetContainingItems()
         {
             var neighbours = this.visioshape.SpatialNeighbors((short)NetOffice.VisioApi.Enums.VisSpatialRelationCodes.visSpatialContain, 0, 0);
+            return neighbours.Select(item => this.ParentModel.ObjectList.Find(t => t.uniquename == item.Name)).ToList();
+        }
 
-            ContainingItems.Clear();
-            foreach (var item in neighbours)
-                ContainingItems.Add(this.ParentModel.ObjectList.Find(t => t.uniquename == item.Name));
+        public Container GetTopContainer()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Container> GetChildContainers()
+        {
+            return ContainingItems.Where(t => t is Container).Cast<Container>().ToList();
+        }
+
+        public Container GetParentContainer()
+        {
+            throw new NotImplementedException();
         }
     }
 }

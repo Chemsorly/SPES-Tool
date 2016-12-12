@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SPES_Funktionsnetz
 {
-    class DependencyConnection : Connection
+    internal class DependencyConnection : Connection
     {
         public override List<Type> AllowedConnectionTypes => new List<Type>() { typeof(Dependency), typeof(Function), typeof(ContextFunction) };
 

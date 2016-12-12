@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SPES_Modelverifier_Base.Checker.Deadlock
 {
-    class Node
+    internal class Node
     {
         public Item Current { get; }
         public List<Node> NextNodes { get; }
@@ -33,7 +33,7 @@ namespace SPES_Modelverifier_Base.Checker.Deadlock
                     throw new ValidationFailedException(Current, "Path does not reach an EndItem");
         }
 
-        static List<Node> GetAllNextNodes(Node pNode)
+        private static List<Node> GetAllNextNodes(Node pNode)
         {
             var outgoing = pNode.Current.Connections.Where(t => t.FromObject == pNode.Current);
             List<Node> nodes = new List<Node>();

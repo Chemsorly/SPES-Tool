@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SPES_Funktionsnetz
 {
-    class Dependency : Item
+    internal class Dependency : Item
     {
         public override bool CanHaveDuplicateText => true;
     }
