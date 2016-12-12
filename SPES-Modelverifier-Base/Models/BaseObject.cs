@@ -22,5 +22,10 @@ namespace SPES_Modelverifier_Base.Models
         {
 
         }
+
+        public virtual void Initialize()
+        {
+            
+        }
     }
 }

@@ -31,6 +31,22 @@ namespace SPES_Modelverifier_Base.Models
         public event ValidationFailedDelegate ValidationFailedEvent;
 
         /// <summary>
+        /// signals if all objects on the model have been initialized
+        /// </summary>
+        public bool ObjectsInitialized { get; private set; }
+
+        /// <summary>
+        /// signals if all connections have been initialized
+        /// </summary>
+        public bool ConnectionsInitialized { get; private set; }
+
+        public Model()
+        {
+            ObjectsInitialized = false;
+            ConnectionsInitialized = false;
+        }
+
+        /// <summary>
         /// constructor
         /// </summary>
         /// <param name="pPage">the visio page</param>
@@ -42,8 +58,8 @@ namespace SPES_Modelverifier_Base.Models
             //generate objects
             this.ObjectList = GenerateObjects(this, pPage, pMapping);
 
-            //populate containers
-            this.ObjectList.Where(t => t is Container).ForEach(t => (t as Container).FindContainingItems());
+            //initialize objects
+            this.ObjectList.ForEach(t => t.Initialize());
         }
 
         /// <summary>
