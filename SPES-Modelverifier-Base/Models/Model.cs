@@ -112,7 +112,6 @@ namespace SPES_Modelverifier_Base.Models
                     ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, "Model contains no enditems", startenditems.First()));
             }
 
-
             //do checks on objects, if implemented
             ObjectList.ForEach(t =>
             {
