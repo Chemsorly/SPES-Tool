@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ModelChecker\IModelChecker.cs" />
+    <Compile Include="ModelChecker\IModelNetworkChecker.cs" />
     <Compile Include="ModelChecker\Path\ValidPathChecker.cs" />
     <Compile Include="ModelChecker\Path\Node.cs" />
     <Compile Include="ModelChecker\Path\Tree.cs" />

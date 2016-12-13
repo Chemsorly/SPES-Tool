@@ -3,9 +3,11 @@ using NetOffice.VisioApi;
 using SPES_Modelverifier_Base.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SPES_Modelverifier_Base.ModelChecker;
 
 namespace SPES_Modelverifier_Base
 {
@@ -20,6 +22,11 @@ namespace SPES_Modelverifier_Base
         /// the derived type implementation of MappingType
         /// </summary>
         protected abstract Type MappingListType { get; }
+
+        /// <summary>
+        /// defines checkers to run
+        /// </summary>
+        protected virtual List<Type> CheckersToRun => new List<Type>() {  };
 
         protected Application visioApplication;
         protected MappingList Mapping;
@@ -45,12 +52,11 @@ namespace SPES_Modelverifier_Base
         /// creates a new instance of the model verifier for a specific model type
         /// </summary>
         /// <param name="pApplication">the visio application with the open document</param>
-        /// <param name="pMappingList">the type of the visio-object mapping</param>
         public ModelNetwork(Application pApplication)
         {
             //nullchecks
             if (pApplication == null)
-                throw new ArgumentNullException("application");
+                throw new ArgumentNullException(nameof(pApplication));
 
             CollectedValidationMessages = new List<ValidationFailedMessage>();
             visioApplication = pApplication;
@@ -101,7 +107,19 @@ namespace SPES_Modelverifier_Base
                 return CollectedValidationMessages;
 
             //step 4: other stuff
-            //empty
+            //run checkers if any specified
+            foreach (var checkertype in CheckersToRun)
+            {
+                //check checker
+                Debug.Assert(checkertype.IsSubclassOf(typeof(IModelNetworkChecker)));
+
+                //create defined checker
+                var checker = (IModelNetworkChecker)Activator.CreateInstance(checkertype);
+                checker.ValidationFailedEvent += delegate (ValidationFailedMessage pMessage) { CollectedValidationMessages.Add(pMessage); };
+
+                //run initialize method
+                checker.Initialize(this);
+            }
 
             return CollectedValidationMessages;
         }
