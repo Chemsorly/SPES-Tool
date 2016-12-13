@@ -11,7 +11,7 @@ namespace ITU_Scenario
     {
         public override List<Type> AllowedConnectionTypes => new List<Type>() { typeof(Instance) };        
 
-        public override bool Inverted => false;
+        public override bool Inverted => true;
         
     }
 }

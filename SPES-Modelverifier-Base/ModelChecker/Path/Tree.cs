@@ -13,9 +13,17 @@ namespace SPES_Modelverifier_Base.ModelChecker.Path
     /// </summary>
     internal class Tree
     {
-        private Node StartNode { get; }
+        /// <summary>
+        /// event to throw in case of validation exception
+        /// </summary>
+        public event ValidationFailedDelegate ValidationFailedEvent;
 
-        public Tree (Model pModel)
+        /// <summary>
+        /// startnode in tree to traverse from
+        /// </summary>
+        private Node StartNode { get; set; }
+
+        public void Initialize(Model pModel)
         {
             //check if model contains start item, if not abort
             var startitem = pModel.ObjectList.Find(t => t is StartEndItem && (t as StartEndItem).IsStart);
@@ -44,9 +52,9 @@ namespace SPES_Modelverifier_Base.ModelChecker.Path
             //take all items from valid paths and check if they are equal with all items in model
             var allitems = StartNode.Current.ParentModel.ObjectList.Where(t => t is Item);
             var validpathitems = validpaths.SelectMany(t => t).Select(t => t.Current).Distinct();
-            var missingitems = allitems.Where(t => !validpathitems.Contains(t));
+            var missingitems = allitems.Where(t => !validpathitems.Contains(t)).ToList();
             if (missingitems.Any())
-                throw new ValidationFailedException(missingitems.First(), "Item has no valid path.");
+                missingitems.ForEach(t => ValidationFailedEvent?.Invoke(new ValidationFailedMessage(4, "Item has no valid path.", t)));
         }
 
         private static void Traverse(Node pRoot, List<Node> pPath, List<List<Node>> pValidpaths)

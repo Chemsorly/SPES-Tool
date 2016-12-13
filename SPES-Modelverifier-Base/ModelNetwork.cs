@@ -28,8 +28,8 @@ namespace SPES_Modelverifier_Base
         /// </summary>
         protected virtual List<Type> CheckersToRun => new List<Type>() {  };
 
-        protected Application visioApplication;
-        protected MappingList Mapping;
+        private readonly Application visioApplication;
+        private readonly MappingList Mapping;
         protected List<Model> ModelList;
         protected List<ValidationFailedMessage> CollectedValidationMessages;
 
@@ -52,7 +52,7 @@ namespace SPES_Modelverifier_Base
         /// creates a new instance of the model verifier for a specific model type
         /// </summary>
         /// <param name="pApplication">the visio application with the open document</param>
-        public ModelNetwork(Application pApplication)
+        protected ModelNetwork(Application pApplication)
         {
             //nullchecks
             if (pApplication == null)
@@ -65,6 +65,7 @@ namespace SPES_Modelverifier_Base
             visioApplication.DocumentCreatedEvent += VisioApplication_DocumentCreatedOrLoadedEvent;
             visioApplication.DocumentOpenedEvent += VisioApplication_DocumentCreatedOrLoadedEvent;
 
+            // ReSharper disable once VirtualMemberCallInConstructor
             Mapping = Activator.CreateInstance(MappingListType) as MappingList;
         }
 

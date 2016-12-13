@@ -45,10 +45,8 @@ namespace SPES_Modelverifier_Base.Models
                 }
 
                 //set connection items at target objects
-                if (FromObject is Item)
-                    (FromObject as Item).Connections.Add(this);
-                if (ToObject is Item)
-                    (ToObject as Item).Connections.Add(this);
+                (FromObject as Item).Connections.Add(this);
+                (ToObject as Item).Connections.Add(this);
             }
             else
                 throw new ValidationFailedException(this, this.GetType().Name + " " + this.Uniquename + " doesn't connect to two allowed types and/or connected items are null.");

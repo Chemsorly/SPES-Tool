@@ -32,7 +32,9 @@ namespace SPES_Modelverifier_Base.ModelChecker.Path
 
                 //tree validation
                 //create tree
-                var tree = new Tree(pModel);
+                var tree = new Tree();
+                tree.ValidationFailedEvent += NotifyValidationFailed;
+                tree.Initialize(pModel);
 
                 //call validate function
                 try

@@ -40,6 +40,5 @@ namespace SPES_Modelverifier_Base.ModelChecker.Path
             outgoing.ForEach(t => nodes.Add(new Node((t.ToObject as Item), pNode.CurrentDepth + 1)));
             return nodes;
         }
-
     }
 }
