@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SPES_Modelverifier_Base.Checker.Deadlock
+namespace SPES_Modelverifier_Base.ModelChecker.Path
 {
     /// <summary>
     /// simple tree with n child nodes (with n >= 0). does path checking for validation
@@ -49,7 +49,7 @@ namespace SPES_Modelverifier_Base.Checker.Deadlock
                 throw new ValidationFailedException(missingitems.First(), "Item has no valid path.");
         }
 
-        private void Traverse(Node pRoot, List<Node> pPath, List<List<Node>> pValidpaths)
+        private static void Traverse(Node pRoot, List<Node> pPath, List<List<Node>> pValidpaths)
         {
             pPath.Add(pRoot);
 

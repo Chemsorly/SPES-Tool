@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SPES_Modelverifier_Base.ModelChecker;
 
 namespace SPES_Modelverifier_Base.Models
 {
@@ -14,6 +15,11 @@ namespace SPES_Modelverifier_Base.Models
         /// list of allowed items on the model. leave null to allow everything
         /// </summary>
         public abstract List<Type> AllowedItems { get; }
+
+        /// <summary>
+        /// defines a list of checkers which are supposed to run on the model
+        /// </summary>
+        public virtual List<Type> CheckersToRun => new List<Type>() { typeof(ModelChecker.Path.ValidPathChecker) };
 
         /// <summary>
         /// the list of all shapes on a sheet
@@ -92,7 +98,7 @@ namespace SPES_Modelverifier_Base.Models
             //check if elements are allowed on model
             if (AllowedItems != null)
                 foreach (var element in ObjectList)                
-                    if (!AllowedItems.Any(t => t == element.GetType()) && element.GetType() != typeof(NRO))
+                    if (AllowedItems.All(t => t != element.GetType()) && element.GetType() != typeof(NRO))
                         ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, "element not allowed", element));
 
             //check if elements exist double on any sheet
@@ -100,17 +106,6 @@ namespace SPES_Modelverifier_Base.Models
             foreach(var obj in objects)
                 if(objects.Count(t => t.Text == obj.Text) > 1)
                     ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, $"{this.PageName} contains elements with duplicate text", obj));
-
-            //ONLY CHECK IF AT LEAST ONE OF THOSE OBJECTS EXIST; deadlock check here
-            var startenditems = this.ObjectList.Where(t => t is StartEndItem);
-            if (startenditems.Any())
-            {
-                //check if start item is unique; check if minimum one end item exists;
-                if (startenditems.Count(t => (t as StartEndItem).IsStart) > 1)
-                    ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, "Model contains more than one start item.", startenditems.First(t => (t as StartEndItem).IsStart)));
-                if (startenditems.Count(t => !(t as StartEndItem).IsStart) == 0)
-                    ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, "Model contains no enditems", startenditems.First()));
-            }
 
             //do checks on objects, if implemented
             ObjectList.ForEach(t =>
@@ -124,6 +119,17 @@ namespace SPES_Modelverifier_Base.Models
                     ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, ex));
                 }
             });
+
+            //run checkers if any specified
+            foreach (var checkertype in CheckersToRun)
+            {
+                //create defined checker
+                var checker = (IModelChecker)Activator.CreateInstance(checkertype);
+                checker.ValidationFailedEvent += delegate (ValidationFailedMessage pMessage) { ValidationFailedEvent?.Invoke(pMessage); };
+
+                //run initialize method
+                checker.Initialize(this);
+            }
         }
 
         /// <summary>

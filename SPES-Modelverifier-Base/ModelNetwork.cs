@@ -94,17 +94,14 @@ namespace SPES_Modelverifier_Base
                     if (correspondingmodel == null)
                         CollectedValidationMessages.Add(new ValidationFailedMessage(3, "Could not locate matching submodel.", modelref));
                     else
-                        (modelref as ModelReference).LinkedModel = correspondingmodel;
+                        ((ModelReference) modelref).LinkedModel = correspondingmodel;
                 }
 
             if (CollectedValidationMessages.Any())
                 return CollectedValidationMessages;
 
             //step 4: other stuff
-            //deadlock check via path checking //TODO move to model level
-            var checker = new Checker.Deadlock.DeadlockChecker();
-            checker.ValidationFailedEvent += delegate (ValidationFailedMessage pMessage) { CollectedValidationMessages.Add(pMessage); };
-            checker.Initialize(this.ModelList.Where(t => t.ObjectList.Any(u => u is StartEndItem)).ToList());
+            //empty
 
             return CollectedValidationMessages;
         }

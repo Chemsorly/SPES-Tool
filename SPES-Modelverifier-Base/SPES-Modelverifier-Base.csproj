@@ -61,9 +61,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Checker\Deadlock\DeadlockChecker.cs" />
-    <Compile Include="Checker\Deadlock\Node.cs" />
-    <Compile Include="Checker\Deadlock\Tree.cs" />
+    <Compile Include="ModelChecker\IModelChecker.cs" />
+    <Compile Include="ModelChecker\Path\ValidPathChecker.cs" />
+    <Compile Include="ModelChecker\Path\Node.cs" />
+    <Compile Include="ModelChecker\Path\Tree.cs" />
     <Compile Include="Models\Helper\Coordinate.cs" />
     <Compile Include="MappingList.cs" />
     <Compile Include="ModelFactory.cs" />
@@ -83,6 +84,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

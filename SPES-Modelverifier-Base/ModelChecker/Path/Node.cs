@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SPES_Modelverifier_Base.Checker.Deadlock
+namespace SPES_Modelverifier_Base.ModelChecker.Path
 {
     internal class Node
     {
