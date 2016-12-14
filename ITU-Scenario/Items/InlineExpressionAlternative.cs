@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ITU_Scenario
 {
-    internal class InlineExpressionLoop : Container
+    internal class InlineExpressionAltPar : Container
     {
 
     }

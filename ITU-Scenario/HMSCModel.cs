@@ -17,7 +17,7 @@ namespace ITU_Scenario
             typeof(EndSymbol) ,
             typeof(BMSCReference) ,
             typeof(ConnectionArrow) ,
-            typeof(InlineExpressionLoop)
+            typeof(InlineExpressionAltPar)
         };
     }
 }

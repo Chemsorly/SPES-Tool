@@ -65,7 +65,7 @@
     <Compile Include="Items\BMSCReference.cs" />
     <Compile Include="Items\ConnectionArrow.cs" />
     <Compile Include="Items\ConnectionPoint.cs" />
-    <Compile Include="Items\InlineExpressionLoop.cs" />
+    <Compile Include="Items\InlineExpressionAlternative.cs" />
     <Compile Include="Items\Instance.cs" />
     <Compile Include="Items\Message.cs" />
     <Compile Include="Items\StartSymbol.cs" />
