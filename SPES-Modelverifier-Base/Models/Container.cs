@@ -44,8 +44,13 @@ namespace SPES_Modelverifier_Base.Models
         {
             base.Initialize();
 
-            //call getter atleast once to notify the BaseObjects they are inside a container
-            var a = ContainingItems;
+            //notify the BaseObjects they are inside a container
+            ContainingItems.ForEach(t =>
+            {
+                if (!t.Containers.Contains(this))
+                    t.Containers.Add(this);
+            }
+            );
         }
 
         /// <summary>
@@ -66,8 +71,6 @@ namespace SPES_Modelverifier_Base.Models
         /// <returns>all baseobjects in the vicinity of the container</returns>
         private List<BaseObject> GetContainingItems()
         {
-
-
             //get containing items
             var items = ParentModel.ObjectList.Where(t =>
                     t.Locationtopleft.IsContainedIn(Locationtopleft, Locationtopright, Locationbottomleft,
@@ -79,14 +82,6 @@ namespace SPES_Modelverifier_Base.Models
                     t.Locationbottomright.IsContainedIn(Locationtopleft, Locationtopright, Locationbottomleft,
                         Locationbottomright)
             ).ToList();
-
-            //tell the items that they are inside a container
-            items.ForEach(t =>
-                {
-                    if(!t.Containers.Contains(this))
-                        t.Containers.Add(this);
-                }
-            );
 
             return items;
             //var neighbours = this.Visioshape.SpatialNeighbors((short)NetOffice.VisioApi.Enums.VisSpatialRelationCodes.visSpatialContain, 0, 0);
