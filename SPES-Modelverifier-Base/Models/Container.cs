@@ -40,6 +40,14 @@ namespace SPES_Modelverifier_Base.Models
         public List<Container> FirstLevelChildContainers => _firstLevelChildContainers ?? (_firstLevelChildContainers = GetFirstLevelChildContainers());
         private List<Container> _firstLevelChildContainers;
 
+        public override void Initialize()
+        {
+            base.Initialize();
+
+            //call getter atleast once to notify the BaseObjects they are inside a container
+            var a = ContainingItems;
+        }
+
         /// <summary>
         /// validates container specifics
         /// </summary>
@@ -58,17 +66,29 @@ namespace SPES_Modelverifier_Base.Models
         /// <returns>all baseobjects in the vicinity of the container</returns>
         private List<BaseObject> GetContainingItems()
         {
-            //check if model has correctly been initialized in advance
-            Debug.Assert(ParentModel.ObjectsInitialized);
-            
+
+
             //get containing items
-            return ParentModel.ObjectList.Where(t =>
-                        t.Locationtopleft.IsContainedIn(Locationtopleft, Locationtopright, Locationbottomleft, Locationbottomright) ||
-                        t.Locationtopright.IsContainedIn(Locationtopleft, Locationtopright, Locationbottomleft, Locationbottomright) ||
-                        t.Locationbottomleft.IsContainedIn(Locationtopleft, Locationtopright, Locationbottomleft, Locationbottomright) ||
-                        t.Locationbottomright.IsContainedIn(Locationtopleft, Locationtopright, Locationbottomleft, Locationbottomright)
+            var items = ParentModel.ObjectList.Where(t =>
+                    t.Locationtopleft.IsContainedIn(Locationtopleft, Locationtopright, Locationbottomleft,
+                        Locationbottomright) ||
+                    t.Locationtopright.IsContainedIn(Locationtopleft, Locationtopright, Locationbottomleft,
+                        Locationbottomright) ||
+                    t.Locationbottomleft.IsContainedIn(Locationtopleft, Locationtopright, Locationbottomleft,
+                        Locationbottomright) ||
+                    t.Locationbottomright.IsContainedIn(Locationtopleft, Locationtopright, Locationbottomleft,
+                        Locationbottomright)
             ).ToList();
 
+            //tell the items that they are inside a container
+            items.ForEach(t =>
+                {
+                    if(!t.Containers.Contains(this))
+                        t.Containers.Add(this);
+                }
+            );
+
+            return items;
             //var neighbours = this.Visioshape.SpatialNeighbors((short)NetOffice.VisioApi.Enums.VisSpatialRelationCodes.visSpatialContain, 0, 0);
             //return neighbours.Select(item => this.ParentModel.ObjectList.Find(t => t.Uniquename == item.Name)).ToList();
         }

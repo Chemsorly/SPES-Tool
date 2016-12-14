@@ -30,7 +30,7 @@ namespace ITU_Scenario.ModelChecker
                 throw new ValidationFailedException(null, "Start Item not found");
 
             var node = startmessage.FromObject;
-            StartNode = new BmscNode((Item)node,1, startmessage.Locationy);
+            StartNode = new BmscNode((Item)node,null,1, startmessage.Locationy);
         }
 
 
@@ -60,7 +60,7 @@ namespace ITU_Scenario.ModelChecker
             var validpathmessages = validpaths.SelectMany(t => t).SelectMany(t => t.NextMessages).Distinct();
             var missingmessages = allmessages.Where(t => !validpathmessages.Contains(t)).ToList();
             if(missingmessages.Any())
-                missingmessages.ForEach(t => ValidationFailedEvent?.Invoke(new ValidationFailedMessage(4, "Message has no valid path.", t)));
+                missingmessages.ForEach(t => ValidationFailedEvent?.Invoke(new ValidationFailedMessage(4, $"Message({t.Text}) has no valid path.", t)));
         }
 
         private static void TraverseNodes(BmscNode pRoot, List<BmscNode> pPath, List<List<BmscNode>> pValidpaths)

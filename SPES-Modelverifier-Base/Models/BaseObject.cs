@@ -15,6 +15,7 @@ namespace SPES_Modelverifier_Base.Models
         public NetOffice.VisioApi.IVShape Visioshape { get; internal set; }
         public Model ParentModel { get; set; }
 
+        public List<Container> Containers { get; } = new List<Container>();
         /// <summary>
         /// returns the x value for the center of the shape
         /// </summary>
