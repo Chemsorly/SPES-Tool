@@ -1,4 +1,4 @@
-FROM chemsorly/dev:msbuilder_4.5_office_01
+FROM chemsorly/dev:msbuilder_4.5_office_03
 SHELL ["powershell"]
 
 COPY . 'C:\\build\\'  
