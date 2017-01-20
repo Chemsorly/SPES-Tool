@@ -1,7 +1,9 @@
+variables:
+    ASSETCONTAINER_NAME: "vsto-assets-$CI_BUILD_REF"
+
 stages:
     - build
-    - release
-    
+
 before_script:
     - echo %CI_BUILD_ID%
     - echo %CI_BUILD_REF%
@@ -18,36 +20,32 @@ before_script:
     - echo %CI_SERVER_REVISION%
     - echo %CI_SERVER_VERSION%
     
-build:
+docker-build:
     stage: build
     only:
     - branches
     script:
-    - '"C:\Gitlab-Multirunner\nuget.exe" restore "SPES-Modelverifier-Base.sln"'
-    - '"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" 
-    /p:Configuration=Debug'
-    - '"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" 
-    /p:Configuration=Release'
+    - 'echo "container name : %ASSETCONTAINER_NAME% "'
+    - 'docker login -u %DOCKERIO_USER% -p %DOCKERIO_PASSWORD%'
+    - 'docker build 
+        --build-arg MSBUILD_PROJECT=SPES-Modelverifier-Base.sln
+        --build-arg MSBUILD_ARGS=/p:ApplicationVersion=%PROJECT_VERSION%.*;ApplicationRevision=%CI_BUILD_ID%;Configuration=Release;PublishDir=C:\\SPES-Modelverifier\\%CI_BUILD_REF_NAME%\\2013-2016\\;InstallUrl=http://releases.chemsorly.com/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2013-2016/;UpdateUrl=http://releases.chemsorly.com/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2013-2016/
+        --build-arg MSBUILD_TARGET=/t:VisioAddin2013:Publish
+        -f build.Dockerfile 
+        -t git.chemsorly.com/chemsorly/spes-modelverifier . '
+    - docker create --name %ASSETCONTAINER_NAME%-2013-2016 git.chemsorly.com/chemsorly/spes-modelverifier
+    - docker cp %ASSETCONTAINER_NAME%-2013-2016:C:\\SPES-Modelverifier\\%CI_BUILD_REF_NAME%\\ C:\\Gitlab-Releases\\SPES-Modelverifier\\
     
-release_master:
-    stage: release
-    only:
-    - master
-    script:
-    - '"C:\Gitlab-Multirunner\nuget.exe" restore "SPES-Modelverifier-Base.sln"'
-    - '"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" 
-    /maxcpucount 
-    /nologo 
-    /p:Configuration=Release 
-    /t:VisioAddin2013:Publish
-    /p:PublishDir=C:\Dropbox\Public\VS_Releases\SPES-Modelverifier\%CI_BUILD_REF_NAME%\2013-2016\
-    /p:InstallUrl=https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2013-2016/
-    /p:UpdateUrl=https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2013-2016/'
-    - '"C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe" 
-    /maxcpucount 
-    /nologo 
-    /p:Configuration=Release 
-    /t:VisioAddin2010:Publish
-    /p:PublishDir=C:\Dropbox\Public\VS_Releases\SPES-Modelverifier\%CI_BUILD_REF_NAME%\2010\
-    /p:InstallUrl=https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2010/
-    /p:UpdateUrl=https://dl.dropboxusercontent.com/u/77212861/VS_Releases/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2010/'
+    - 'docker build 
+        --build-arg MSBUILD_PROJECT=SPES-Modelverifier-Base.sln
+        --build-arg MSBUILD_ARGS=/p:ApplicationVersion=%PROJECT_VERSION%.*;ApplicationRevision=%CI_BUILD_ID%;Configuration=Release;PublishDir=C:\\SPES-Modelverifier\\%CI_BUILD_REF_NAME%\\2010\\;InstallUrl=http://releases.chemsorly.com/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2010/;UpdateUrl=http://releases.chemsorly.com/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2010/
+        --build-arg MSBUILD_TARGET=/t:VisioAddin2010:Publish
+        -f build.Dockerfile 
+        -t git.chemsorly.com/chemsorly/spes-modelverifier . '
+    - docker create --name %ASSETCONTAINER_NAME%-2010 git.chemsorly.com/chemsorly/spes-modelverifier
+    - docker cp %ASSETCONTAINER_NAME%-2010:C:\\SPES-Modelverifier\\%CI_BUILD_REF_NAME%\\ C:\\Gitlab-Releases\\SPES-Modelverifier\\
+
+after_script:
+    - docker rm %ASSETCONTAINER_NAME%-2013-2016 -f
+    - docker rm %ASSETCONTAINER_NAME%-2010 -f
+    - powershell docker rmi $(docker images -q -f dangling=true) -f
