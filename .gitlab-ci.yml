@@ -26,7 +26,6 @@ docker-build:
     - branches
     script:
     - 'echo "container name : %ASSETCONTAINER_NAME% "'
-    - 'docker login -u %DOCKERIO_USER% -p %DOCKERIO_PASSWORD%'
     - 'docker build 
         --build-arg MSBUILD_PROJECT=SPES-Modelverifier-Base.sln
         --build-arg MSBUILD_ARGS=/p:ApplicationVersion=%PROJECT_VERSION%.*;ApplicationRevision=%CI_BUILD_ID%;Configuration=Release;PublishDir=C:\\SPES-Modelverifier\\%CI_BUILD_REF_NAME%\\2013-2016\\;InstallUrl=http://releases.chemsorly.com/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2013-2016/;UpdateUrl=http://releases.chemsorly.com/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2013-2016/
