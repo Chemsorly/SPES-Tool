@@ -1,4 +1,4 @@
-FROM chemsorly/dev:office_c01
+FROM chemsorly/dev:office_c01-nogac
 SHELL ["powershell"]
 
 COPY . 'C:\\build\\'  
