@@ -13,6 +13,22 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPES-Funktionsnetz", "SPES-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisioAddin2010", "VisioAddin2010\VisioAddin2010.csproj", "{0E43CD0E-0EE1-4C47-B5B9-9612D3A4C4D3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VSTO", "VSTO", "{2177D661-3D20-4823-BA3F-7AB5B77F51E8}"
+	ProjectSection(SolutionItems) = preProject
+		VSTO\Microsoft.Office.Interop.Visio.dll = VSTO\Microsoft.Office.Interop.Visio.dll
+		VSTO\Microsoft.Office.Tools.Common.dll = VSTO\Microsoft.Office.Tools.Common.dll
+		VSTO\Microsoft.Office.Tools.Common.v4.0.Utilities.dll = VSTO\Microsoft.Office.Tools.Common.v4.0.Utilities.dll
+		VSTO\Microsoft.Office.Tools.Common.v4.0.Utilities.xml = VSTO\Microsoft.Office.Tools.Common.v4.0.Utilities.xml
+		VSTO\Microsoft.Office.Tools.Common.xml = VSTO\Microsoft.Office.Tools.Common.xml
+		VSTO\Microsoft.Office.Tools.dll = VSTO\Microsoft.Office.Tools.dll
+		VSTO\Microsoft.Office.Tools.v4.0.Framework.dll = VSTO\Microsoft.Office.Tools.v4.0.Framework.dll
+		VSTO\Microsoft.Office.Tools.v4.0.Framework.xml = VSTO\Microsoft.Office.Tools.v4.0.Framework.xml
+		VSTO\Microsoft.VisualStudio.Tools.Applications.Runtime.dll = VSTO\Microsoft.VisualStudio.Tools.Applications.Runtime.dll
+		VSTO\Microsoft.VisualStudio.Tools.Applications.Runtime.xml = VSTO\Microsoft.VisualStudio.Tools.Applications.Runtime.xml
+		VSTO\Office.dll = VSTO\Office.dll
+		VSTO\stdole.dll = VSTO\stdole.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
