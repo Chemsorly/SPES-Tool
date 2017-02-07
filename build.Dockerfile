@@ -1,4 +1,4 @@
-FROM chemsorly/dev:office_c02-mingac
+FROM chemsorly/msbuilder:latest-vsc
 SHELL ["powershell"]
 
 COPY . 'C:\\build\\'  
