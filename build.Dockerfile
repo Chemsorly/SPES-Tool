@@ -1,4 +1,4 @@
-FROM chemsorly/dev:office_c05-fullgac
+FROM chemsorly/msbuilder:latest
 SHELL ["powershell"]
 
 COPY . 'C:\\build\\'  
