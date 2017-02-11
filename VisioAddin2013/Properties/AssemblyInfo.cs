@@ -7,9 +7,9 @@ using System.Security;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("VisioAddin2013")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Plugin for Visio 2013/2016 to support modelling of the SPES Framework")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Paluno")]
 [assembly: AssemblyProduct("VisioAddin2013")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
