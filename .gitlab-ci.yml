@@ -28,7 +28,7 @@ docker-build:
     - 'echo "container name : %ASSETCONTAINER_NAME% "'
     - 'docker build 
         --build-arg MSBUILD_PROJECT=SPES-Modelverifier-Base.sln
-        --build-arg MSBUILD_ARGS=/p:ApplicationVersion=%PROJECT_VERSION%.*;ApplicationRevision=%CI_BUILD_ID%;Configuration=Release;PublishDir=C:\\SPES-Modelverifier\\%CI_BUILD_REF_NAME%\\2013-2016\\;InstallUrl=http://releases.chemsorly.com/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2013-2016/;UpdateUrl=http://releases.chemsorly.com/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2013-2016/
+        --build-arg MSBUILD_ARGS=/p:ApplicationVersion=%PROJECT_VERSION%.%CI_BUILD_ID%;Configuration=Release;PublishDir=C:\\SPES-Modelverifier\\%CI_BUILD_REF_NAME%\\2013-2016\\;InstallUrl=http://releases.chemsorly.com/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2013-2016/;UpdateUrl=http://releases.chemsorly.com/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2013-2016/
         --build-arg MSBUILD_TARGET=/t:VisioAddin2013:Publish
         -f build.Dockerfile 
         -t git.chemsorly.com/chemsorly/spes-modelverifier . '
@@ -37,7 +37,7 @@ docker-build:
     
     - 'docker build 
         --build-arg MSBUILD_PROJECT=SPES-Modelverifier-Base.sln
-        --build-arg MSBUILD_ARGS=/p:ApplicationVersion=%PROJECT_VERSION%.*;ApplicationRevision=%CI_BUILD_ID%;Configuration=Release;PublishDir=C:\\SPES-Modelverifier\\%CI_BUILD_REF_NAME%\\2010\\;InstallUrl=http://releases.chemsorly.com/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2010/;UpdateUrl=http://releases.chemsorly.com/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2010/
+        --build-arg MSBUILD_ARGS=/p:ApplicationVersion=%PROJECT_VERSION%.%CI_BUILD_ID%;Configuration=Release;PublishDir=C:\\SPES-Modelverifier\\%CI_BUILD_REF_NAME%\\2010\\;InstallUrl=http://releases.chemsorly.com/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2010/;UpdateUrl=http://releases.chemsorly.com/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2010/
         --build-arg MSBUILD_TARGET=/t:VisioAddin2010:Publish
         -f build.Dockerfile 
         -t git.chemsorly.com/chemsorly/spes-modelverifier . '
