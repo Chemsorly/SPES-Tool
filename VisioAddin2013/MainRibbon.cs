@@ -146,5 +146,19 @@ namespace VisioAddin2013
                 initialized = true;
             }
         }
+
+        //TODO: aktuell für debug, später raus
+        private void AboutButton_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
+            {
+                Version v = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion;
+                System.Windows.Forms.MessageBox.Show("Version: " + String.Format(@" v{0}.{1}.{2}.{3}", v.Major, v.Minor, v.Build, v.Revision));
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("not deployed");
+            }
+        }
     }
 }

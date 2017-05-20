@@ -40,6 +40,7 @@
             this.VerifyButton = this.Factory.CreateRibbonButton();
             this.ImportButton = this.Factory.CreateRibbonButton();
             this.ExportButton = this.Factory.CreateRibbonButton();
+            this.AboutButton = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.SuspendLayout();
@@ -57,6 +58,7 @@
             this.group1.Items.Add(this.VerifyButton);
             this.group1.Items.Add(this.ImportButton);
             this.group1.Items.Add(this.ExportButton);
+            this.group1.Items.Add(this.AboutButton);
             this.group1.Label = "SPES";
             this.group1.Name = "group1";
             // 
@@ -85,6 +87,12 @@
             this.ExportButton.Name = "ExportButton";
             this.ExportButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ExportButton_Click);
             // 
+            // AboutButton
+            // 
+            this.AboutButton.Label = "About";
+            this.AboutButton.Name = "AboutButton";
+            this.AboutButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AboutButton_Click);
+            // 
             // MainRibbon
             // 
             this.Name = "MainRibbon";
@@ -107,6 +115,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton ImportButton;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton ExportButton;
         internal Microsoft.Office.Tools.Ribbon.RibbonDropDown ModelTargetDropDown;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton AboutButton;
     }
 
     partial class ThisRibbonCollection
