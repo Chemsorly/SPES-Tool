@@ -38,7 +38,11 @@ namespace VisioAddin2013
                 this.ModelTargetDropDown.Items.Add(item);
 
                 //sub to log messages etc.
-                obj.OnErrorReceivedEvent += delegate (Exception pEx) { System.Windows.Forms.MessageBox.Show(pEx.Message); };
+                obj.OnErrorReceivedEvent += delegate (Exception pEx) {
+                    //move to most inner exception
+                    while (pEx.InnerException != null) pEx = pEx.InnerException;
+                    System.Windows.Forms.MessageBox.Show(pEx.Message);
+                };
                 //obj.OnLogMessageReceivedEvent += delegate (String pMessage) { System.Windows.Forms.MessageBox.Show(pMessage); };
             }
 
