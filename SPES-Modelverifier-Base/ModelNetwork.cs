@@ -159,7 +159,17 @@ namespace SPES_Modelverifier_Base
                     {
                         //check if already opened, if not -> open
                         if (!this.visioApplication.Documents.Any(t => t.Name == file))
+                        {
+                            //check if file exists, if not, download from server
+                            if (!System.IO.File.Exists(System.IO.Path.Combine(this.visioApplication.MyShapesPath, file)))
+                            {
+                                using (var client = new System.Net.WebClient())
+                                {
+                                    client.DownloadFile($"https://releases.chemsorly.com/SPES-Modelverifier/visiostencils/{file}", System.IO.Path.Combine(this.visioApplication.MyShapesPath, file));
+                                }
+                            }                            
                             this.visioApplication.Documents.OpenEx(file, (short)NetOffice.VisioApi.Enums.VisOpenSaveArgs.visOpenDocked);
+                        }
                     }
                 }
             }
