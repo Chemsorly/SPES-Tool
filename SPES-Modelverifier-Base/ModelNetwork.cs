@@ -162,7 +162,9 @@ namespace SPES_Modelverifier_Base
                 }
 
                 if (stencilDownloaded)
-                    throw new Exception("New stencils have been downloaded. Please restart Visio to activate.");
+                {
+                    //throw new Exception("New stencils have been downloaded. Please restart Visio to activate.");
+                }
             }
             catch(Exception pEx)
             {
