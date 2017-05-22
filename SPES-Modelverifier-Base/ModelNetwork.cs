@@ -166,9 +166,12 @@ namespace SPES_Modelverifier_Base
                                 using (var client = new System.Net.WebClient())
                                 {
                                     client.DownloadFile($"https://releases.chemsorly.com/SPES-Modelverifier/visiostencils/{file}", System.IO.Path.Combine(this.visioApplication.MyShapesPath, file));
+                                    
                                 }
-                            }                            
-                            this.visioApplication.Documents.OpenEx(file, (short)NetOffice.VisioApi.Enums.VisOpenSaveArgs.visOpenDocked);
+                            }
+                            
+                            //todo does not find the file even if it should...
+                            this.visioApplication.Documents.OpenEx(file, (short)NetOffice.VisioApi.Enums.VisOpenSaveArgs.visOpenDocked | (short)NetOffice.VisioApi.Enums.VisOpenSaveArgs.visOpenRO);
                         }
                     }
                 }
