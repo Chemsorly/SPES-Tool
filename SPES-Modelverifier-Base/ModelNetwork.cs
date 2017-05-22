@@ -154,6 +154,8 @@ namespace SPES_Modelverifier_Base
                 //check if current opening document is not on the shape list
                 if (!ShapeTemplateFiles.Any(t => this.visioApplication.Documents.Any(c => c.Name == t)) && !visioApplication.ActiveDocument.Name.Contains(".vsx") && !visioApplication.ActiveDocument.Name.Contains(".vssx"))
                 {
+                    bool stencilDownloaded = false;
+
                     //cycle all files that have to be opened
                     foreach (var file in ShapeTemplateFiles)
                     {
@@ -166,12 +168,19 @@ namespace SPES_Modelverifier_Base
                                 using (var client = new System.Net.WebClient())
                                 {
                                     client.DownloadFile($"https://releases.chemsorly.com/SPES-Modelverifier/visiostencils/{file}", System.IO.Path.Combine(this.visioApplication.MyShapesPath, file));
-                                    
                                 }
+                                stencilDownloaded = true;
                             }
-                            
-                            //todo does not find the file even if it should...
-                            this.visioApplication.Documents.OpenEx(file, (short)NetOffice.VisioApi.Enums.VisOpenSaveArgs.visOpenDocked | (short)NetOffice.VisioApi.Enums.VisOpenSaveArgs.visOpenRO);
+
+                            if (!stencilDownloaded)
+                            {
+                                //todo does not find the file even if it should...
+                                this.visioApplication.Documents.OpenEx(file, (short)NetOffice.VisioApi.Enums.VisOpenSaveArgs.visOpenDocked | (short)NetOffice.VisioApi.Enums.VisOpenSaveArgs.visOpenRO);
+                            }
+                            else
+                            {
+                                throw new Exception("New stencils have been downloaded. Please restart Visio to activate.");
+                            }
                         }
                     }
                 }
