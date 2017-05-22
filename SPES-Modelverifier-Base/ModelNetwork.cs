@@ -143,6 +143,9 @@ namespace SPES_Modelverifier_Base
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// checks if stencil files exist and downloads them if not
+        /// </summary>
         public void CheckStencils()
         {
             try
