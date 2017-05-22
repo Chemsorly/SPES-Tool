@@ -13,7 +13,7 @@ namespace SPES_Modelverifier_Base
         public String Message { get; }
         public BaseObject ExceptionObject { get; }
 
-        public ValidationFailedMessage(int pProcessLevel, String pMessage, BaseObject pTargetobject)
+        public ValidationFailedMessage(int pProcessLevel, String pMessage, BaseObject pTargetobject = null)
         {
             ProcessLevel = pProcessLevel;
             Message = pMessage;

@@ -94,19 +94,26 @@ namespace SPES_Modelverifier_Base.Models
         {
             //check if sheet is not empty
             if (ObjectList.Count < 1)
-                throw new Exception(this.PageName + " is an empty model.");
+            {
+                ValidationFailedEvent?.Invoke(new ValidationFailedMessage(1, $"model {this.PageName} is empty"));
+                return;
+            }
 
             //check if elements are allowed on model
             if (AllowedItems != null)
-                foreach (var element in ObjectList)                
+                foreach (var element in ObjectList)
                     if (AllowedItems.All(t => t != element.GetType()) && element.GetType() != typeof(NRO))
+                    {
                         ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, "element not allowed", element));
+                    }
 
             //check if elements exist double on any sheet
             List<BaseObject> objects = ObjectList.Where(t => t is Item && !String.IsNullOrEmpty(t.Text) && !((t as Item).CanHaveDuplicateText)).ToList();
-            foreach(var obj in objects)
-                if(objects.Count(t => t.Text == obj.Text) > 1)
+            foreach (var obj in objects)
+                if (objects.Count(t => t.Text == obj.Text) > 1)
+                {
                     ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, $"{this.PageName} contains elements with duplicate text", obj));
+                }
 
             //do checks on objects, if implemented
             ObjectList.ForEach(t =>
