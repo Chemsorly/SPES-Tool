@@ -46,8 +46,11 @@ namespace VisioAddin2013
                 //obj.OnLogMessageReceivedEvent += delegate (String pMessage) { System.Windows.Forms.MessageBox.Show(pMessage); };
             }
 
+            //init stencils for modelverifiers
+            modelverifiers.ForEach(t => t.CheckStencils());
+
             //call selection changed for init shape load (only if document is loaded)
-            if(application.ActiveDocument != null)
+            if (application.ActiveDocument != null)
                 ModelTargetDropDown_SelectionChanged(null, null);
 
             //subscribe to application events
