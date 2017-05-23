@@ -8,6 +8,7 @@ using NetOffice.VisioApi;
 using ITU_Scenario;
 using SPES_Funktionsnetz;
 using System.Windows.Forms;
+using SPES_Zielmodell;
 
 namespace VisioAddin2013
 {
@@ -28,6 +29,7 @@ namespace VisioAddin2013
             //add modelverifiers
             modelverifiers.Add(new ScenarioNetwork(application));
             modelverifiers.Add(new FunktionsnetzNetwork(application));
+            modelverifiers.Add(new ZielmodellNetwork(application));
 
             //add modelverifiers to dropdown menu and subscribe to events
             foreach (var obj in modelverifiers)
