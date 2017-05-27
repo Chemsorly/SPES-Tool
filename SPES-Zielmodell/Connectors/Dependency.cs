@@ -1,15 +1,15 @@
 ﻿using SPES_Modelverifier_Base.Models;
+using SPES_Zielmodell.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SPES_Zielmodell.Connectors
 {
     class Dependency : Connection
     {
-        public override List<Type> AllowedConnectionTypes => throw new NotImplementedException();
+        public override List<Type> AllowedConnectionTypes => new List<Type>() { typeof(Actor), typeof(Belief), typeof(Goal), typeof(Indicator), typeof(Resource), typeof(Task) };
 
         public override bool Inverted => false;
     }
