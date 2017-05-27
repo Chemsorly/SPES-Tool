@@ -10,7 +10,7 @@ namespace SPES_Funktionsnetz
 {
     internal class DependencyConnection : Connection
     {
-        public override List<Type> AllowedConnectionTypes => new List<Type>() { typeof(Dependency), typeof(Function), typeof(ContextFunction) };
+        public override List<Type> AllowedConnectedTypes => new List<Type>() { typeof(Dependency), typeof(Function), typeof(ContextFunction) };
 
         public override bool Inverted => true;
 

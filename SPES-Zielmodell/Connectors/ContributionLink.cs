@@ -9,7 +9,7 @@ namespace SPES_Zielmodell.Connectors
 {
     class ContributionLink : Connection
     {
-        public override List<Type> AllowedConnectionTypes => new List<Type>() { typeof(Actor), typeof(Belief), typeof(Goal), typeof(Indicator), typeof(Resource), typeof(Task) };
+        public override List<Type> AllowedConnectedTypes => new List<Type>() { typeof(Actor), typeof(Belief), typeof(Goal), typeof(Indicator), typeof(Resource), typeof(Task) };
 
         public override bool Inverted => false;
     }

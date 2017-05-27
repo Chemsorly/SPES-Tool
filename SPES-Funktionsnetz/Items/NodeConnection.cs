@@ -9,7 +9,7 @@ namespace SPES_Funktionsnetz
 {
     internal class NodeConnection : Connection
     {
-        public override List<Type> AllowedConnectionTypes => new List<Type>() { typeof(Step) };
+        public override List<Type> AllowedConnectedTypes => new List<Type>() { typeof(Step) };
 
         public override bool Inverted => false;
     }

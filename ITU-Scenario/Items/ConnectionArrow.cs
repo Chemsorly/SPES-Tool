@@ -9,7 +9,7 @@ namespace ITU_Scenario
 {
     internal class ConnectionArrow : Connection
     {
-        public override List<Type> AllowedConnectionTypes => new List<Type>() {
+        public override List<Type> AllowedConnectedTypes => new List<Type>() {
             typeof(ConnectionPoint),
             typeof(StartSymbol),
             typeof(EndSymbol),
