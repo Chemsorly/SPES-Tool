@@ -11,6 +11,6 @@ namespace SPES_Zielmodell.Connectors
     {
         public override List<Type> AllowedConnectedTypes => new List<Type>() { typeof(Actor), typeof(Belief), typeof(Goal), typeof(Indicator), typeof(Resource), typeof(Task) };
 
-        public override bool Inverted => false;
+        public override bool Inverted => true;
     }
 }
