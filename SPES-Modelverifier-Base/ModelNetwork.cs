@@ -143,7 +143,7 @@ namespace SPES_Modelverifier_Base
                 XmlSerializer serializer = new XmlSerializer(typeof(List<Model>), Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsClass).ToArray());
                 using (FileStream stream = new FileStream(pFile, FileMode.Open))
                 {
-                    //reconstruct, add elements etc.
+                    serializer.Serialize(stream, ModelList);
                 }
 
             }
@@ -262,7 +262,7 @@ namespace SPES_Modelverifier_Base
             //go through all pages and add model elements
             foreach (Page page in this.visioApplication.ActiveDocument.Pages)
             {
-                var model = Activator.CreateInstance(GetTargetModelType(page)) as Model;
+                var model = (Model)Activator.CreateInstance(GetTargetModelType(page));
                 model.ValidationFailedEvent += delegate (ValidationFailedMessage pMessage) { CollectedValidationMessages.Add(pMessage); };
                 model.Initialize(page, Mapping);
                 models.Add(model);
@@ -286,7 +286,7 @@ namespace SPES_Modelverifier_Base
             List<Model> models = new List<Model>();
             foreach (Type type in Mapping.TargetModels)
             {
-                var model = Activator.CreateInstance(type) as Model;
+                var model = (Model)Activator.CreateInstance(type);
                 model.ValidationFailedEvent += delegate (ValidationFailedMessage pMessage) { CollectedValidationMessages.Add(pMessage); };
                 model.Initialize(pPage, Mapping);
                 models.Add(model);
