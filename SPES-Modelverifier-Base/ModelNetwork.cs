@@ -4,10 +4,13 @@ using SPES_Modelverifier_Base.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using SPES_Modelverifier_Base.ModelChecker;
+using System.Xml.Serialization;
 
 namespace SPES_Modelverifier_Base
 {
@@ -129,18 +132,45 @@ namespace SPES_Modelverifier_Base
         /// exports the model to a given XML file. the model has to be verified prior for the export to work
         /// </summary>
         /// <param name="pFile"></param>
-        public virtual void Export(String pFile)
+        public void Export(String pFile)
         {
-            throw new NotImplementedException();
+            //check if valid first, todo: remove requirement
+            if(this.Validate().Any())
+                throw new Exception("Validation failed prior to export");
+
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Model>), Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsClass).ToArray());
+                using (FileStream stream = new FileStream(pFile, FileMode.Open))
+                {
+                    //reconstruct, add elements etc.
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //todo ioexception
+            }
         }
 
         /// <summary>
         /// imports a given model from an XML file and tries to reconstruct it with the current loaded stencils
         /// </summary>
         /// <param name="pFile"></param>
-        public virtual void Import(String pFile)
+        public void Import(String pFile)
         {
-            throw new NotImplementedException();
+            try
+            {
+                XmlSerializer deserializer = new XmlSerializer(typeof(List<Model>),Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsClass).ToArray());
+                using (FileStream stream = new FileStream(pFile, FileMode.Open))
+                {
+                    //reconstruct, add elements etc.
+                }
+
+            }catch(Exception ex)
+            {
+                //todo ioexception, validationfailedexception
+            }
         }
 
         /// <summary>
