@@ -13,7 +13,7 @@ namespace SPES_Modelverifier_Base.Models
     public abstract class Model
     {
         /// <summary>
-        /// list of allowed items on the model. leave null to allow everything
+        /// list of allowed items on the model. leave null to allow everything (e.g. when you only have 1 model and don't need to restrict types to models)
         /// </summary>
         public abstract List<Type> AllowedItems { get; }
 

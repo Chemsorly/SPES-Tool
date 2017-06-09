@@ -9,7 +9,7 @@ namespace ITU_Scenario
 {
     internal class Message : Connection
     {
-        public override List<Type> AllowedConnectionTypes => new List<Type>() { typeof(Instance) };        
+        public override List<Type> AllowedConnectedTypes => new List<Type>() { typeof(Instance) };        
 
         public override bool Inverted => true;
         

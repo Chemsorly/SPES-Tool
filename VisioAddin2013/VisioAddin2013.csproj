@@ -266,6 +266,10 @@
       <Project>{B43F3525-9A96-40D4-9E2B-BD9BF9104008}</Project>
       <Name>SPES-Modelverifier-Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SPES-Zielmodell\SPES-Zielmodell.csproj">
+      <Project>{11d350e1-4892-4ea7-b93c-9cee06e48d2a}</Project>
+      <Name>SPES-Zielmodell</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -11,7 +11,7 @@ namespace SPES_Modelverifier_Base.Models
         /// <summary>
         /// a connection item has to define what it can be connected to. Empty list means it can connect any object derived from BaseObject
         /// </summary>
-        public abstract List<Type> AllowedConnectionTypes { get; }
+        public abstract List<Type> AllowedConnectedTypes { get; }
 
         /// <summary>
         /// define if the connection needs to be inverted (in case shape is directional and aligned wrong).
@@ -29,8 +29,8 @@ namespace SPES_Modelverifier_Base.Models
             BaseObject xToObject = this.GetObjectConnectingTo(pAllObjects);
 
             if (xFromObject != null && xToObject != null &&
-                (AllowedConnectionTypes.Any() ? AllowedConnectionTypes.Contains(xFromObject.GetType()) : true) &&
-                (AllowedConnectionTypes.Any() ? AllowedConnectionTypes.Contains(xToObject.GetType()) : true))
+                (AllowedConnectedTypes.Any() ? AllowedConnectedTypes.Contains(xFromObject.GetType()) : true) &&
+                (AllowedConnectedTypes.Any() ? AllowedConnectedTypes.Contains(xToObject.GetType()) : true))
             {
                 //flip from and to because visio
                 if (Inverted)
