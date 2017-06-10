@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NetOffice.VisioApi;
-using SPES_Modelverifier_Base;
+using System.Xml.Serialization;
+using SPES_Funktionsnetz.Items;
 
-namespace SPES_Funktionsnetz
+namespace SPES_Funktionsnetz.Models
 {
-    internal class FunktionsnetzModel : SPES_Modelverifier_Base.Models.Model
+    public class FunktionsnetzModel : SPES_Modelverifier_Base.Models.Model
     {
+        [XmlIgnore]
         public override List<Type> AllowedItems => new List<Type>() { typeof(Function), typeof(ContextFunction), typeof(Interaction), typeof(Dependency), typeof(DependencyConnection) };
     }
 }

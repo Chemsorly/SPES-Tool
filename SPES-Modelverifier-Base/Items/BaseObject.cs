@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SPES_Modelverifier_Base.Models.Helper;
+using System.Xml.Serialization;
+using SPES_Modelverifier_Base.Items.Helper;
+using SPES_Modelverifier_Base.Models;
 
-namespace SPES_Modelverifier_Base.Models
+namespace SPES_Modelverifier_Base.Items
 {
     public abstract class BaseObject
     {
@@ -32,16 +31,19 @@ namespace SPES_Modelverifier_Base.Models
         /// <summary>
         /// the corresponding visio shape (netoffice)
         /// </summary>
+        [XmlIgnore]
         public NetOffice.VisioApi.IVShape Visioshape { get; internal set; }
 
         /// <summary>
         /// the corresponding model the object belongs to
         /// </summary>
+        [XmlIgnore]
         public Model ParentModel { get; set; }
 
         /// <summary>
         /// containers this object belongs to
         /// </summary>
+        [XmlIgnore]
         public List<Container> Containers { get; } = new List<Container>();
 
         /// <summary>

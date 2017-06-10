@@ -1,4 +1,4 @@
-﻿namespace SPES_Modelverifier_Base.Models.Helper
+﻿namespace SPES_Modelverifier_Base.Items.Helper
 {
     public class Coordinate
     {

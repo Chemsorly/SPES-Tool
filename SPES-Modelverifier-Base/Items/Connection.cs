@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Serialization;
 
-namespace SPES_Modelverifier_Base.Models
+namespace SPES_Modelverifier_Base.Items
 {
     public abstract class Connection : BaseObject
     {
         /// <summary>
         /// a connection item has to define what it can be connected to. Empty list means it can connect any object derived from BaseObject
+        /// needs EXPLICIT XmlIgnore in derived class!
         /// </summary>
+        [XmlIgnore]
         public abstract List<Type> AllowedConnectedTypes { get; }
 
         /// <summary>
@@ -18,10 +19,20 @@ namespace SPES_Modelverifier_Base.Models
         /// </summary>
         public abstract bool Inverted { get; }
 
+        /// <summary>
+        /// the object the connector points to
+        /// </summary>
+        public BaseObject FromObject { get; set; }
 
-        public BaseObject FromObject { get; private set; }
-        public BaseObject ToObject { get; private set; }
+        /// <summary>
+        /// the object the connector points from
+        /// </summary>
+        public BaseObject ToObject { get; set; }
 
+        /// <summary>
+        /// searches all items in a model and sets the pointer if a match has been found
+        /// </summary>
+        /// <param name="pAllObjects"></param>
         public void SetConnections(List<BaseObject> pAllObjects)
         {
             //set from and to functions

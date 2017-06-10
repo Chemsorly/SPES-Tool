@@ -7,10 +7,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using SPES_Modelverifier_Base.ModelChecker;
 using System.Xml.Serialization;
+using SPES_Modelverifier_Base.Items;
 
 namespace SPES_Modelverifier_Base
 {
@@ -140,8 +142,17 @@ namespace SPES_Modelverifier_Base
 
             try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Model>), Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsClass).ToArray());
-                using (FileStream stream = new FileStream(pFile, FileMode.Open))
+                //gets all objects from items namespace: all classes defined in Items and Models namespace. 
+                //Sorts out compiler classes, check https://stackoverflow.com/questions/43068213/getting-all-types-under-a-userdefined-assembly
+                Type[] classes = Assembly.GetAssembly(this.GetType()).GetTypes().Where(t => 
+                t.IsClass && 
+                !t.GetTypeInfo().IsDefined(typeof(CompilerGeneratedAttribute)) &&
+                (t.Namespace.EndsWith("Items") || t.Namespace.EndsWith("Models")))
+                .ToArray();
+
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Model>), classes);
+                
+                using (FileStream stream = new FileStream(pFile, FileMode.OpenOrCreate))
                 {
                     serializer.Serialize(stream, ModelList);
                 }
@@ -149,7 +160,10 @@ namespace SPES_Modelverifier_Base
             }
             catch (Exception ex)
             {
-                //todo ioexception
+                while (ex.InnerException != null)
+                    ex = ex.InnerException;
+
+                throw ex;
             }
         }
 

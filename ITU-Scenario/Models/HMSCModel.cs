@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Serialization;
 using ITU_Scenario.Items;
-using NetOffice.VisioApi;
-using SPES_Modelverifier_Base;
 
-namespace ITU_Scenario
+namespace ITU_Scenario.Models
 {
     public class HMSCModel : SPES_Modelverifier_Base.Models.Model
     {
+        [XmlIgnore]
         public override List<Type> AllowedItems => new List<Type>()
         {
             typeof(ConnectionPoint) ,
