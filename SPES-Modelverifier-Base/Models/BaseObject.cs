@@ -9,13 +9,36 @@ namespace SPES_Modelverifier_Base.Models
 {
     public abstract class BaseObject
     {
+        /// <summary>
+        /// contains the text that is written on the shape
+        /// </summary>
         public String Text { get; set; }
+
+        /// <summary>
+        /// the uniquename of the shape (uid)
+        /// </summary>
         public String Uniquename { get; set; }
+
+        /// <summary>
+        /// the associated visio page (uid)
+        /// </summary>
         public String Visiopage { get; set; }
+
+        /// <summary>
+        /// the corresponding visio shape (netoffice)
+        /// </summary>
         public NetOffice.VisioApi.IVShape Visioshape { get; internal set; }
+
+        /// <summary>
+        /// the corresponding model the object belongs to
+        /// </summary>
         public Model ParentModel { get; set; }
 
+        /// <summary>
+        /// containers this object belongs to
+        /// </summary>
         public List<Container> Containers { get; } = new List<Container>();
+
         /// <summary>
         /// returns the x value for the center of the shape
         /// </summary>
