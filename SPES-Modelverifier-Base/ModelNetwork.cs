@@ -174,6 +174,55 @@ namespace SPES_Modelverifier_Base
         }
 
         /// <summary>
+        /// takes the current ModelList and invokes a reonstruct action on Visio to load a model from an XML file
+        /// </summary>
+        private void Reconstruct()
+        {
+            //get current document
+            IVDocument doc = visioApplication.ActiveDocument;
+
+            //clear
+            foreach (var page in this.visioApplication.ActiveDocument.Pages)
+                page.Delete(0);
+
+            //create temp sheet (because visio can not have 0 sheets)
+            String deletename = "deletemelater" + new Random(1337).Next(0, 1000);
+            this.visioApplication.ActiveDocument.Pages.First().Name = deletename;
+
+            //
+            foreach (Model model in ModelList)
+            {
+                //create visio page
+                var page = this.visioApplication.ActiveDocument.Pages.Add();
+                page.Name = model.PageName;
+
+                //iterate through all elements
+                foreach (var item in model.ObjectList)
+                {
+                    //create new visio shape 
+                    var master = visioApplication.ActiveDocument.MasterShortcuts.FirstOrDefault(t => t.Name == item.type);
+                    if (master != null)
+                    {
+                        try
+                        {
+                            var shape = page.Drop(master, item.locationx, item.locationy);
+
+                            if (!String.IsNullOrEmpty(item.text))
+                                shape.Text = item.text;
+
+                            item.visioshape = shape;
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Windows.Forms.MessageBox.Show(ex.Message);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        /// <summary>
         /// checks if stencil files exist and downloads them if not
         /// </summary>
         public void CheckStencils()

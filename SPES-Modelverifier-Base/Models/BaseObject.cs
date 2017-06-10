@@ -15,7 +15,12 @@ namespace SPES_Modelverifier_Base.Models
         public String Text { get; set; }
 
         /// <summary>
-        /// the uniquename of the shape (uid)
+        /// the shape name
+        /// </summary>
+        public String Type { get; set; }
+
+        /// <summary>
+        /// the uniquename of the shape (uid); usually Type-UID
         /// </summary>
         public String Uniquename { get; set; }
 
