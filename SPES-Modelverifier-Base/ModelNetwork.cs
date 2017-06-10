@@ -230,7 +230,7 @@ namespace SPES_Modelverifier_Base
                 foreach (var item in model.ObjectList)
                 {
                     //create new visio shape 
-                    var master = visioApplication.ActiveDocument.MasterShortcuts.FirstOrDefault(t => t.Name == item.TypeName);
+                    var master = GetMasters().FirstOrDefault(t => t.Name == item.TypeName);
                     if (master != null)
                     {
                         try
@@ -242,15 +242,18 @@ namespace SPES_Modelverifier_Base
                             if (!String.IsNullOrEmpty(item.Text))
                                 shape.Text = item.Text;
 
-                            //set height and width
-                            shape.Cells("Height").set_Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric, item.Height);
-                            shape.Cells("Width").set_Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric, item.Width);
-
+                            //set height and width; does not work for connection types
+                            if (!(item is Connection))
+                            {
+                                shape.Cells("Height").set_Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric, item.Height);
+                                shape.Cells("Width").set_Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric, item.Width);
+                            }
                             item.Visioshape = shape;
                         }
                         catch (Exception ex)
                         {
-                            
+                            Console.WriteLine(ex);
+                            throw;
                         }
                     }
                     else
@@ -277,7 +280,7 @@ namespace SPES_Modelverifier_Base
                             var beginxcell = connection.Visioshape.CellsSRC((short)NetOffice.VisioApi.Enums.VisSectionIndices.visSectionObject,
                                 (short)NetOffice.VisioApi.Enums.VisRowIndices.visRowXForm1D,
                                 (short)NetOffice.VisioApi.Enums.VisCellIndices.vis1DBeginX);
-                            beginxcell.GlueTo(connection.FromObject.Visioshape.CellsSRC(
+                            beginxcell.GlueTo(fromshape.CellsSRC(
                                 (short)NetOffice.VisioApi.Enums.VisSectionIndices.visSectionObject,
                                 (short)NetOffice.VisioApi.Enums.VisRowIndices.visRowXFormOut,
                                 (short)NetOffice.VisioApi.Enums.VisCellIndices.visXFormPinX));
@@ -285,7 +288,7 @@ namespace SPES_Modelverifier_Base
                             var beginycell = connection.Visioshape.CellsSRC((short)NetOffice.VisioApi.Enums.VisSectionIndices.visSectionObject,
                                 (short)NetOffice.VisioApi.Enums.VisRowIndices.visRowXForm1D,
                                 (short)NetOffice.VisioApi.Enums.VisCellIndices.vis1DEndX);
-                            beginycell.GlueTo(connection.ToObject.Visioshape.CellsSRC(
+                            beginycell.GlueTo(toshape.CellsSRC(
                                 (short)NetOffice.VisioApi.Enums.VisSectionIndices.visSectionObject,
                                 (short)NetOffice.VisioApi.Enums.VisRowIndices.visRowXFormOut,
                                 (short)NetOffice.VisioApi.Enums.VisCellIndices.visXFormPinX));
@@ -297,6 +300,9 @@ namespace SPES_Modelverifier_Base
                         }
                     }
                 }
+
+                //delete stub page
+                this.visioApplication.ActiveDocument.Pages.First(t => t.Name == deletename).Delete(0);
             }
 
         }
@@ -427,6 +433,22 @@ namespace SPES_Modelverifier_Base
 
             //return type with highest probability rating
             return ratings.MaxBy(t => t.Value).Key;
+        }
+
+        /// <summary>
+        /// returns a list of masters from the active visio application
+        /// </summary>
+        /// <returns>masters list</returns>
+        private List<IVMaster> GetMasters()
+        {
+            if(visioApplication==null)
+                throw new Exception("no visio application detected");
+
+            List<IVMaster> masters = new List<IVMaster>();
+            foreach(Document doc in visioApplication.Documents)
+                foreach(IVMaster master in doc.Masters)
+                    masters.Add(master);
+            return masters;
         }
 
         /// <summary>
