@@ -175,15 +175,31 @@ namespace SPES_Modelverifier_Base
         {
             try
             {
-                XmlSerializer deserializer = new XmlSerializer(typeof(List<Model>),Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsClass).ToArray());
+                //gets all objects from items namespace: all classes defined in Items and Models namespace. 
+                //Sorts out compiler classes, check https://stackoverflow.com/questions/43068213/getting-all-types-under-a-userdefined-assembly
+                Type[] classes = Assembly.GetAssembly(this.GetType()).GetTypes().Where(t =>
+                        t.IsClass &&
+                        !t.GetTypeInfo().IsDefined(typeof(CompilerGeneratedAttribute)) &&
+                        (t.Namespace.EndsWith("Items") || t.Namespace.EndsWith("Models")))
+                    .ToArray();
+
+                XmlSerializer deserializer = new XmlSerializer(typeof(List<Model>), classes);
                 using (FileStream stream = new FileStream(pFile, FileMode.Open))
                 {
-                    //reconstruct, add elements etc.
+                    //get models
+                    this.ModelList = (List<Model>)deserializer.Deserialize(stream);
                 }
 
-            }catch(Exception ex)
+                //reconstruct by placing objects with proper parameters and setting connections
+                Reconstruct();
+
+            }
+            catch (Exception ex)
             {
-                //todo ioexception, validationfailedexception
+                while (ex.InnerException != null)
+                    ex = ex.InnerException;
+
+                throw ex;
             }
         }
 
@@ -203,32 +219,81 @@ namespace SPES_Modelverifier_Base
             String deletename = "deletemelater" + new Random(1337).Next(0, 1000);
             this.visioApplication.ActiveDocument.Pages.First().Name = deletename;
 
-            //
+            //reconstruct each model one by one
             foreach (Model model in ModelList)
             {
                 //create visio page
                 var page = this.visioApplication.ActiveDocument.Pages.Add();
                 page.Name = model.PageName;
 
-                //iterate through all elements
+                //iterate through all elements and set fields
                 foreach (var item in model.ObjectList)
                 {
                     //create new visio shape 
-                    var master = visioApplication.ActiveDocument.MasterShortcuts.FirstOrDefault(t => t.Name == item.Type);
+                    var master = visioApplication.ActiveDocument.MasterShortcuts.FirstOrDefault(t => t.Name == item.TypeName);
                     if (master != null)
                     {
                         try
                         {
+                            //drop shape at position
                             var shape = page.Drop(master, item.Locationx, item.Locationy);
 
+                            //set text if applicable
                             if (!String.IsNullOrEmpty(item.Text))
                                 shape.Text = item.Text;
+
+                            //set height and width
+                            shape.Cells("Height").set_Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric, item.Height);
+                            shape.Cells("Width").set_Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric, item.Width);
 
                             item.Visioshape = shape;
                         }
                         catch (Exception ex)
                         {
-                            //System.Windows.Forms.MessageBox.Show(ex.Message);
+                            
+                        }
+                    }
+                    else
+                    {
+                       throw new Exception($"Master for {item.TypeName} not found");
+                    }
+                }
+
+                //iterate through all connectors and set connections
+                foreach (var item in model.ObjectList)
+                {
+                    if (item is Connection)
+                    {
+                        try
+                        {
+                            //find to and from shapes
+                            var connection = (Connection) item;
+                            var toshape = model.ObjectList.First(t => t.Uniquename == connection.ToObject.Uniquename)
+                                .Visioshape;
+                            var fromshape = model.ObjectList
+                                .First(t => t.Uniquename == connection.FromObject.Uniquename).Visioshape;
+
+                            //set connection and glue together
+                            var beginxcell = connection.Visioshape.CellsSRC((short)NetOffice.VisioApi.Enums.VisSectionIndices.visSectionObject,
+                                (short)NetOffice.VisioApi.Enums.VisRowIndices.visRowXForm1D,
+                                (short)NetOffice.VisioApi.Enums.VisCellIndices.vis1DBeginX);
+                            beginxcell.GlueTo(connection.FromObject.Visioshape.CellsSRC(
+                                (short)NetOffice.VisioApi.Enums.VisSectionIndices.visSectionObject,
+                                (short)NetOffice.VisioApi.Enums.VisRowIndices.visRowXFormOut,
+                                (short)NetOffice.VisioApi.Enums.VisCellIndices.visXFormPinX));
+
+                            var beginycell = connection.Visioshape.CellsSRC((short)NetOffice.VisioApi.Enums.VisSectionIndices.visSectionObject,
+                                (short)NetOffice.VisioApi.Enums.VisRowIndices.visRowXForm1D,
+                                (short)NetOffice.VisioApi.Enums.VisCellIndices.vis1DEndX);
+                            beginycell.GlueTo(connection.ToObject.Visioshape.CellsSRC(
+                                (short)NetOffice.VisioApi.Enums.VisSectionIndices.visSectionObject,
+                                (short)NetOffice.VisioApi.Enums.VisRowIndices.visRowXFormOut,
+                                (short)NetOffice.VisioApi.Enums.VisCellIndices.visXFormPinX));
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                            throw;
                         }
                     }
                 }

@@ -28,7 +28,7 @@ namespace SPES_Modelverifier_Base
             if (modelObject != null)
             {
                 modelObject.ParentModel = pParentmodel;
-                modelObject.Type = GetBaseNameFromUniquename(pShape.Name);
+                modelObject.TypeName = GetBaseNameFromUniquename(pShape.Name);
                 modelObject.Uniquename = pShape.Name;
                 modelObject.Visiopage = pShape.ContainingPage.Name;
                 modelObject.Visioshape = pShape;
