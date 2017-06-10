@@ -57,10 +57,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Connectors\ContributionLink.cs" />
-    <Compile Include="Connectors\CorrelationLink.cs" />
-    <Compile Include="Connectors\Decomposition.cs" />
-    <Compile Include="Connectors\Dependency.cs" />
+    <Compile Include="Items\ContributionLink.cs" />
+    <Compile Include="Items\CorrelationLink.cs" />
+    <Compile Include="Items\Decomposition.cs" />
+    <Compile Include="Items\Dependency.cs" />
     <Compile Include="Items\Actor.cs" />
     <Compile Include="Items\ActorBoundary.cs" />
     <Compile Include="Items\Belief.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="Items\Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ZielmodellMapping.cs" />
-    <Compile Include="ZielmodellModel.cs" />
+    <Compile Include="Models\ZielmodellModel.cs" />
     <Compile Include="ZielmodellNetwork.cs" />
   </ItemGroup>
   <ItemGroup>

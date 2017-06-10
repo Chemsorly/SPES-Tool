@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ITU_Scenario.Items;
 using MoreLinq;
 using SPES_Modelverifier_Base;
+using SPES_Modelverifier_Base.Items;
 using SPES_Modelverifier_Base.Models;
 
 namespace ITU_Scenario.ModelChecker

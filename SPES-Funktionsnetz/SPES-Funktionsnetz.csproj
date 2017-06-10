@@ -57,9 +57,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutomataModel.cs" />
+    <Compile Include="Models\AutomataModel.cs" />
     <Compile Include="FunktionsnetzMapping.cs" />
-    <Compile Include="FunktionsnetzModel.cs" />
+    <Compile Include="Models\FunktionsnetzModel.cs" />
     <Compile Include="FunktionsnetzNetwork.cs" />
     <Compile Include="Items\ContextFunction.cs" />
     <Compile Include="Items\Dependency.cs" />

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SPES_Modelverifier_Base.Models;
 using System.Diagnostics;
+using ITU_Scenario.Models;
 using SPES_Modelverifier_Base;
 
 namespace ITU_Scenario.ModelChecker

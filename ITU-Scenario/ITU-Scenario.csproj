@@ -61,7 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BMSCModel.cs" />
+    <Compile Include="Models\BMSCModel.cs" />
     <Compile Include="Items\BMSCReference.cs" />
     <Compile Include="Items\ConnectionArrow.cs" />
     <Compile Include="Items\ConnectionPoint.cs" />
@@ -75,7 +75,7 @@
     <Compile Include="ModelChecker\BmscValidPathChecker.cs" />
     <Compile Include="ScenarioMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="HMSCModel.cs" />
+    <Compile Include="Models\HMSCModel.cs" />
     <Compile Include="ScenarioNetwork.cs" />
   </ItemGroup>
   <ItemGroup>

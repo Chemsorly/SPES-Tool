@@ -4,10 +4,15 @@ using SPES_Modelverifier_Base.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using SPES_Modelverifier_Base.ModelChecker;
+using System.Xml.Serialization;
+using SPES_Modelverifier_Base.Items;
 
 namespace SPES_Modelverifier_Base
 {
@@ -129,18 +134,177 @@ namespace SPES_Modelverifier_Base
         /// exports the model to a given XML file. the model has to be verified prior for the export to work
         /// </summary>
         /// <param name="pFile"></param>
-        public virtual void Export(String pFile)
+        public void Export(String pFile)
         {
-            throw new NotImplementedException();
+            //check if valid first, todo: remove requirement
+            if(this.Validate().Any())
+                throw new Exception("Validation failed prior to export");
+
+            try
+            {
+                //gets all objects from items namespace: all classes defined in Items and Models namespace. 
+                //Sorts out compiler classes, check https://stackoverflow.com/questions/43068213/getting-all-types-under-a-userdefined-assembly
+                Type[] classes = Assembly.GetAssembly(this.GetType()).GetTypes().Where(t => 
+                t.IsClass && 
+                !t.GetTypeInfo().IsDefined(typeof(CompilerGeneratedAttribute)) &&
+                (t.Namespace.EndsWith("Items") || t.Namespace.EndsWith("Models")))
+                .ToArray();
+
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Model>), classes);
+                
+                using (FileStream stream = new FileStream(pFile, FileMode.OpenOrCreate))
+                {
+                    serializer.Serialize(stream, ModelList);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                while (ex.InnerException != null)
+                    ex = ex.InnerException;
+
+                throw ex;
+            }
         }
 
         /// <summary>
         /// imports a given model from an XML file and tries to reconstruct it with the current loaded stencils
         /// </summary>
         /// <param name="pFile"></param>
-        public virtual void Import(String pFile)
+        public void Import(String pFile)
         {
-            throw new NotImplementedException();
+            try
+            {
+                //gets all objects from items namespace: all classes defined in Items and Models namespace. 
+                //Sorts out compiler classes, check https://stackoverflow.com/questions/43068213/getting-all-types-under-a-userdefined-assembly
+                Type[] classes = Assembly.GetAssembly(this.GetType()).GetTypes().Where(t =>
+                        t.IsClass &&
+                        !t.GetTypeInfo().IsDefined(typeof(CompilerGeneratedAttribute)) &&
+                        (t.Namespace.EndsWith("Items") || t.Namespace.EndsWith("Models")))
+                    .ToArray();
+
+                XmlSerializer deserializer = new XmlSerializer(typeof(List<Model>), classes);
+                using (FileStream stream = new FileStream(pFile, FileMode.Open))
+                {
+                    //get models
+                    this.ModelList = (List<Model>)deserializer.Deserialize(stream);
+                }
+
+                //reconstruct by placing objects with proper parameters and setting connections
+                Reconstruct();
+
+            }
+            catch (Exception ex)
+            {
+                while (ex.InnerException != null)
+                    ex = ex.InnerException;
+
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// takes the current ModelList and invokes a reonstruct action on Visio to load a model from an XML file
+        /// </summary>
+        private void Reconstruct()
+        {
+            //get current document
+            IVDocument doc = visioApplication.ActiveDocument;
+
+            //clear
+            foreach (var page in this.visioApplication.ActiveDocument.Pages)
+                page.Delete(0);
+
+            //create temp sheet (because visio can not have 0 sheets)
+            String deletename = "deletemelater" + new Random(1337).Next(0, 1000);
+            this.visioApplication.ActiveDocument.Pages.First().Name = deletename;
+
+            //reconstruct each model one by one
+            foreach (Model model in ModelList)
+            {
+                //create visio page
+                var page = this.visioApplication.ActiveDocument.Pages.Add();
+                page.Name = model.PageName;
+
+                //iterate through all elements and set fields
+                foreach (var item in model.ObjectList)
+                {
+                    //create new visio shape 
+                    var master = GetMasters().FirstOrDefault(t => t.Name == item.TypeName);
+                    if (master != null)
+                    {
+                        try
+                        {
+                            //drop shape at position
+                            var shape = page.Drop(master, item.Locationx, item.Locationy);
+
+                            //set text if applicable
+                            if (!String.IsNullOrEmpty(item.Text))
+                                shape.Text = item.Text;
+
+                            //set height and width; does not work for connection types
+                            if (!(item is Connection))
+                            {
+                                shape.Cells("Height").set_Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric, item.Height);
+                                shape.Cells("Width").set_Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric, item.Width);
+                            }
+                            item.Visioshape = shape;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                            throw;
+                        }
+                    }
+                    else
+                    {
+                       throw new Exception($"Master for {item.TypeName} not found");
+                    }
+                }
+
+                //iterate through all connectors and set connections
+                foreach (var item in model.ObjectList)
+                {
+                    if (item is Connection)
+                    {
+                        try
+                        {
+                            //find to and from shapes
+                            var connection = (Connection) item;
+                            var toshape = model.ObjectList.First(t => t.Uniquename == connection.ToObject.Uniquename)
+                                .Visioshape;
+                            var fromshape = model.ObjectList
+                                .First(t => t.Uniquename == connection.FromObject.Uniquename).Visioshape;
+
+                            //set connection and glue together
+                            var beginxcell = connection.Visioshape.CellsSRC((short)NetOffice.VisioApi.Enums.VisSectionIndices.visSectionObject,
+                                (short)NetOffice.VisioApi.Enums.VisRowIndices.visRowXForm1D,
+                                (short)NetOffice.VisioApi.Enums.VisCellIndices.vis1DBeginX);
+                            beginxcell.GlueTo(fromshape.CellsSRC(
+                                (short)NetOffice.VisioApi.Enums.VisSectionIndices.visSectionObject,
+                                (short)NetOffice.VisioApi.Enums.VisRowIndices.visRowXFormOut,
+                                (short)NetOffice.VisioApi.Enums.VisCellIndices.visXFormPinX));
+
+                            var beginycell = connection.Visioshape.CellsSRC((short)NetOffice.VisioApi.Enums.VisSectionIndices.visSectionObject,
+                                (short)NetOffice.VisioApi.Enums.VisRowIndices.visRowXForm1D,
+                                (short)NetOffice.VisioApi.Enums.VisCellIndices.vis1DEndX);
+                            beginycell.GlueTo(toshape.CellsSRC(
+                                (short)NetOffice.VisioApi.Enums.VisSectionIndices.visSectionObject,
+                                (short)NetOffice.VisioApi.Enums.VisRowIndices.visRowXFormOut,
+                                (short)NetOffice.VisioApi.Enums.VisCellIndices.visXFormPinX));
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                            throw;
+                        }
+                    }
+                }
+
+                //delete stub page
+                this.visioApplication.ActiveDocument.Pages.First(t => t.Name == deletename).Delete(0);
+            }
+
         }
 
         /// <summary>
@@ -232,7 +396,7 @@ namespace SPES_Modelverifier_Base
             //go through all pages and add model elements
             foreach (Page page in this.visioApplication.ActiveDocument.Pages)
             {
-                var model = Activator.CreateInstance(GetTargetModelType(page)) as Model;
+                var model = (Model)Activator.CreateInstance(GetTargetModelType(page));
                 model.ValidationFailedEvent += delegate (ValidationFailedMessage pMessage) { CollectedValidationMessages.Add(pMessage); };
                 model.Initialize(page, Mapping);
                 models.Add(model);
@@ -256,7 +420,7 @@ namespace SPES_Modelverifier_Base
             List<Model> models = new List<Model>();
             foreach (Type type in Mapping.TargetModels)
             {
-                var model = Activator.CreateInstance(type) as Model;
+                var model = (Model)Activator.CreateInstance(type);
                 model.ValidationFailedEvent += delegate (ValidationFailedMessage pMessage) { CollectedValidationMessages.Add(pMessage); };
                 model.Initialize(pPage, Mapping);
                 models.Add(model);
@@ -269,6 +433,22 @@ namespace SPES_Modelverifier_Base
 
             //return type with highest probability rating
             return ratings.MaxBy(t => t.Value).Key;
+        }
+
+        /// <summary>
+        /// returns a list of masters from the active visio application
+        /// </summary>
+        /// <returns>masters list</returns>
+        private List<IVMaster> GetMasters()
+        {
+            if(visioApplication==null)
+                throw new Exception("no visio application detected");
+
+            List<IVMaster> masters = new List<IVMaster>();
+            foreach(Document doc in visioApplication.Documents)
+                foreach(IVMaster master in doc.Masters)
+                    masters.Add(master);
+            return masters;
         }
 
         /// <summary>

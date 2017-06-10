@@ -6,6 +6,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using SPES_Modelverifier_Base.Items;
 using SPES_Modelverifier_Base.ModelChecker;
 
 namespace SPES_Modelverifier_Base.Models
@@ -13,24 +15,28 @@ namespace SPES_Modelverifier_Base.Models
     public abstract class Model
     {
         /// <summary>
-        /// list of allowed items on the model. leave null to allow everything (e.g. when you only have 1 model and don't need to restrict types to models)
+        /// list of allowed items on the model. leave null to allow everything (e.g. when you only have 1 model and don't need to restrict types to models). 
+        /// needs EXPLICIT XmlIgnore in derived class!
         /// </summary>
+        [XmlIgnore]
         public abstract List<Type> AllowedItems { get; }
 
         /// <summary>
         /// defines a list of checkers which are supposed to run on the model
+        /// needs EXPLICIT XmlIgnore in derived class!
         /// </summary>
+        [XmlIgnore]
         public virtual List<Type> CheckersToRun => new List<Type>() { typeof(ModelChecker.Path.ValidPathChecker) };
 
         /// <summary>
         /// the list of all shapes on a sheet
         /// </summary>
-        public List<BaseObject> ObjectList { get; private set; }
+        public List<BaseObject> ObjectList { get; set; }
 
         /// <summary>
         /// the page name
         /// </summary>
-        public String PageName { get; private set; }
+        public String PageName { get; set; }
 
         /// <summary>
         /// event to throw in case of validation exception
@@ -38,15 +44,20 @@ namespace SPES_Modelverifier_Base.Models
         public event ValidationFailedDelegate ValidationFailedEvent;
 
         /// <summary>
-        /// signals if all objects on the model have been initialized
+        /// set true if all objects on the model have been initialized
         /// </summary>
-        public bool ObjectsInitialized { get; private set; }
+        [XmlIgnore]
+        public bool ObjectsInitialized { get; set; }
 
         /// <summary>
-        /// signals if all connections have been initialized
+        /// set true if all connections have been initialized
         /// </summary>
-        public bool ConnectionsInitialized { get; private set; }
+        [XmlIgnore]
+        public bool ConnectionsInitialized { get; set; }
 
+        /// <summary>
+        /// constructor
+        /// </summary>
         public Model()
         {
             ObjectsInitialized = false;

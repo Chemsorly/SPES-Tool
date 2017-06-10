@@ -98,7 +98,8 @@ namespace VisioAddin2013
                 SaveFileDialog dialog = new SaveFileDialog
                 {
                     AddExtension = true,
-                    DefaultExt = "xml"
+                    DefaultExt = "xml",
+                    Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*"
                 };
 
                 if (dialog.ShowDialog() == DialogResult.OK)
