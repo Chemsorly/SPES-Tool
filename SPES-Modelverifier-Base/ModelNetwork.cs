@@ -200,21 +200,21 @@ namespace SPES_Modelverifier_Base
                 foreach (var item in model.ObjectList)
                 {
                     //create new visio shape 
-                    var master = visioApplication.ActiveDocument.MasterShortcuts.FirstOrDefault(t => t.Name == item.type);
+                    var master = visioApplication.ActiveDocument.MasterShortcuts.FirstOrDefault(t => t.Name == item.Type);
                     if (master != null)
                     {
                         try
                         {
-                            var shape = page.Drop(master, item.locationx, item.locationy);
+                            var shape = page.Drop(master, item.Locationx, item.Locationy);
 
-                            if (!String.IsNullOrEmpty(item.text))
-                                shape.Text = item.text;
+                            if (!String.IsNullOrEmpty(item.Text))
+                                shape.Text = item.Text;
 
-                            item.visioshape = shape;
+                            item.Visioshape = shape;
                         }
                         catch (Exception ex)
                         {
-                            System.Windows.Forms.MessageBox.Show(ex.Message);
+                            //System.Windows.Forms.MessageBox.Show(ex.Message);
                         }
                     }
                 }

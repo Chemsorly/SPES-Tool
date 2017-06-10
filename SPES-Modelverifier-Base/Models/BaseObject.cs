@@ -47,71 +47,51 @@ namespace SPES_Modelverifier_Base.Models
         /// <summary>
         /// returns the x value for the center of the shape
         /// </summary>
-        public double Locationx
-        {
-            get
-            {
-                return Visioshape != null
-                    ? Visioshape.Cells("PinX").Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric)
-                    : locationx;
-            }
-            set { locationx = value; }
-        }
-        private double locationx;
+        public double Locationx { get; set; }
 
         /// <summary>
         /// returns the y value for the center of the shape
         /// </summary>
-        public double Locationy
-        {
-            get
-            {
-                return Visioshape != null
-                    ? Visioshape.Cells("PinY").Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric)
-                    : locationy;
-            }
-            set { locationy = value; }
-        }
-        private double locationy;
+        public double Locationy { get; set; }
 
+        /// <summary>
+        /// returns the height of the object
+        /// </summary>
+        public double Height { get; set; }
 
-        public double Height
-        {
-            get
-            {
-                return Visioshape != null
-                    ? Visioshape.Cells("Height").Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric)
-                    : height;
-            }
-            set { height = value; }
-        }
-        private double height;
+        /// <summary>
+        /// returns the width of the object
+        /// </summary>
+        public double Width { get; set; }
 
-        public double Width
-        {
-            get
-            {
-                return Visioshape != null
-                    ? Visioshape.Cells("Width").Result(NetOffice.VisioApi.Enums.VisMeasurementSystem.visMSMetric)
-                    : width;
-            }
-            set { width = value; }
-        }
-        private double width;
-
+        /// <summary>
+        /// returns the coordinates for the topleft edge
+        /// </summary>
         public Coordinate Locationtopleft => new Coordinate() {X = Locationx - Width * 0.5, Y = Locationy + Height * 0.5 } ;
+
+        /// <summary>
+        /// returns the coordinates for the topright edge
+        /// </summary>
         public Coordinate Locationtopright => new Coordinate() { X = Locationx + Width * 0.5, Y = Locationy + Height * 0.5 };
+
+        /// <summary>
+        /// returns the coordinates for the bottomleft edge
+        /// </summary>
         public Coordinate Locationbottomleft => new Coordinate() { X = Locationx - Width * 0.5, Y = Locationy - Height * 0.5 };
+
+        /// <summary>
+        /// returns the coordinates for the bottomright edge
+        /// </summary>
         public Coordinate Locationbottomright => new Coordinate() { X = Locationx + Width * 0.5, Y = Locationy - Height * 0.5 };
 
-        public virtual void Validate()
-        {
+        /// <summary>
+        /// stub for validate function
+        /// </summary>
+        public virtual void Validate() { }
 
-        }
-
-        public virtual void Initialize()
-        {
-            
-        }
+        /// <summary>
+        /// stub for initialize function
+        /// </summary>
+        public virtual void Initialize() { }
     }
 }
