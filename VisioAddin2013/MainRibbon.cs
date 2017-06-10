@@ -159,7 +159,7 @@ namespace VisioAddin2013
             if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
             {
                 Version v = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion;
-                System.Windows.Forms.MessageBox.Show("Version: " + String.Format(@" v{0}.{1}.{2}.{3}", v.Major, v.Minor, v.Build, v.Revision));
+                System.Windows.Forms.MessageBox.Show($@"Version: {String.Format(@" v{0}.{1}.{2}.{3}", v.Major, v.Minor, v.Build, v.Revision)} ");
             }
             else
             {
