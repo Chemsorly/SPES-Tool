@@ -34,12 +34,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainRibbon));
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
             this.ModelTargetDropDown = this.Factory.CreateRibbonDropDown();
             this.VerifyButton = this.Factory.CreateRibbonButton();
             this.ImportButton = this.Factory.CreateRibbonButton();
             this.ExportButton = this.Factory.CreateRibbonButton();
+            this.AboutButton = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.SuspendLayout();
@@ -54,6 +56,7 @@
             // group1
             // 
             this.group1.Items.Add(this.ModelTargetDropDown);
+            this.group1.Items.Add(this.AboutButton);
             this.group1.Items.Add(this.VerifyButton);
             this.group1.Items.Add(this.ImportButton);
             this.group1.Items.Add(this.ExportButton);
@@ -69,21 +72,37 @@
             // 
             // VerifyButton
             // 
+            this.VerifyButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.VerifyButton.Image = ((System.Drawing.Image)(resources.GetObject("VerifyButton.Image")));
             this.VerifyButton.Label = "Verify";
             this.VerifyButton.Name = "VerifyButton";
+            this.VerifyButton.ShowImage = true;
             this.VerifyButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.VerifyButton_Click);
             // 
             // ImportButton
             // 
+            this.ImportButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.ImportButton.Image = ((System.Drawing.Image)(resources.GetObject("ImportButton.Image")));
             this.ImportButton.Label = "Import";
             this.ImportButton.Name = "ImportButton";
+            this.ImportButton.ShowImage = true;
             this.ImportButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ImportButton_Click);
             // 
             // ExportButton
             // 
+            this.ExportButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.ExportButton.Image = ((System.Drawing.Image)(resources.GetObject("ExportButton.Image")));
             this.ExportButton.Label = "Export";
             this.ExportButton.Name = "ExportButton";
+            this.ExportButton.ShowImage = true;
             this.ExportButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ExportButton_Click);
+            // 
+            // AboutButton
+            // 
+            this.AboutButton.Image = ((System.Drawing.Image)(resources.GetObject("AboutButton.Image")));
+            this.AboutButton.Label = "About";
+            this.AboutButton.Name = "AboutButton";
+            this.AboutButton.ShowImage = true;
             // 
             // MainRibbon
             // 
@@ -107,6 +126,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton VerifyButton;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton ImportButton;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton ExportButton;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton AboutButton;
     }
 
     partial class ThisRibbonCollection
