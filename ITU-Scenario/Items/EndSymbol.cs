@@ -1,13 +1,9 @@
-﻿using SPES_Modelverifier_Base.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SPES_Modelverifier_Base.Items;
+using SPES_Modelverifier_Base.Models;
 
-namespace ITU_Scenario
+namespace ITU_Scenario.Items
 {
-    internal class EndSymbol : StartEndItem
+    public class EndSymbol : StartEndItem
     {
         public override bool IsStart => false;
     }

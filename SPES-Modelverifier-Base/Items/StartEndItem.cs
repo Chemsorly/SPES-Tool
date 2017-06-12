@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
-namespace SPES_Modelverifier_Base.Models
+namespace SPES_Modelverifier_Base.Items
 {
     public abstract class StartEndItem : Item
     {

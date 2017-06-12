@@ -1,10 +1,10 @@
 ﻿using SPES_Modelverifier_Base;
-using SPES_Zielmodell.Connectors;
 using SPES_Zielmodell.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SPES_Zielmodell.Models;
 
 namespace SPES_Zielmodell
 {

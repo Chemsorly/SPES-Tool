@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using SPES_Modelverifier_Base.Items;
 
 namespace SPES_Modelverifier_Base
 {
@@ -27,6 +28,7 @@ namespace SPES_Modelverifier_Base
             if (modelObject != null)
             {
                 modelObject.ParentModel = pParentmodel;
+                modelObject.TypeName = GetBaseNameFromUniquename(pShape.Name);
                 modelObject.Uniquename = pShape.Name;
                 modelObject.Visiopage = pShape.ContainingPage.Name;
                 modelObject.Visioshape = pShape;

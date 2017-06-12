@@ -1,13 +1,9 @@
-﻿using SPES_Modelverifier_Base.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SPES_Modelverifier_Base.Items;
+using SPES_Modelverifier_Base.Models;
 
-namespace SPES_Funktionsnetz
+namespace SPES_Funktionsnetz.Items
 {
-    internal class Dependency : Item
+    public class Dependency : Item
     {
         public override bool CanHaveDuplicateText => true;
     }

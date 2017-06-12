@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MoreLinq;
 
-namespace SPES_Modelverifier_Base.Models
+namespace SPES_Modelverifier_Base.Items
 {
     public abstract class Container : BaseObject
     {
