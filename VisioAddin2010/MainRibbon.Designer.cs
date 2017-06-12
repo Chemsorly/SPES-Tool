@@ -38,10 +38,10 @@
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
             this.ModelTargetDropDown = this.Factory.CreateRibbonDropDown();
+            this.AboutButton = this.Factory.CreateRibbonButton();
             this.VerifyButton = this.Factory.CreateRibbonButton();
             this.ImportButton = this.Factory.CreateRibbonButton();
             this.ExportButton = this.Factory.CreateRibbonButton();
-            this.AboutButton = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.SuspendLayout();
@@ -60,7 +60,7 @@
             this.group1.Items.Add(this.VerifyButton);
             this.group1.Items.Add(this.ImportButton);
             this.group1.Items.Add(this.ExportButton);
-            this.group1.Label = "SPES";
+            this.group1.Label = "SPES Modelverification";
             this.group1.Name = "group1";
             // 
             // ModelTargetDropDown
@@ -69,6 +69,13 @@
             this.ModelTargetDropDown.Name = "ModelTargetDropDown";
             this.ModelTargetDropDown.ShowLabel = false;
             this.ModelTargetDropDown.SelectionChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ModelTargetDropDown_SelectionChanged);
+            // 
+            // AboutButton
+            // 
+            this.AboutButton.Image = ((System.Drawing.Image)(resources.GetObject("AboutButton.Image")));
+            this.AboutButton.Label = "About";
+            this.AboutButton.Name = "AboutButton";
+            this.AboutButton.ShowImage = true;
             // 
             // VerifyButton
             // 
@@ -96,13 +103,6 @@
             this.ExportButton.Name = "ExportButton";
             this.ExportButton.ShowImage = true;
             this.ExportButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ExportButton_Click);
-            // 
-            // AboutButton
-            // 
-            this.AboutButton.Image = ((System.Drawing.Image)(resources.GetObject("AboutButton.Image")));
-            this.AboutButton.Label = "About";
-            this.AboutButton.Name = "AboutButton";
-            this.AboutButton.ShowImage = true;
             // 
             // MainRibbon
             // 
