@@ -77,7 +77,7 @@
             this.VerifyButton.Label = "Verify";
             this.VerifyButton.Name = "VerifyButton";
             this.VerifyButton.ShowImage = true;
-            this.VerifyButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.VerifyButton_Click);
+            this.VerifyButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Verify_Click);
             // 
             // ImportButton
             // 
