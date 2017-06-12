@@ -271,11 +271,18 @@
       <Name>SPES-Zielmodell</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Content Include="VSTO\Microsoft.Office.Tools.Common.v4.0.Utilities.dll">
+    <Content Include="Icons\appbar_control_play.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="VSTO\Microsoft.Office.Tools.v4.0.Framework.dll">
+    <Content Include="Icons\appbar_download.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\appbar_information_circle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\appbar_upload.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

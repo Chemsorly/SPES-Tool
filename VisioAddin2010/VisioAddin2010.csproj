@@ -183,6 +183,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -276,6 +277,24 @@
       <Project>{b43f3525-9a96-40d4-9e2b-bd9bf9104008}</Project>
       <Name>SPES-Modelverifier-Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SPES-Zielmodell\SPES-Zielmodell.csproj">
+      <Project>{11d350e1-4892-4ea7-b93c-9cee06e48d2a}</Project>
+      <Name>SPES-Zielmodell</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icons\appbar_control_play.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\appbar_download.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\appbar_information_circle.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\appbar_upload.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="VSTO\Microsoft.Office.Tools.Common.v4.0.Utilities.dll">
