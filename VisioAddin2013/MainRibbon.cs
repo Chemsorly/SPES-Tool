@@ -95,6 +95,10 @@ namespace VisioAddin2013
         {
             try
             {
+                //check before export. todo remove
+                if (!this.activeModelverifier.CanExport())
+                    throw new Exception("Verification failed.");
+
                 SaveFileDialog dialog = new SaveFileDialog
                 {
                     AddExtension = true,

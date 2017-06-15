@@ -131,7 +131,7 @@ namespace SPES_Modelverifier_Base
         }
 
         /// <summary>
-        /// does a pre check if verification can be done
+        /// does a pre check if export can be done. currently requires to be a valid model TODO
         /// </summary>
         /// <returns></returns>
         public bool CanExport()
