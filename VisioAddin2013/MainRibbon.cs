@@ -66,7 +66,7 @@ namespace VisioAddin2013
             {
                 try
                 {
-                    var results = this.activeModelverifier.Validate();
+                    var results = this.activeModelverifier.VerifyModels();
                     if(results.Count > 0)
                     {
                         //show results window

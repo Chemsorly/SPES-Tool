@@ -83,7 +83,7 @@ namespace SPES_Modelverifier_Base
         /// <summary>
         /// verification method for general verification purposes. Overwrite for additional model-specific checks and call base.Verify() to do base checks. Throws exception if verification fails
         /// </summary>
-        public virtual List<ValidationFailedMessage> Validate()
+        public virtual List<ValidationFailedMessage> VerifyModels()
         {
             //create empty list (empty = no errors)
             CollectedValidationMessages = new List<ValidationFailedMessage>();
@@ -131,15 +131,20 @@ namespace SPES_Modelverifier_Base
         }
 
         /// <summary>
+        /// does a pre check if verification can be done
+        /// </summary>
+        /// <returns></returns>
+        public bool CanExport()
+        {
+            return !this.VerifyModels().Any();
+        }
+
+        /// <summary>
         /// exports the model to a given XML file. the model has to be verified prior for the export to work
         /// </summary>
         /// <param name="pFile"></param>
         public void Export(String pFile)
         {
-            //check if valid first, todo: remove requirement
-            if(this.Validate().Any())
-                throw new Exception("Validation failed prior to export");
-
             try
             {
                 //gets all objects from items namespace: all classes defined in Items and Models namespace. 
