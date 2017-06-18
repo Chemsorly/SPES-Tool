@@ -46,10 +46,10 @@
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
     <UpdateIntervalUnits>days</UpdateIntervalUnits>
-    <ProductName>VisioAddin2010</ProductName>
+    <ProductName>SPES Modelling Toolbox for Visio 2010</ProductName>
     <PublisherName>Paluno</PublisherName>
     <SupportUrl />
-    <FriendlyName>VisioAddin2010</FriendlyName>
+    <FriendlyName>SPES Modelling Toolbox for Visio 2010</FriendlyName>
     <OfficeApplicationDescription />
     <LoadBehavior>3</LoadBehavior>
   </PropertyGroup>

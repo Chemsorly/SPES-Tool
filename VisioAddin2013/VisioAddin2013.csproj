@@ -40,10 +40,10 @@
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
     <UpdateIntervalUnits>days</UpdateIntervalUnits>
-    <ProductName>VisioAddin2013</ProductName>
+    <ProductName>SPES Modelling Toolbox for Visio 2013-2016</ProductName>
     <PublisherName>Paluno</PublisherName>
     <SupportUrl />
-    <FriendlyName>VisioAddin2013</FriendlyName>
+    <FriendlyName>SPES Modelling Toolbox for Visio 2013-2016</FriendlyName>
     <OfficeApplicationDescription />
     <LoadBehavior>3</LoadBehavior>
   </PropertyGroup>
