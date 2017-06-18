@@ -43,7 +43,7 @@ namespace ITU_Scenario.ModelChecker
             //start first node with first message
             var firstmessage = (Message)startmessages.First();
             var node = firstmessage.FromObject;
-            StartNode = new BmscNode((Item)node,null,1, firstmessage.Locationy, new List<Container>(), null);
+            StartNode = new BmscNode((Item)node,null,1, firstmessage.Locationy, new HashSet<Container>());
         }
 
 
