@@ -24,6 +24,10 @@ namespace ITU_Scenario.ModelChecker
         /// </summary>
         private  BmscNode StartNode { get; set; }
 
+        /// <summary>
+        /// initializes the tree model
+        /// </summary>
+        /// <param name="pModel">the bmsc to create a tree from</param>
         public void Initialize(BMSCModel pModel)
         {
             //find start item
@@ -46,13 +50,19 @@ namespace ITU_Scenario.ModelChecker
             StartNode = new BmscNode((Item)node,null,1, firstmessage.Locationy, new HashSet<Container>());
         }
 
-
+        /// <summary>
+        /// calls the validate function
+        /// </summary>
         public void Validate()
         {
             //check all valid paths if they include all items
             ValidateAllNodesInValidPaths(StartNode);
         }
 
+        /// <summary>
+        /// creates a n-tree based from a root node
+        /// </summary>
+        /// <param name="pRoot">the root node to start the tree from</param>
         private void ValidateAllNodesInValidPaths(BmscNode pRoot)
         {
             //http://stackoverflow.com/questions/5691926/traverse-every-unique-path-from-root-to-leaf-in-an-arbitrary-tree-structure
@@ -76,6 +86,12 @@ namespace ITU_Scenario.ModelChecker
                 missingmessages.ForEach(t => ValidationFailedEvent?.Invoke(new ValidationFailedMessage(4, $"Message({t.Text}) has no valid path.", t)));
         }
 
+        /// <summary>
+        /// traverses the tree recursively
+        /// </summary>
+        /// <param name="pRoot">the node to start from</param>
+        /// <param name="pPath">the current path</param>
+        /// <param name="pValidpaths">all valid paths. return value</param>
         private static void TraverseNodes(BmscNode pRoot, List<BmscNode> pPath, List<List<BmscNode>> pValidpaths)
         {
             pPath.Add(pRoot);
