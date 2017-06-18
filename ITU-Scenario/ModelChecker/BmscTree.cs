@@ -28,12 +28,22 @@ namespace ITU_Scenario.ModelChecker
         {
             //find start item
             //TODO assumption: all messages are perfectly horizontally aligned
-            var startmessage = (Message)pModel.ObjectList.Where(t => t is Message).MaxBy(t => t.Locationy);
-            if(startmessage == null)
-                throw new ValidationFailedException(null, "Start Item not found");
+            //check how many possible start messages exist
+            var maxvalue = pModel.ObjectList.Where(t => t is Message).Max(t => t.Locationy);
+            var startmessages = pModel.ObjectList.Where(t => t is Message && t.Locationy == maxvalue);
 
-            var node = startmessage.FromObject;
-            StartNode = new BmscNode((Item)node,null,1, startmessage.Locationy);
+            //checks
+            //case more than 1 possible starts found
+            if(startmessages.Count() > 1)
+                throw new ValidationFailedException(startmessages.First(), "More than one possible starting message found.");
+            //case no start found
+            else if (!startmessages.Any())
+                throw new ValidationFailedException(null, "Start message not found");
+            
+            //start first node with first message
+            var firstmessage = (Message)startmessages.First();
+            var node = firstmessage.FromObject;
+            StartNode = new BmscNode((Item)node,null,1, firstmessage.Locationy, new HashSet<Container>());
         }
 
 

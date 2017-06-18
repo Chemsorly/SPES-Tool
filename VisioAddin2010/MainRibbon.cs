@@ -66,7 +66,7 @@ namespace VisioAddin2010
             {
                 try
                 {
-                    var results = this.activeModelverifier.Validate();
+                    var results = this.activeModelverifier.VerifyModels();
                     if (results.Count > 0)
                     {
                         //show results window
@@ -95,6 +95,10 @@ namespace VisioAddin2010
         {
             try
             {
+                //check before export. todo remove
+                if (!this.activeModelverifier.CanExport())
+                    throw new Exception("Verification failed.");
+
                 SaveFileDialog dialog = new SaveFileDialog
                 {
                     AddExtension = true,

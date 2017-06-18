@@ -297,12 +297,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="VSTO\Microsoft.Office.Tools.Common.v4.0.Utilities.dll">
+    <None Include="VSTO\Microsoft.Office.Tools.Common.v4.0.Utilities.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="VSTO\Microsoft.Office.Tools.v4.0.Framework.dll">
+    </None>
+    <None Include="VSTO\Microsoft.Office.Tools.v4.0.Framework.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

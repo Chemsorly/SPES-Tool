@@ -21,10 +21,10 @@ namespace SPES_Funktionsnetz
         /// <summary>
         /// overriden verify method to also include model specific checks (e.g. cross model checking)
         /// </summary>
-        public override List<ValidationFailedMessage> Validate()
+        public override List<ValidationFailedMessage> VerifyModels()
         {
             //step 1-3; if parent function detected errors, return them
-            base.Validate();
+            base.VerifyModels();
             if (CollectedValidationMessages.Any())
                 return CollectedValidationMessages;
 

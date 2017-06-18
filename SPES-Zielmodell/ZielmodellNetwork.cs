@@ -17,10 +17,10 @@ namespace SPES_Zielmodell
 
         protected override Type MappingListType => typeof(ZielmodellMapping);
 
-        public override List<ValidationFailedMessage> Validate()
+        public override List<ValidationFailedMessage> VerifyModels()
         {
             //step 1-3: meta-model
-            base.Validate();
+            base.VerifyModels();
 
             //step 4
 
