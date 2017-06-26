@@ -2,43 +2,100 @@
 using NetOffice.VisioApi;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using SPES_Modelverifier_Base.Items;
+using SPES_Modelverifier_Base.ModelChecker;
 
 namespace SPES_Modelverifier_Base.Models
 {
     public abstract class Model
     {
         /// <summary>
-        /// list of allowed items on the model. leave null to allow everything
+        /// list of allowed items on the model. leave null to allow everything (e.g. when you only have 1 model and don't need to restrict types to models). 
+        /// needs EXPLICIT XmlIgnore in derived class!
         /// </summary>
+        [XmlIgnore]
         public abstract List<Type> AllowedItems { get; }
+
+        /// <summary>
+        /// defines a list of checkers which are supposed to run on the model
+        /// needs EXPLICIT XmlIgnore in derived class!
+        /// </summary>
+        [XmlIgnore]
+        public virtual List<Type> CheckersToRun => new List<Type>() { typeof(ModelChecker.Path.ValidPathChecker) };
 
         /// <summary>
         /// the list of all shapes on a sheet
         /// </summary>
-        public List<BaseObject> ObjectList { get; }
+        public List<BaseObject> ObjectList { get; set; }
 
         /// <summary>
         /// the page name
         /// </summary>
-        public String PageName { get; }
+        public String PageName { get; set; }
+
+        /// <summary>
+        /// event to throw in case of validation exception
+        /// </summary>
+        public event ValidationFailedDelegate ValidationFailedEvent;
+
+        /// <summary>
+        /// set true if all objects on the model have been initialized
+        /// </summary>
+        [XmlIgnore]
+        public bool ObjectsInitialized { get; set; }
+
+        /// <summary>
+        /// set true if all connections have been initialized
+        /// </summary>
+        [XmlIgnore]
+        public bool ConnectionsInitialized { get; set; }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        public Model()
+        {
+            ObjectsInitialized = false;
+            ConnectionsInitialized = false;
+        }
 
         /// <summary>
         /// constructor
         /// </summary>
         /// <param name="pPage">the visio page</param>
         /// <param name="pMapping">the mapping to create the objects</param>
-        public Model(Page pPage, MappingList pMapping)
+        public void Initialize(Page pPage, MappingList pMapping)
         {
+            //var init
             this.PageName = pPage.Name;
 
-            //generate objects
-            this.ObjectList = GenerateObjects(this,pPage, pMapping);
+            //generate and initialize objects
+            this.ObjectList = GenerateObjects(this, pPage, pMapping);
+            this.ObjectList.ForEach(t => t.Initialize());
+            this.ObjectsInitialized = true;
 
-            //populate containers
-            this.ObjectList.Where(t => t is Container).ForEach(t => (t as Container).FindContainingItems());
+            //set connections
+            this.ObjectList.ForEach(t =>
+            {
+                var connection = t as Connection;
+                if (connection != null)
+                {
+                    try
+                    {
+                        connection.SetConnections(ObjectList);
+                    }
+                    catch (ValidationFailedException ex)
+                    {
+                        ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, ex));
+                    }
+                }
+            });
+            this.ConnectionsInitialized = true;
         }
 
         /// <summary>
@@ -48,40 +105,53 @@ namespace SPES_Modelverifier_Base.Models
         {
             //check if sheet is not empty
             if (ObjectList.Count < 1)
-                throw new Exception(this.PageName + " is an empty model.");
+            {
+                ValidationFailedEvent?.Invoke(new ValidationFailedMessage(1, $"model {this.PageName} is empty"));
+                return;
+            }
 
             //check if elements are allowed on model
             if (AllowedItems != null)
-                foreach (var element in ObjectList)                
-                    if (!AllowedItems.Any(t => t == element.GetType()) && element.GetType() != typeof(NRO))
-                        throw new ValidationFailedException(element, "Object is not allowed on the model.");
+                foreach (var element in ObjectList)
+                    if (AllowedItems.All(t => t != element.GetType()) && element.GetType() != typeof(NRO))
+                    {
+                        ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, "element not allowed", element));
+                    }
 
             //check if elements exist double on any sheet
-            List<BaseObject> objects = ObjectList.Where(t => t is Item && !String.IsNullOrEmpty(t.text) && !((t as Item).CanHaveDuplicateText)).ToList();
-            foreach(var obj in objects)
-                if(objects.Count(t => t.text == obj.text) > 1)
-                    throw new ValidationFailedException(obj, this.PageName + " contains elements with duplicate text");
-
-            //ONLY CHECK IF AT LEAST ONE OF THOSE OBJECTS EXIST; deadlock check here
-            var startenditems = this.ObjectList.Where(t => t is StartEndItem);
-            if (startenditems.Any())
-            {
-                //check if start item is unique; check if minimum one end item exists;
-                if (startenditems.Count(t => (t as StartEndItem).IsStart) > 1)
-                    throw new ValidationFailedException(startenditems.First(t => (t as StartEndItem).IsStart), "Model contains more than one start item.");
-                if (startenditems.Count(t => !(t as StartEndItem).IsStart) == 0)
-                    throw new ValidationFailedException(startenditems.First(), "Model contains no enditems.");           
-            }
-
-            //set connections in the connector objects
-            ObjectList.ForEach(t =>
-            {
-                if (t is Connection)
-                    (t as Connection).SetConnections(ObjectList);
-            });
+            List<BaseObject> objects = ObjectList.Where(t => t is Item && !String.IsNullOrEmpty(t.Text) && !((t as Item).CanHaveDuplicateText)).ToList();
+            foreach (var obj in objects)
+                if (objects.Count(t => t.Text == obj.Text) > 1)
+                {
+                    ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, $"{this.PageName} contains elements with duplicate text", obj));
+                }
 
             //do checks on objects, if implemented
-            ObjectList.ForEach(t => t.Validate());
+            ObjectList.ForEach(t =>
+            {
+                try
+                {
+                    t.Validate();
+                }
+                catch(ValidationFailedException ex)
+                {
+                    ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, ex));
+                }
+            });
+
+            //run checkers if any specified
+            foreach (var checkertype in CheckersToRun)
+            {
+                //check checker
+                Debug.Assert(checkertype.IsSubclassOf(typeof(IModelChecker)));
+
+                //create defined checker
+                var checker = (IModelChecker)Activator.CreateInstance(checkertype);
+                checker.ValidationFailedEvent += delegate (ValidationFailedMessage pMessage) { ValidationFailedEvent?.Invoke(pMessage); };
+
+                //run initialize method
+                checker.Initialize(this);
+            }
         }
 
         /// <summary>
@@ -96,7 +166,7 @@ namespace SPES_Modelverifier_Base.Models
                 return ObjectList.Count;
         }
 
-        static List<BaseObject> GenerateObjects(Model pParentmodel, Page pPage, MappingList pMapping)
+        private List<BaseObject> GenerateObjects(Model pParentmodel, Page pPage, MappingList pMapping)
         {
             List<BaseObject> ObjectList = new List<BaseObject>();
 
@@ -111,7 +181,7 @@ namespace SPES_Modelverifier_Base.Models
                 else
                 {
                     //exception of no matching model object type is found
-                    throw new Exception($"Could not match shape: \"{shape.Name}\"");
+                    ValidationFailedEvent?.Invoke(new ValidationFailedMessage(1, $"could not match shape {shape.Name}", null));
                 }
             }
 

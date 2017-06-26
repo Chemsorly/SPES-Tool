@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SPES-Modelverifier-Base")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Submodule for the SPES Modelverifier Plugin")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Paluno")]
 [assembly: AssemblyProduct("SPES-Modelverifier-Base")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]

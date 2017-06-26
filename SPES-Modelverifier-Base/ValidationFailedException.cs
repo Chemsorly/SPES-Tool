@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SPES_Modelverifier_Base.Items;
 
 namespace SPES_Modelverifier_Base
 {
@@ -13,7 +14,6 @@ namespace SPES_Modelverifier_Base
         /// the model object the exception is referencing to
         /// </summary>
         public BaseObject ExceptionObject { get; set; }
-
         /// <summary>
         /// constructor
         /// </summary>

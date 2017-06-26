@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SPES_Funktionsnetz.Items;
+using SPES_Funktionsnetz.Models;
 
 namespace SPES_Funktionsnetz
 {
-    class FunktionsnetzMapping : MappingList
+    internal class FunktionsnetzMapping : MappingList
     {
         protected override Dictionary<string, Type> Mapping => new Dictionary<String, Type>()
         {
