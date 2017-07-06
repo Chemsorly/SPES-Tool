@@ -115,7 +115,7 @@ namespace SPES_Modelverifier_Base.Models
                 foreach (var element in ObjectList)
                     if (AllowedItems.All(t => t != element.GetType()) && element.GetType() != typeof(NRO))
                     {
-                        ValidationFailedEvent?.Invoke(new ValidationFailedMessage(2, "element not allowed", element));
+                        ValidationFailedEvent?.Invoke(new ValidationFailedMessage(1, "element not allowed", element));
                     }
 
             //check if elements exist double on any sheet
