@@ -62,6 +62,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Items\HMSCInlineExpressionAlternative.cs" />
+    <Compile Include="ModelChecker\HmscNode.cs" />
+    <Compile Include="ModelChecker\HmscValidPathChecker.cs" />
     <Compile Include="Models\BMSCModel.cs" />
     <Compile Include="Items\BMSCReference.cs" />
     <Compile Include="Items\ConnectionArrow.cs" />
