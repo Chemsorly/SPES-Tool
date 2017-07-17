@@ -33,8 +33,8 @@ namespace SPES_Modelverifier_Base
         /// </summary>
         protected virtual List<Type> CheckersToRun => new List<Type>() {  };
 
-        private readonly Application visioApplication;
-        private readonly MappingList Mapping;
+        private readonly Application _visioApplication;
+        private readonly MappingList _mapping;
         protected List<Model> ModelList;
         protected List<ValidationFailedMessage> CollectedValidationMessages;
 
@@ -64,14 +64,14 @@ namespace SPES_Modelverifier_Base
                 throw new ArgumentNullException(nameof(pApplication));
 
             CollectedValidationMessages = new List<ValidationFailedMessage>();
-            visioApplication = pApplication;
+            _visioApplication = pApplication;
 
             //gets called when document is loaded
-            visioApplication.DocumentCreatedEvent += VisioApplication_DocumentCreatedOrLoadedEvent;
-            visioApplication.DocumentOpenedEvent += VisioApplication_DocumentCreatedOrLoadedEvent;
+            _visioApplication.DocumentCreatedEvent += VisioApplication_DocumentCreatedOrLoadedEvent;
+            _visioApplication.DocumentOpenedEvent += VisioApplication_DocumentCreatedOrLoadedEvent;
 
             // ReSharper disable once VirtualMemberCallInConstructor
-            Mapping = Activator.CreateInstance(MappingListType) as MappingList;
+            _mapping = Activator.CreateInstance(MappingListType) as MappingList;
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace SPES_Modelverifier_Base
                 {
                     var correspondingmodel = ModelList.FirstOrDefault(t => t.PageName == modelref.Text);
                     if (correspondingmodel == null)
-                        CollectedValidationMessages.Add(new ValidationFailedMessage(3, "Could not locate matching submodel.", modelref));
+                        NotifyVerificationFailed(modelref,3, "Could not locate matching submodel.");
                     else
                         ((ModelReference) modelref).LinkedModel = correspondingmodel;
                 }
@@ -121,7 +121,7 @@ namespace SPES_Modelverifier_Base
 
                 //create defined checker
                 var checker = (IModelNetworkChecker)Activator.CreateInstance(checkertype);
-                checker.ValidationFailedEvent += delegate (ValidationFailedMessage pMessage) { CollectedValidationMessages.Add(pMessage); };
+                checker.ValidationFailedEvent += NotifyVerificationFailed;
 
                 //run initialize method
                 checker.Initialize(this);
@@ -214,21 +214,21 @@ namespace SPES_Modelverifier_Base
         private void Reconstruct()
         {
             //get current document
-            IVDocument doc = visioApplication.ActiveDocument;
+            IVDocument doc = _visioApplication.ActiveDocument;
 
             //clear
-            foreach (var page in this.visioApplication.ActiveDocument.Pages)
+            foreach (var page in this._visioApplication.ActiveDocument.Pages)
                 page.Delete(0);
 
             //create temp sheet (because visio can not have 0 sheets)
             String deletename = "deletemelater" + new Random(1337).Next(0, 1000);
-            this.visioApplication.ActiveDocument.Pages.First().Name = deletename;
+            this._visioApplication.ActiveDocument.Pages.First().Name = deletename;
 
             //reconstruct each model one by one
             foreach (Model model in ModelList)
             {
                 //create visio page
-                var page = this.visioApplication.ActiveDocument.Pages.Add();
+                var page = this._visioApplication.ActiveDocument.Pages.Add();
                 page.Name = model.PageName;
 
                 //iterate through all elements and set fields
@@ -307,7 +307,7 @@ namespace SPES_Modelverifier_Base
                 }
 
                 //delete stub page
-                this.visioApplication.ActiveDocument.Pages.First(t => t.Name == deletename).Delete(0);
+                this._visioApplication.ActiveDocument.Pages.First(t => t.Name == deletename).Delete(0);
             }
 
         }
@@ -323,11 +323,11 @@ namespace SPES_Modelverifier_Base
                 foreach (var file in ShapeTemplateFiles)
                 { 
                     //check if file exists, if not, download from server
-                    if (!System.IO.File.Exists(System.IO.Path.Combine(this.visioApplication.MyShapesPath, file)))
+                    if (!System.IO.File.Exists(System.IO.Path.Combine(this._visioApplication.MyShapesPath, file)))
                     {
                         using (var client = new System.Net.WebClient())
                         {
-                            client.DownloadFile($"https://releases.chemsorly.com/SPES-Modelverifier/visiostencils/{file}", System.IO.Path.Combine(this.visioApplication.MyShapesPath, file));
+                            client.DownloadFile($"https://releases.chemsorly.com/SPES-Modelverifier/visiostencils/{file}", System.IO.Path.Combine(this._visioApplication.MyShapesPath, file));
                         }
                         stencilDownloaded = true;
                     }
@@ -353,15 +353,15 @@ namespace SPES_Modelverifier_Base
             try
             {
                 //check if current opening document is not on the shape list
-                if (!ShapeTemplateFiles.Any(t => this.visioApplication.Documents.Any(c => c.Name == t)) && !visioApplication.ActiveDocument.Name.Contains(".vsx") && !visioApplication.ActiveDocument.Name.Contains(".vssx"))
+                if (!ShapeTemplateFiles.Any(t => this._visioApplication.Documents.Any(c => c.Name == t)) && !_visioApplication.ActiveDocument.Name.Contains(".vsx") && !_visioApplication.ActiveDocument.Name.Contains(".vssx"))
                 {
                     //cycle all files that have to be opened
                     foreach (var file in ShapeTemplateFiles)
                     {
                         //check if already opened, if not -> open
-                        if (!this.visioApplication.Documents.Any(t => t.Name == file))
+                        if (!this._visioApplication.Documents.Any(t => t.Name == file))
                         {
-                             this.visioApplication.Documents.OpenEx(file, (short)NetOffice.VisioApi.Enums.VisOpenSaveArgs.visOpenDocked | (short)NetOffice.VisioApi.Enums.VisOpenSaveArgs.visOpenRO);
+                             this._visioApplication.Documents.OpenEx(file, (short)NetOffice.VisioApi.Enums.VisOpenSaveArgs.visOpenDocked | (short)NetOffice.VisioApi.Enums.VisOpenSaveArgs.visOpenRO);
                         }
                     }                    
                 }
@@ -379,7 +379,7 @@ namespace SPES_Modelverifier_Base
         {
             try
             {
-                List<IVDocument> documents = this.visioApplication.Documents.Where(t => ShapeTemplateFiles.Any(c => c == t.Name)).ToList();
+                List<IVDocument> documents = this._visioApplication.Documents.Where(t => ShapeTemplateFiles.Any(c => c == t.Name)).ToList();
                 for (int i = 0; i < documents.Count; i++)
                     documents[i].Close();
             }
@@ -399,11 +399,11 @@ namespace SPES_Modelverifier_Base
             var models = new List<Model>();
 
             //go through all pages and add model elements
-            foreach (Page page in this.visioApplication.ActiveDocument.Pages)
+            foreach (Page page in this._visioApplication.ActiveDocument.Pages)
             {
                 var model = (Model)Activator.CreateInstance(GetTargetModelType(page));
-                model.ValidationFailedEvent += delegate (ValidationFailedMessage pMessage) { CollectedValidationMessages.Add(pMessage); };
-                model.Initialize(page, Mapping);
+                model.ValidationFailedEvent += NotifyVerificationFailed;
+                model.Initialize(page, _mapping);
                 models.Add(model);
             }
 
@@ -418,16 +418,15 @@ namespace SPES_Modelverifier_Base
         private Type GetTargetModelType(Page pPage)
         {
             //check how many model types exist, if one return that one
-            if (Mapping.TargetModels.Count == 1)
-                return Mapping.TargetModels.First();
+            if (_mapping.TargetModels.Count == 1)
+                return _mapping.TargetModels.First();
 
             //create a model for each model type
             List<Model> models = new List<Model>();
-            foreach (Type type in Mapping.TargetModels)
+            foreach (Type type in _mapping.TargetModels)
             {
                 var model = (Model)Activator.CreateInstance(type);
-                model.ValidationFailedEvent += delegate (ValidationFailedMessage pMessage) { CollectedValidationMessages.Add(pMessage); };
-                model.Initialize(pPage, Mapping);
+                model.Initialize(pPage, _mapping);
                 models.Add(model);
             }
 
@@ -446,11 +445,11 @@ namespace SPES_Modelverifier_Base
         /// <returns>masters list</returns>
         private List<IVMaster> GetMasters()
         {
-            if(visioApplication==null)
+            if(_visioApplication==null)
                 throw new Exception("no visio application detected");
 
             List<IVMaster> masters = new List<IVMaster>();
-            foreach(Document doc in visioApplication.Documents)
+            foreach(Document doc in _visioApplication.Documents)
                 foreach(IVMaster master in doc.Masters)
                     masters.Add(master);
             return masters;
@@ -472,6 +471,30 @@ namespace SPES_Modelverifier_Base
         private void NotifyLogMessageReceived(String message)
         {
             OnLogMessageReceivedEvent?.Invoke(message);
+        }
+
+        /// <summary>
+        /// creates a new validationfailedmessage and notifies the proper event
+        /// </summary>
+        /// <param name="pObject">the object</param>
+        /// <param name="pLevel">the level in the verification rule hierarchy</param>
+        /// <param name="pMessage">the detailed error message</param>
+        private void NotifyVerificationFailed(BaseObject pObject, int pLevel, String pMessage)
+        {
+            NotifyVerificationFailed(new ValidationFailedMessage(pLevel, pMessage, pObject));
+        }
+
+        /// <summary>
+        /// adds a verification failed message to the message stack. checks for duplicates first
+        /// </summary>
+        /// <param name="pFailedMessage">the message to add</param>
+        private void NotifyVerificationFailed(ValidationFailedMessage pFailedMessage)
+        {
+            //check if message exists in it's current form already
+            if (CollectedValidationMessages.Any(t => t.Equals(pFailedMessage)))
+                return;
+
+            CollectedValidationMessages.Add(pFailedMessage);
         }
 
         /// <summary>

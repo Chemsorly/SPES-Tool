@@ -12,7 +12,7 @@ namespace SPES_Modelverifier_Base.ModelChecker.Path
     /// <summary>
     /// simple tree with n child nodes (with n >= 0). does path checking for validation
     /// </summary>
-    internal class Tree
+    public class Tree
     {
         /// <summary>
         /// event to throw in case of validation exception

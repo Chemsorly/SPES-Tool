@@ -8,7 +8,7 @@ namespace ITU_Scenario.Items
     /// <summary>
     /// expression that is split horizontally to divide a path
     /// </summary>
-    public class InlineExpressionAltPar : Container
+    public class BMSCInlineExpressionAltPar : Container
     {
         /// <summary>
         /// contains all items above the split line

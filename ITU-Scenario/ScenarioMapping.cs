@@ -20,8 +20,8 @@ namespace ITU_Scenario
             { "End Symbol", typeof(EndSymbol) },
             { "MSC Reference", typeof(BMSCReference) },
             { "Connection Arrow", typeof(ConnectionArrow) },
-            { "Inline Expr: alt", typeof(InlineExpressionAltPar) },
-            { "Inline Expr: par", typeof(InlineExpressionAltPar) },
+            { "Inline Expr: alt", typeof(BMSCInlineExpressionAltPar) },
+            { "Inline Expr: par", typeof(BMSCInlineExpressionAltPar) },
 
             //BMSC            
             { "Line Instance", typeof(Instance) },

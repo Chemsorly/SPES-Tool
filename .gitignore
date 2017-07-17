@@ -243,3 +243,5 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/VisioAddin2013/Icons/Thumbs.db
+/VisioAddin2013/Icons/Thumbs.db

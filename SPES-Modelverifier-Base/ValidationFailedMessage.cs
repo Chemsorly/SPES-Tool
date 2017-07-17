@@ -25,6 +25,20 @@ namespace SPES_Modelverifier_Base
         {
 
         }
+
+        public override bool Equals(object obj)
+        {
+            //check if proper object type, if not false
+            if (!(obj is ValidationFailedMessage))
+                return false;
+
+            var message = (ValidationFailedMessage) obj;
+
+            //compare fields
+            return (this.ProcessLevel == message.ProcessLevel) &&
+                   (this.Message == message.Message) &&
+                   (this.ExceptionObject == message.ExceptionObject);
+        }
     }
 
     public delegate void ValidationFailedDelegate(ValidationFailedMessage pArgs);
