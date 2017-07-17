@@ -491,7 +491,7 @@ namespace SPES_Modelverifier_Base
         private void NotifyVerificationFailed(ValidationFailedMessage pFailedMessage)
         {
             //check if message exists in it's current form already
-            if (CollectedValidationMessages.Any(t => t.Equals(pFailedMessage)))
+            if (CollectedValidationMessages.Any(t => t.ValuesEquals(pFailedMessage)))
                 return;
 
             CollectedValidationMessages.Add(pFailedMessage);
