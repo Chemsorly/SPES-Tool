@@ -61,7 +61,11 @@ namespace SPES_Modelverifier_Base
         protected ModelNetwork(Application pApplication)
         {
             CollectedValidationMessages = new List<ValidationFailedMessage>();
-            _visioApplication = pApplication ?? throw new ArgumentNullException(nameof(pApplication));
+
+            if(pApplication == null)
+                throw new ArgumentNullException(nameof(pApplication));
+
+            _visioApplication = pApplication;
 
             //gets called when document is loaded
             _visioApplication.DocumentCreatedEvent += VisioApplication_DocumentCreatedOrLoadedEvent;
