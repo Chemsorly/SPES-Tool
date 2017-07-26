@@ -66,7 +66,7 @@ namespace SPES_Modelverifier_Base.Items
         /// returns all containing items
         /// </summary>
         /// <returns>all baseobjects in the vicinity of the container</returns>
-        private List<BaseObject> GetContainingItems()
+        protected virtual List<BaseObject> GetContainingItems()
         {
             //get containing items
             var items = ParentModel.ObjectList.Where(t =>
@@ -79,6 +79,9 @@ namespace SPES_Modelverifier_Base.Items
                     t.Locationbottomright.IsContainedIn(Locationtopleft, Locationtopright, Locationbottomleft,
                         Locationbottomright)
             ).ToList();
+
+            //remove itself
+            items.Remove(this);
 
             return items;
             //var neighbours = this.Visioshape.SpatialNeighbors((short)NetOffice.VisioApi.Enums.VisSpatialRelationCodes.visSpatialContain, 0, 0);
