@@ -105,9 +105,12 @@ namespace SPES_Modelverifier_Base
                 {
                     var correspondingmodel = ModelList.FirstOrDefault(t => t.PageName == modelref.Text);
                     if (correspondingmodel == null)
-                        NotifyVerificationFailed(modelref,3, "Could not locate matching submodel.");
+                        NotifyVerificationFailed(modelref, 3, "Could not locate matching submodel.");
                     else
+                    {
                         ((ModelReference) modelref).LinkedModel = correspondingmodel;
+                        correspondingmodel.ParentModel = model;
+                    }
                 }
 
             if (CollectedValidationMessages.Any())

@@ -29,6 +29,12 @@ namespace SPES_Modelverifier_Base.Models
         public virtual List<Type> CheckersToRun => new List<Type>() { typeof(ModelChecker.Path.ValidPathChecker) };
 
         /// <summary>
+        /// the target parent model, if applicable
+        /// </summary>
+        [XmlIgnore]
+        public Model ParentModel { get; set; }
+
+        /// <summary>
         /// the list of all shapes on a sheet
         /// </summary>
         public List<BaseObject> ObjectList { get; set; }

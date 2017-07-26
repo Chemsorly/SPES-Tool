@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using ITU_Scenario.Items;
+using ITU_Scenario.ModelChecker;
 
 namespace ITU_Scenario.Models
 {
@@ -15,7 +16,11 @@ namespace ITU_Scenario.Models
             typeof(EndSymbol) ,
             typeof(BMSCReference) ,
             typeof(ConnectionArrow) ,
-            typeof(BMSCInlineExpressionAltPar)
+            typeof(BMSCInlineExpressionAltPar),
+            typeof(Condition),
+            typeof(GuardingCondition)
         };
+
+        public override List<Type> CheckersToRun => new List<Type>() {typeof(GuardingConditionExistenceChecker) };
     }
 }

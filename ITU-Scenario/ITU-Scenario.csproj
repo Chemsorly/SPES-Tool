@@ -61,7 +61,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Items\BaseCondition.cs" />
+    <Compile Include="Items\BaseLostFoundMessage.cs" />
+    <Compile Include="Items\Condition.cs" />
+    <Compile Include="Items\FoundMessage.cs" />
+    <Compile Include="Items\GuardingCondition.cs" />
     <Compile Include="Items\HMSCInlineExpressionAlternative.cs" />
+    <Compile Include="Items\LostMessage.cs" />
+    <Compile Include="ModelChecker\GuardingConditionExistenceChecker.cs" />
     <Compile Include="ModelChecker\HmscNode.cs" />
     <Compile Include="ModelChecker\HmscValidPathChecker.cs" />
     <Compile Include="Models\BMSCModel.cs" />

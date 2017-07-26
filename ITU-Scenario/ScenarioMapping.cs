@@ -25,9 +25,15 @@ namespace ITU_Scenario
 
             //BMSC            
             { "Line Instance", typeof(Instance) },
-            { "Headless Instance", typeof(Instance) },
-            { "Message (Left)", typeof(Message) }, //TODO: only one message (current implementation aimed at "Message (Right)"
-            { "Message (Right)", typeof(Message) }
+            { "Message (Left)", typeof(Message) },
+            { "Message (Right)", typeof(Message) },
+            { "Lost Message", typeof(LostMessage) },
+            { "Found Message", typeof(FoundMessage) },
+            //todo: { "Coregion Box", typeof(Coregion) },
+
+            //both
+            { "Condition", typeof(Condition) },
+            { "Guarding Condition", typeof(GuardingCondition) }
         };
 
         protected override List<Type>TargetModels => new List<Type>() { typeof(HMSCModel), typeof(BMSCModel) };
