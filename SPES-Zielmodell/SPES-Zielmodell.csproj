@@ -57,9 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Items\ContributionLink.cs" />
-    <Compile Include="Items\CorrelationLink.cs" />
-    <Compile Include="Items\Decomposition.cs" />
+    <Compile Include="Items\IntentionalObjectConnection.cs" />
     <Compile Include="Items\Dependency.cs" />
     <Compile Include="Items\Actor.cs" />
     <Compile Include="Items\ActorBoundary.cs" />

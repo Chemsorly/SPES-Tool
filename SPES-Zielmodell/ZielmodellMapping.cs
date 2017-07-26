@@ -24,9 +24,9 @@ namespace SPES_Zielmodell
             {"Resource", typeof(IntentionalObject) },
 
             //GRL: connections
-            {"Decomposition", typeof(Decomposition) },
-            {"Contribution Link", typeof(ContributionLink) },
-            {"Correlation Link", typeof(CorrelationLink) },
+            {"Decomposition", typeof(IntentionalObjectConnection) },
+            {"Contribution Link", typeof(IntentionalObjectConnection) },
+            {"Correlation Link", typeof(IntentionalObjectConnection) },
             {"Dependency", typeof(Dependency) },
 
             //GRL: containers
