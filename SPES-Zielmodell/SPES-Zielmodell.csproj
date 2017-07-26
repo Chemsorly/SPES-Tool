@@ -63,11 +63,7 @@
     <Compile Include="Items\Dependency.cs" />
     <Compile Include="Items\Actor.cs" />
     <Compile Include="Items\ActorBoundary.cs" />
-    <Compile Include="Items\Belief.cs" />
-    <Compile Include="Items\Goal.cs" />
-    <Compile Include="Items\Indicator.cs" />
-    <Compile Include="Items\Resource.cs" />
-    <Compile Include="Items\Task.cs" />
+    <Compile Include="Items\IntentionalObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ZielmodellMapping.cs" />
     <Compile Include="Models\ZielmodellModel.cs" />

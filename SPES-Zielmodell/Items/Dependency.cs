@@ -9,7 +9,7 @@ namespace SPES_Zielmodell.Items
     public class Dependency : Connection
     {
         [XmlIgnore]
-        public override List<Type> AllowedConnectedTypes => new List<Type>() { typeof(Actor), typeof(Belief), typeof(Goal), typeof(Indicator), typeof(Resource), typeof(Task) };
+        public override List<Type> AllowedConnectedTypes => new List<Type>() { typeof(Actor), typeof(IntentionalObject)};
 
         public override bool Inverted => false;
     }

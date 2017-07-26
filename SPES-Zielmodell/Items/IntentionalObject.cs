@@ -8,7 +8,7 @@ using SPES_Modelverifier_Base.Items;
 
 namespace SPES_Zielmodell.Items
 {
-    public class Goal : Item
+    public class IntentionalObject : Item
     {
     }
 }

@@ -16,12 +16,12 @@ namespace SPES_Zielmodell
         {
             //GRL: items
             {"Actor", typeof(Actor) },
-            {"Task", typeof(Task) },
-            {"Belief", typeof(Belief) },
-            {"Goal", typeof(Goal) },
-            {"Softgoal", typeof(Goal) },
-            {"Indicator", typeof(Indicator) },
-            {"Resource", typeof(Resource) },
+            {"Task", typeof(IntentionalObject) },
+            {"Belief", typeof(IntentionalObject) },
+            {"Goal", typeof(IntentionalObject) },
+            {"Softgoal", typeof(IntentionalObject) },
+            {"Indicator", typeof(IntentionalObject) },
+            {"Resource", typeof(IntentionalObject) },
 
             //GRL: connections
             {"Decomposition", typeof(Decomposition) },
