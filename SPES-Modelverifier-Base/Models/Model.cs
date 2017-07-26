@@ -101,7 +101,7 @@ namespace SPES_Modelverifier_Base.Models
         /// <summary>
         /// validates basic intra model spezifications. Can be overwritten and extended by calling base.Validate()
         /// </summary>
-        public virtual void Validate()
+        public virtual void Verify()
         {
             //check if sheet is not empty
             if (ObjectList.Count < 1)

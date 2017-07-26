@@ -95,7 +95,7 @@ namespace SPES_Modelverifier_Base
                 return CollectedValidationMessages;
 
             //step 2: validate connections between entities
-            ModelList.ForEach(t => t.Validate());
+            ModelList.ForEach(t => t.Verify());
             if (CollectedValidationMessages.Any())
                 return CollectedValidationMessages;
 
