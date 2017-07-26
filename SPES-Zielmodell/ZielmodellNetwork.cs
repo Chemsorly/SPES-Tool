@@ -13,7 +13,7 @@ namespace SPES_Zielmodell
         {
         }
 
-        protected override List<string> ShapeTemplateFiles => new List<String> { "GRL.vssx" };
+        protected override List<string> ShapeTemplateFiles => new List<String> { "SMT_GRL.vssx" };
 
         protected override Type MappingListType => typeof(ZielmodellMapping);
 
