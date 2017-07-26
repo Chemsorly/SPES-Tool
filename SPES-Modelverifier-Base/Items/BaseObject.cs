@@ -89,7 +89,7 @@ namespace SPES_Modelverifier_Base.Items
         /// <summary>
         /// stub for validate function
         /// </summary>
-        public virtual void Validate() { }
+        public virtual void Verify() { }
 
         /// <summary>
         /// stub for initialize function

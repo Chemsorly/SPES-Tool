@@ -14,9 +14,9 @@ namespace SPES_Modelverifier_Base.Items
             Connections = new List<Connection>();
         }
 
-        public override void Validate()
+        public override void Verify()
         {
-            base.Validate();
+            base.Verify();
 
             if (Connections.Count == 0)
                 throw new ValidationFailedException(this, "Item has no connections");

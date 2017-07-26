@@ -10,5 +10,7 @@ namespace SPES_Zielmodell.Items
 {
     public class IntentionalObject : Item
     {
+        public ActorBoundary BelongingActorBoundary => this.Containers.FirstOrDefault(t => t is ActorBoundary) as ActorBoundary;
+
     }
 }

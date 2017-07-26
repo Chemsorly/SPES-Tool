@@ -53,9 +53,9 @@ namespace SPES_Modelverifier_Base.Items
         /// <summary>
         /// validates container specifics
         /// </summary>
-        public override void Validate()
+        public override void Verify()
         {
-            base.Validate();
+            base.Verify();
 
             //check if overlapping
             if(DoParentAndChildrenCrossBorders())
