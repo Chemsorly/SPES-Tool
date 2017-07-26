@@ -26,7 +26,7 @@ namespace SPES_Modelverifier_Base
 
         }
 
-        public override bool Equals(object obj)
+        public bool ValuesEquals(object obj)
         {
             //check if proper object type, if not false
             if (!(obj is ValidationFailedMessage))

@@ -9,10 +9,10 @@ namespace SPES_Modelverifier_Base.Items
         /// </summary>
         public abstract bool IsStart { get; }
 
-        public override void Validate()
+        public override void Verify()
         {
             //check base item stuff
-            base.Validate();
+            base.Verify();
 
             //startenditem specific checks
             if (IsStart)

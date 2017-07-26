@@ -10,7 +10,7 @@ namespace ITU_Scenario
 {
     public class ScenarioNetwork : ModelNetwork
     {
-        protected override List<string> ShapeTemplateFiles => new List<String> { "bMSC.vssx", "hMSC.vssx" };
+        protected override List<string> ShapeTemplateFiles => new List<String> { "SMT_bMSC.vssx", "SMT_hMSC.vssx" };
         protected override Type MappingListType => typeof(ScenarioMapping);
 
         public ScenarioNetwork(Application pApplication) : base(pApplication)

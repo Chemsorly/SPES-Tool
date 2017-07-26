@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -59,11 +60,11 @@ namespace SPES_Modelverifier_Base
         /// <param name="pApplication">the visio application with the open document</param>
         protected ModelNetwork(Application pApplication)
         {
-            //nullchecks
-            if (pApplication == null)
+            CollectedValidationMessages = new List<ValidationFailedMessage>();
+
+            if(pApplication == null)
                 throw new ArgumentNullException(nameof(pApplication));
 
-            CollectedValidationMessages = new List<ValidationFailedMessage>();
             _visioApplication = pApplication;
 
             //gets called when document is loaded
@@ -319,28 +320,49 @@ namespace SPES_Modelverifier_Base
         {
             try
             {
-                bool stencilDownloaded = false;
                 foreach (var file in ShapeTemplateFiles)
-                { 
+                {
                     //check if file exists, if not, download from server
                     if (!System.IO.File.Exists(System.IO.Path.Combine(this._visioApplication.MyShapesPath, file)))
-                    {
-                        using (var client = new System.Net.WebClient())
-                        {
-                            client.DownloadFile($"https://releases.chemsorly.com/SPES-Modelverifier/visiostencils/{file}", System.IO.Path.Combine(this._visioApplication.MyShapesPath, file));
-                        }
-                        stencilDownloaded = true;
-                    }
-                }
+                        DownloadStencils(file);
 
-                if (stencilDownloaded)
-                {
-                    //throw new Exception("New stencils have been downloaded. Please restart Visio to activate.");
+                    else
+                    {
+                        //file exists, check if remote is newer
+                        var stencilfile =
+                            new FileInfo(System.IO.Path.Combine(this._visioApplication.MyShapesPath, file));
+
+                        var webrequest = (HttpWebRequest) WebRequest.Create($"https://releases.chemsorly.com/SPES-Modelverifier/visiostencils/{file}");
+                        webrequest.Method = "HEAD";
+                        webrequest.Timeout = 5000;
+                        HttpWebResponse webresponse = null;
+                        try
+                        {
+                            webresponse = (HttpWebResponse) webrequest.GetResponse();
+                            if (webresponse.LastModified > stencilfile.LastWriteTime)
+                                DownloadStencils(file);
+                        }
+                        catch(Exception){ }
+                        finally { webresponse?.Close(); }
+                    }
                 }
             }
             catch(Exception pEx)
             {
                 NotifyErrorReceived(pEx);
+            }
+        }
+
+        /// <summary>
+        /// downloads the stencil into the MyShapes directory
+        /// </summary>
+        /// <param name="pStencilfile">target stencil</param>
+        private void DownloadStencils(String pStencilfile)
+        {
+            using (var client = new System.Net.WebClient())
+            {
+                client.DownloadFile($"https://releases.chemsorly.com/SPES-Modelverifier/visiostencils/{pStencilfile}",
+                    System.IO.Path.Combine(this._visioApplication.MyShapesPath, pStencilfile));
             }
         }
 
@@ -491,7 +513,7 @@ namespace SPES_Modelverifier_Base
         private void NotifyVerificationFailed(ValidationFailedMessage pFailedMessage)
         {
             //check if message exists in it's current form already
-            if (CollectedValidationMessages.Any(t => t.Equals(pFailedMessage)))
+            if (CollectedValidationMessages.Any(t => t.ValuesEquals(pFailedMessage)))
                 return;
 
             CollectedValidationMessages.Add(pFailedMessage);

@@ -131,7 +131,7 @@ namespace SPES_Modelverifier_Base.Models
             {
                 try
                 {
-                    t.Validate();
+                    t.Verify();
                 }
                 catch(ValidationFailedException ex)
                 {

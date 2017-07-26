@@ -14,9 +14,9 @@ namespace SPES_Funktionsnetz.Items
 
         public override bool Inverted => true;
 
-        public override void Validate()
+        public override void Verify()
         {
-            base.Validate();
+            base.Verify();
 
             //check if one connected item is a function/context function and one is a dependency
             if ((FromObject is Dependency && ToObject is Dependency) ||
