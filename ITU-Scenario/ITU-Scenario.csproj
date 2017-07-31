@@ -71,6 +71,9 @@
     <Compile Include="ModelChecker\GuardingConditionExistenceChecker.cs" />
     <Compile Include="ModelChecker\HmscNode.cs" />
     <Compile Include="ModelChecker\HmscValidPathChecker.cs" />
+    <Compile Include="ModelChecker\ScenarioPathChecker.cs" />
+    <Compile Include="ModelChecker\ScenarioPathNode.cs" />
+    <Compile Include="ModelChecker\ScenarioPathTree.cs" />
     <Compile Include="Models\BMSCModel.cs" />
     <Compile Include="Items\BMSCReference.cs" />
     <Compile Include="Items\ConnectionArrow.cs" />

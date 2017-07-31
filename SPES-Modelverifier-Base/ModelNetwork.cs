@@ -36,7 +36,7 @@ namespace SPES_Modelverifier_Base
 
         private readonly Application _visioApplication;
         private readonly MappingList _mapping;
-        protected List<Model> ModelList;
+        public List<Model> ModelList;
         protected List<ValidationFailedMessage> CollectedValidationMessages;
 
 
