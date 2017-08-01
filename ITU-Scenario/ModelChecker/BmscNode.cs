@@ -99,19 +99,19 @@ namespace ITU_Scenario.ModelChecker
                 var nextmessage = outgoing.MaxBy(t => t.Locationy);
 
                 //check if nextmessage enters a new container
-                HashSet<BMSCInlineExpressionAltPar> newcontainers = nextmessage.Containers.Where(t => t is BMSCInlineExpressionAltPar && !EnteredContainers.Contains(t))
-                    .Cast<BMSCInlineExpressionAltPar>()
-                    .ToHashSet<BMSCInlineExpressionAltPar>();
+                HashSet<BMSCInlineExpression> newcontainers = nextmessage.Containers.Where(t => t is BMSCInlineExpression && !EnteredContainers.Contains(t))
+                    .Cast<BMSCInlineExpression>()
+                    .ToHashSet<BMSCInlineExpression>();
                 if (newcontainers.Any())
                 {
                     //add containers from split message as well
                     var newsplitcontainers = newcontainers.First().ObjectsBelowLine.Where(t => t is Connection)
-                        .Cast<Connection>().MaxBy(t => t.Locationy).Containers.Cast<BMSCInlineExpressionAltPar>();
-                    foreach (BMSCInlineExpressionAltPar nc in newsplitcontainers)
+                        .Cast<Connection>().MaxBy(t => t.Locationy).Containers.Cast<BMSCInlineExpression>();
+                    foreach (BMSCInlineExpression nc in newsplitcontainers)
                         newcontainers.Add(nc);
 
                     //iterate through all new containers. pick each top and bottom message and add to list. no duplicates
-                    foreach (BMSCInlineExpressionAltPar newcontainer in newcontainers)
+                    foreach (BMSCInlineExpression newcontainer in newcontainers)
                     {
                         //add to known containers
                         EnteredContainers.Add(newcontainer);
@@ -129,8 +129,8 @@ namespace ITU_Scenario.ModelChecker
                     //check if swaps, meaning next message in lower container and previous in upper
                     var swappingContainers =
                         nextmessage.Containers.Where(
-                            t => ((BMSCInlineExpressionAltPar) t).ObjectsAboveLine.Contains(IncomingMessage) &&
-                                 ((BMSCInlineExpressionAltPar) t).ObjectsBelowLine.Contains(nextmessage));
+                            t => ((BMSCInlineExpression) t).ObjectsAboveLine.Contains(IncomingMessage) &&
+                                 ((BMSCInlineExpression) t).ObjectsBelowLine.Contains(nextmessage));
                     if (swappingContainers.Any())
                     {
                         //if swap, pick next message NOT in the swapping container   

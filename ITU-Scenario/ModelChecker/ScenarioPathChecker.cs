@@ -11,6 +11,8 @@ namespace ITU_Scenario.ModelChecker
 {
     class ScenarioPathChecker : IModelNetworkChecker
     {
+        List<ScenarioPathTree> TreeList = new List<ScenarioPathTree>();
+
         public override void Initialize(ModelNetwork pModelNetwork)
         {
             //get all models that are a valid starting points: all models with no parents
@@ -20,10 +22,15 @@ namespace ITU_Scenario.ModelChecker
             foreach (var model in models)
             {
                 //create tree
+                var tree = new ScenarioPathTree();
+                tree.ValidationFailedEvent += NotifyValidationFailed;
+                tree.Initialize(model);
+                TreeList.Add(tree);
             }
 
             //create paths from tree and verify
             //todo
+            //tree.Verify()
         }
     }
 }

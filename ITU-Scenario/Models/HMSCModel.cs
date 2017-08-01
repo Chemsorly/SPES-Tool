@@ -16,7 +16,7 @@ namespace ITU_Scenario.Models
             typeof(EndSymbol) ,
             typeof(BMSCReference) ,
             typeof(ConnectionArrow) ,
-            typeof(BMSCInlineExpressionAltPar),
+            typeof(BMSCInlineExpression),
             typeof(Condition),
             typeof(GuardingCondition)
         };

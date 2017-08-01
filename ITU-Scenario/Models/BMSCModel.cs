@@ -13,7 +13,7 @@ namespace ITU_Scenario.Models
         {
             typeof(Instance) ,
             typeof(Message) ,
-            typeof(BMSCInlineExpressionAltPar),
+            typeof(BMSCInlineExpression),
             typeof(Condition),
             typeof(GuardingCondition),
             typeof(LostMessage),

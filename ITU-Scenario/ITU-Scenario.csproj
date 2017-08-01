@@ -63,10 +63,11 @@
   <ItemGroup>
     <Compile Include="Items\BaseCondition.cs" />
     <Compile Include="Items\BaseLostFoundMessage.cs" />
+    <Compile Include="Items\BMSCInlineExpressionLoop.cs" />
     <Compile Include="Items\Condition.cs" />
     <Compile Include="Items\FoundMessage.cs" />
     <Compile Include="Items\GuardingCondition.cs" />
-    <Compile Include="Items\HMSCInlineExpressionAlternative.cs" />
+    <Compile Include="Items\HMSCInlineExpression.cs" />
     <Compile Include="Items\LostMessage.cs" />
     <Compile Include="ModelChecker\GuardingConditionExistenceChecker.cs" />
     <Compile Include="ModelChecker\HmscNode.cs" />
@@ -78,7 +79,7 @@
     <Compile Include="Items\BMSCReference.cs" />
     <Compile Include="Items\ConnectionArrow.cs" />
     <Compile Include="Items\ConnectionPoint.cs" />
-    <Compile Include="Items\BMSCInlineExpressionAlternative.cs" />
+    <Compile Include="Items\BMSCInlineExpression.cs" />
     <Compile Include="Items\Instance.cs" />
     <Compile Include="Items\Message.cs" />
     <Compile Include="Items\StartSymbol.cs" />

@@ -23,8 +23,32 @@ namespace ITU_Scenario.ModelChecker
 
         public void Initialize(Model pModel)
         {
-            BaseObject startitem = null;
+            //get start item
+            BaseObject startitem = GetStartItem(pModel);
+            if (startitem != null)
+            {
+                //create starting node and recursively create tree
+                try
+                {
+                    StartNode = new ScenarioPathNode(startitem, 0);
+                }
+                catch (ValidationFailedException ex)
+                {
+                    NotifyValidationFailed(new ValidationFailedMessage(4,ex.Message, ex.ExceptionObject));
+                }
+            }
+        }
+
+        public void Validate()
+        {
+            //validate paths
+        }
+
+        private BaseObject GetStartItem(Model pModel)
+        {
+            //todo: refactoring
             //determine what model type the incoming model is and then find the starting item
+            BaseObject startitem = null;
             if (pModel is BMSCModel)
             {
                 //find bmsc starting point: message with highest y value
@@ -35,12 +59,18 @@ namespace ITU_Scenario.ModelChecker
                 //checks
                 //case more than 1 possible starts found
                 if (startmessages.Count() > 1)
-                    NotifyValidationFailed(new ValidationFailedMessage(4, "More than one possible starting message found.", startmessages.First()));
+                {
+                    NotifyValidationFailed(new ValidationFailedMessage(4,"More than one possible starting message found.", startmessages.First()));
+                    return null;
+                }
                 //case no start found
-                else if (!startmessages.Any())
+                if (!startmessages.Any())
+                {
                     NotifyValidationFailed(new ValidationFailedMessage(4, $"Start message not found for model {pModel.PageName}"));
-                else
-                    startitem = startmessages.FirstOrDefault();
+                    return null;
+                }
+                
+                startitem = startmessages.FirstOrDefault();
             }
             else if (pModel is HMSCModel)
             {
@@ -48,19 +78,23 @@ namespace ITU_Scenario.ModelChecker
                 //check if start item is unique; check if minimum one end item exists;
                 var startenditems = pModel.ObjectList.Where(t => t is StartEndItem).Cast<StartEndItem>().ToList();
                 if (startenditems.Count(t => t.IsStart) > 1)
-                    NotifyValidationFailed(new ValidationFailedMessage(4, "Model contains more than one start item.", startenditems.First(t => t.IsStart)));
+                {
+                    NotifyValidationFailed(new ValidationFailedMessage(4, "Model contains more than one start item.",startenditems.First(t => t.IsStart)));
+                    return null;
+                }
                 if (startenditems.Count(t => !t.IsStart) == 0)
+                {
                     NotifyValidationFailed(new ValidationFailedMessage(4, "Model contains no enditems", startenditems.First()));
+                    return null;
+                }
             }
             else
             {
                 NotifyValidationFailed(new ValidationFailedMessage(4, $"unknown model detected: {pModel.PageName}"));
+                return null;
             }
-        }
 
-        public void Validate()
-        {
-            
+            return startitem;
         }
 
         /// <summary>
