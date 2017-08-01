@@ -10,7 +10,7 @@ namespace ITU_Scenario.Items
     /// <summary>
     /// expression that splits vertically to divide a path
     /// </summary>
-    public class HMSCInlineExpressionAlternative : Container
+    public class HMSCInlineExpressionAltPar : Container
     {
         /// <summary>
         /// contains all item left of the split line

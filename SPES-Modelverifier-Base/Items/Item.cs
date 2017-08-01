@@ -9,7 +9,7 @@ namespace SPES_Modelverifier_Base.Items
         public List<Connection> Connections { get; }
         public virtual bool CanHaveDuplicateText => false;
 
-        public Item()
+        protected Item()
         {
             Connections = new List<Connection>();
         }

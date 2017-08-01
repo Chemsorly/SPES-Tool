@@ -16,11 +16,12 @@ namespace ITU_Scenario.Models
             typeof(EndSymbol) ,
             typeof(BMSCReference) ,
             typeof(ConnectionArrow) ,
-            typeof(BMSCInlineExpressionAltPar),
+            typeof(HMSCInlineExpressionAltPar),
+            typeof(HMSCInlineExpressionLoopOptExc),
             typeof(Condition),
             typeof(GuardingCondition)
         };
 
-        public override List<Type> CheckersToRun => new List<Type>() {typeof(GuardingConditionExistenceChecker) };
+        public override List<Type> CheckersToRun => new List<Type>() {typeof(GuardingConditionExistenceChecker), typeof(HmscValidPathChecker) };
     }
 }

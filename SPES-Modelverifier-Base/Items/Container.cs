@@ -5,7 +5,7 @@ using MoreLinq;
 
 namespace SPES_Modelverifier_Base.Items
 {
-    public abstract class Container : BaseObject
+    public abstract class Container : Item
     {
         /// <summary>
         /// All BaseObjects in the container item
@@ -37,6 +37,11 @@ namespace SPES_Modelverifier_Base.Items
         public List<Container> FirstLevelChildContainers => _firstLevelChildContainers ?? (_firstLevelChildContainers = GetFirstLevelChildContainers());
         private List<Container> _firstLevelChildContainers;
 
+        /// <summary>
+        /// containers are not supposed to be checked by text
+        /// </summary>
+        public override bool CanHaveDuplicateText => true;
+
         public override void Initialize()
         {
             base.Initialize();
@@ -55,7 +60,8 @@ namespace SPES_Modelverifier_Base.Items
         /// </summary>
         public override void Verify()
         {
-            base.Verify();
+            //do not call base: containers do not need the checking from items
+            //base.Verify();
 
             //check if overlapping
             if(DoParentAndChildrenCrossBorders())
