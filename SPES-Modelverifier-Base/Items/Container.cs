@@ -42,6 +42,11 @@ namespace SPES_Modelverifier_Base.Items
         /// </summary>
         public override bool CanHaveDuplicateText => true;
 
+        /// <summary>
+        /// containers usually are not part of path checking unless explicitly specified
+        /// </summary>
+        public override bool IsPathItem => false;
+
         public override void Initialize()
         {
             base.Initialize();

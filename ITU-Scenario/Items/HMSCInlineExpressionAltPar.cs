@@ -13,6 +13,11 @@ namespace ITU_Scenario.Items
     public class HMSCInlineExpressionAltPar : Container
     {
         /// <summary>
+        /// connectable item and has to be checked as path item
+        /// </summary>
+        public override bool IsPathItem => true;
+
+        /// <summary>
         /// contains all item left of the split line
         /// </summary>
         public List<BaseObject> ObjectsLeftOfLine => this.ContainingItems.Where(t => t.Locationx < this.Locationx).ToList();

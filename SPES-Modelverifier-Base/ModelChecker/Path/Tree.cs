@@ -45,7 +45,7 @@ namespace SPES_Modelverifier_Base.ModelChecker.Path
 
             //validpths should now contain all paths where .Last() == StartEndItem with !IsStart
             //take all items from valid paths and check if they are equal with all items in model
-            var allitems = StartNode.Current.ParentModel.ObjectList.Where(t => t is Item);
+            var allitems = StartNode.Current.ParentModel.ObjectList.Where(t => t is Item && ((Item) t).IsPathItem);
             var validpathitems = validpaths.SelectMany(t => t).Select(t => t.Current).Distinct();
             var missingitems = allitems.Where(t => !validpathitems.Contains(t)).ToList();
             if (missingitems.Any())
