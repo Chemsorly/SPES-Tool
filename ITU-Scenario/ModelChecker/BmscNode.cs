@@ -90,62 +90,88 @@ namespace ITU_Scenario.ModelChecker
         {
             //get all outgoing messages
             var outgoing = this.Current.Connections.Where(t => t is Message && t.FromObject == this.Current).Where(t => t.Locationy <= IncomingHeight);
+            var coregions = this.Current.ParentModel.ObjectList.Where(t => t is CoregionBox && 
+                (t as CoregionBox).Locationx < this.Current.Locationtopright.X &&
+                (t as CoregionBox).Locationx > this.Current.Locationtopleft.X);
             var messages = new HashSet<Connection>();
 
-            //check if next messages exist, return if not
-            if (outgoing.Any())
+            //check if next messages (or coregions) exist, return if not
+            if (outgoing.Any() || coregions.Any())
             {
                 //get next outgoing connection
-                var nextmessage = outgoing.MaxBy(t => t.Locationy);
+                List<Connection> nextmessagesList = new List<Connection>();
+                if(outgoing.Any())
+                    nextmessagesList.Add(outgoing.MaxBy(t => t.Locationy));
 
-                //check if nextmessage enters a new container
-                HashSet<BMSCInlineExpressionAltPar> newcontainers = nextmessage.Containers.Where(t => t is BMSCInlineExpressionAltPar && !EnteredContainers.Contains(t))
-                    .Cast<BMSCInlineExpressionAltPar>()
-                    .ToHashSet<BMSCInlineExpressionAltPar>();
-                if (newcontainers.Any())
+                //check if a coregion exists before. if so, use those connections instead
+                if (coregions.Any())
                 {
-                    //add containers from split message as well
-                    var newsplitcontainers = newcontainers.First().ObjectsBelowLine.Where(t => t is Connection)
-                        .Cast<Connection>().MaxBy(t => t.Locationy).Containers.Cast<BMSCInlineExpressionAltPar>();
-                    foreach (BMSCInlineExpressionAltPar nc in newsplitcontainers)
-                        newcontainers.Add(nc);
+                    var fittingCoregions = coregions.Where(t => t.Locationtopleft.Y < this.IncomingHeight);
 
-                    //iterate through all new containers. pick each top and bottom message and add to list. no duplicates
-                    foreach (BMSCInlineExpressionAltPar newcontainer in newcontainers)
+                    if (fittingCoregions.Any())
                     {
-                        //add to known containers
-                        EnteredContainers.Add(newcontainer);
-
-                        //get top top message
-                        messages.Add(newcontainer.ObjectsAboveLine.Where(t => t is Connection).Cast<Connection>().MaxBy(t => t.Locationy));
-
-                        //get top bottom mesage
-                        messages.Add(newcontainer.ObjectsBelowLine.Where(t => t is Connection).Cast<Connection>().MaxBy(t => t.Locationy));
+                        //coregion found, replace nextmessages with coregion outgoing messages
+                        nextmessagesList.Clear();
+                        var coregionOutgoingMessages = (fittingCoregions.MaxBy(t => t.Locationy) as Item).Connections.Where(t => t.FromObject == fittingCoregions.MaxBy(r => r.Locationy));
+                        nextmessagesList.AddRange(coregionOutgoingMessages);
                     }
                 }
-                //nextmessage does not enter a new container
-                else
-                {
-                    //check if swaps, meaning next message in lower container and previous in upper
-                    var swappingContainers =
-                        nextmessage.Containers.Where(
-                            t => ((BMSCInlineExpressionAltPar) t).ObjectsAboveLine.Contains(IncomingMessage) &&
-                                 ((BMSCInlineExpressionAltPar) t).ObjectsBelowLine.Contains(nextmessage));
-                    if (swappingContainers.Any())
-                    {
-                        //if swap, pick next message NOT in the swapping container   
-                        if(swappingContainers.Count() > 1)
-                            throw new Exception("unexcepted result. more than one swapping container found.");
 
-                        //check if another outgoing message exists
-                        var nextoutgoing = outgoing.Where(t => !swappingContainers.First().ContainingItems.Contains(t));
-                        if(nextoutgoing.Any())
-                            messages.Add(nextoutgoing.MaxBy(t => t.Locationy));
+                //check if a nextmessage still exists
+                if (!nextmessagesList.Any())
+                    return;
+
+                foreach (var nextmessage in nextmessagesList)
+                {
+                    //check if nextmessage enters a new container
+                    HashSet<BMSCInlineExpressionAltPar> newcontainers = nextmessage.Containers.Where(t => t is BMSCInlineExpressionAltPar && !EnteredContainers.Contains(t))
+                        .Cast<BMSCInlineExpressionAltPar>()
+                        .ToHashSet<BMSCInlineExpressionAltPar>();
+                    if (newcontainers.Any())
+                    {
+                        //add containers from split message as well
+                        var newsplitcontainers = newcontainers.First().ObjectsBelowLine.Where(t => t is Connection)
+                            .Cast<Connection>().MaxBy(t => t.Locationy).Containers.Cast<BMSCInlineExpressionAltPar>();
+                        foreach (BMSCInlineExpressionAltPar nc in newsplitcontainers)
+                            newcontainers.Add(nc);
+
+                        //iterate through all new containers. pick each top and bottom message and add to list. no duplicates
+                        foreach (BMSCInlineExpressionAltPar newcontainer in newcontainers)
+                        {
+                            //add to known containers
+                            EnteredContainers.Add(newcontainer);
+
+                            //get top top message
+                            messages.Add(newcontainer.ObjectsAboveLine.Where(t => t is Connection).Cast<Connection>().MaxBy(t => t.Locationy));
+
+                            //get top bottom mesage
+                            messages.Add(newcontainer.ObjectsBelowLine.Where(t => t is Connection).Cast<Connection>().MaxBy(t => t.Locationy));
+                        }
                     }
-                    //no swap, pick next message
+                    //nextmessage does not enter a new container
                     else
                     {
-                        messages.Add(nextmessage);
+                        //check if swaps, meaning next message in lower container and previous in upper
+                        var swappingContainers =
+                            nextmessage.Containers.Where(
+                                t => ((BMSCInlineExpressionAltPar)t).ObjectsAboveLine.Contains(IncomingMessage) &&
+                                     ((BMSCInlineExpressionAltPar)t).ObjectsBelowLine.Contains(nextmessage));
+                        if (swappingContainers.Any())
+                        {
+                            //if swap, pick next message NOT in the swapping container   
+                            if (swappingContainers.Count() > 1)
+                                throw new Exception("unexcepted result. more than one swapping container found.");
+
+                            //check if another outgoing message exists
+                            var nextoutgoing = outgoing.Where(t => !swappingContainers.First().ContainingItems.Contains(t));
+                            if (nextoutgoing.Any())
+                                messages.Add(nextoutgoing.MaxBy(t => t.Locationy));
+                        }
+                        //no swap, pick next message
+                        else
+                        {
+                            messages.Add(nextmessage);
+                        }
                     }
                 }
 

@@ -32,7 +32,7 @@ namespace ITU_Scenario
             { "Message (Right)", typeof(Message) },
             { "Lost Message", typeof(LostMessage) },
             { "Found Message", typeof(FoundMessage) },
-            //todo: { "Coregion Box", typeof(Coregion) },
+            { "Coregion Box", typeof(CoregionBox) },
 
             //both
             { "Condition", typeof(Condition) },

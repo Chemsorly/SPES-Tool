@@ -17,7 +17,8 @@ namespace ITU_Scenario.Models
             typeof(Condition),
             typeof(GuardingCondition),
             typeof(LostMessage),
-            typeof(FoundMessage)
+            typeof(FoundMessage),
+            typeof(CoregionBox)
         };
 
         [XmlIgnore]

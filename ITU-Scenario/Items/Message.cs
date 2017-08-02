@@ -9,7 +9,7 @@ namespace ITU_Scenario.Items
     public class Message : Connection
     {
         [XmlIgnore]
-        public override List<Type> AllowedConnectedTypes => new List<Type>() { typeof(Instance) };        
+        public override List<Type> AllowedConnectedTypes => new List<Type>() { typeof(Instance), typeof(CoregionBox) };        
 
         public override bool Inverted => true;
         

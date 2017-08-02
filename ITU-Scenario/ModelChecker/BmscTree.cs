@@ -72,7 +72,9 @@ namespace ITU_Scenario.ModelChecker
 
             //validpths should now contain all paths where .Last() == StartEndItem with !IsStart
             //take all items from valid paths and check if they are equal with all items in model
-            var allitems = StartNode.Current.ParentModel.ObjectList.Where(t => t is Item);
+            //for bmsc: only instances are relevant as placeableobjects are not part of the tree
+            var allitems = StartNode.Current.ParentModel.ObjectList.Where(t => t is Instance);
+
             var validpathitems = validpaths.SelectMany(t => t).Select(t => t.Current).Distinct();
             var missingitems = allitems.Where(t => !validpathitems.Contains(t)).ToList();
             if (missingitems.Any())
