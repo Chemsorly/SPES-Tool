@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ITU_Scenario.Items
 {
-    class LostMessage : BaseLostFoundMessage
+    public class LostMessage : BaseLostFoundMessage
     {
     }
 }

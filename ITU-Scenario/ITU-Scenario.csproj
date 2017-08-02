@@ -61,9 +61,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Items\Action.cs" />
     <Compile Include="Items\BaseCondition.cs" />
     <Compile Include="Items\BaseLostFoundMessage.cs" />
     <Compile Include="Items\Condition.cs" />
+    <Compile Include="Items\CoregionBox.cs" />
     <Compile Include="Items\FoundMessage.cs" />
     <Compile Include="Items\GuardingCondition.cs" />
     <Compile Include="Items\HMSCInlineExpressionAltPar.cs" />

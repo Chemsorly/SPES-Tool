@@ -83,7 +83,7 @@ namespace ITU_Scenario.ModelChecker
                     //case else no split
                     else
                     {
-                        var seitems = (container as Container).ContainingItems.Where(t => t is StartEndItem).Cast<StartEndItem>().ToList();
+                        var seitems = ((Container) container).ContainingItems.Where(t => t is StartEndItem).Cast<StartEndItem>().ToList();
 
                         //checks
                         if (seitems.Count(t => t.IsStart) > 1)

@@ -8,7 +8,7 @@ using SPES_Modelverifier_Base.Items;
 
 namespace ITU_Scenario.Items
 {
-    abstract class BaseCondition : Item
+    public abstract class BaseCondition : Item
     {
         public String Key => this.Text.Split('=')[0];
         public String Value => this.Text.Contains('=') ? this.Text.Split('=')[1] : String.Empty;

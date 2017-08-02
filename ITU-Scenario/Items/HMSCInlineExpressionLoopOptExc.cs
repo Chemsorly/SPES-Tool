@@ -7,7 +7,7 @@ using SPES_Modelverifier_Base.Items;
 
 namespace ITU_Scenario.Items
 {
-    class HMSCInlineExpressionLoopOptExc : Container
+    public class HMSCInlineExpressionLoopOptExc : Container
     {
     }
 }

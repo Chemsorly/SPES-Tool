@@ -8,7 +8,7 @@ using SPES_Modelverifier_Base.Items;
 
 namespace ITU_Scenario.Items
 {
-    abstract class BaseLostFoundMessage : Connection
+    public abstract class BaseLostFoundMessage : Connection
     {
         [XmlIgnore]
         public override List<Type> AllowedConnectedTypes => new List<Type>() {typeof(Instance)};

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ITU_Scenario.Items
 {
-    class FoundMessage : BaseLostFoundMessage
+    public class FoundMessage : BaseLostFoundMessage
     {
         public override void Verify()
         {
