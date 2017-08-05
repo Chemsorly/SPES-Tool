@@ -8,11 +8,11 @@ using SPES_Modelverifier_Base.Items;
 
 namespace ITU_Scenario.Items
 {
-    public abstract class BaseLostFoundMessage : Connection
+    public abstract class BaseLostFoundMessage : Message
     {
         [XmlIgnore]
-        public override List<Type> AllowedConnectedTypes => new List<Type>() {typeof(Instance)};
+        public override List<Type> AllowedConnectedTypes => new List<Type>() {typeof(Instance), typeof(CoregionBox)};
 
-        public override bool Inverted { get; }
+        public override bool Inverted => false;
     }
 }

@@ -89,7 +89,7 @@ namespace ITU_Scenario.ModelChecker
         private void SetNextNodesNew()
         {
             //get all outgoing messages
-            var outgoing = this.Current.Connections.Where(t => t is Message && t.FromObject == this.Current).Where(t => t.Locationy <= IncomingHeight);
+            var outgoing = this.Current.Connections.Where(t => (t is Message || t is LostMessage) && t.FromObject == this.Current).Where(t => t.Locationy <= IncomingHeight);
             var coregions = this.Current.ParentModel.ObjectList.Where(t => t is CoregionBox && 
                 (t as CoregionBox).Locationx < this.Current.Locationtopright.X &&
                 (t as CoregionBox).Locationx > this.Current.Locationtopleft.X);
@@ -100,8 +100,20 @@ namespace ITU_Scenario.ModelChecker
             {
                 //get next outgoing connection
                 List<Connection> nextmessagesList = new List<Connection>();
-                if(outgoing.Any())
-                    nextmessagesList.Add(outgoing.MaxBy(t => t.Locationy));
+                if (outgoing.Any())
+                {
+                    //order
+                    var outgoingordered = outgoing.OrderByDescending(t => t.Locationy).ToList();
+
+                    //handle lost messages as if they were async
+                    //add lostmessages to list until normal message found
+                    for (int i = 0; i < outgoingordered.Count; i++)
+                    {
+                        nextmessagesList.Add(outgoingordered[i]);
+                        if (outgoingordered[i] is Message)
+                            break;
+                    }
+                }
 
                 //check if a coregion exists before. if so, use those connections instead
                 if (coregions.Any())
@@ -112,8 +124,14 @@ namespace ITU_Scenario.ModelChecker
                     {
                         //coregion found, replace nextmessages with coregion outgoing messages
                         nextmessagesList.Clear();
-                        var coregionOutgoingMessages = (fittingCoregions.MaxBy(t => t.Locationy) as Item).Connections.Where(t => t.FromObject == fittingCoregions.MaxBy(r => r.Locationy));
+                        var coregionmax = fittingCoregions.MaxBy(t => t.Locationy) as Item;
+                        var coregionOutgoingMessages = coregionmax.Connections.Where(t => t.FromObject == fittingCoregions.MaxBy(r => r.Locationy));
                         nextmessagesList.AddRange(coregionOutgoingMessages);
+
+                        //special case: lost messages between coregion and incoming message
+                        var lostmessagesbetweencoregion = outgoing.Where(t => t is LostMessage && t.Locationy < coregionmax.Locationy);
+                        if(lostmessagesbetweencoregion.Any())
+                            nextmessagesList.AddRange(lostmessagesbetweencoregion);
                     }
                 }
 
@@ -178,9 +196,22 @@ namespace ITU_Scenario.ModelChecker
                 //create new nodes for each message
                 foreach (var newmessage in messages)
                 {
-                    NextNodes.Add(new BmscNode((Item)newmessage.ToObject, (Message)newmessage,
-                        this.CurrentDepth + 1, newmessage.Locationy, EnteredContainers));
-                    NextMessages.Add((Message)newmessage);
+                    //case: newmessage is LostMessage: find corresponding found message as next node if exists
+                    if (newmessage is LostMessage)
+                    {
+                        //check for foundmessage
+                        var foundmessage = this.Current.ParentModel.ObjectList.FirstOrDefault(t => t is FoundMessage message && t.Locationy < newmessage.Locationy &&(t as FoundMessage).Text == newmessage.Text) as FoundMessage;
+                        if (foundmessage != null)
+                        {
+                            NextNodes.Add(new BmscNode((Item)foundmessage.ToObject, (Message)foundmessage, this.CurrentDepth + 1, foundmessage.Locationy, EnteredContainers));
+                            NextMessages.Add((Message)newmessage);
+                        }
+                    }
+                    else
+                    {
+                        NextNodes.Add(new BmscNode((Item)newmessage.ToObject, (Message)newmessage, this.CurrentDepth + 1, newmessage.Locationy, EnteredContainers));
+                        NextMessages.Add((Message)newmessage);
+                    }
                 }
             }
         }
