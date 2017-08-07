@@ -200,7 +200,7 @@ namespace ITU_Scenario.ModelChecker
                     if (newmessage is LostMessage)
                     {
                         //check for foundmessage
-                        var foundmessage = this.Current.ParentModel.ObjectList.FirstOrDefault(t => t is FoundMessage message && t.Locationy < newmessage.Locationy &&(t as FoundMessage).Text == newmessage.Text) as FoundMessage;
+                        var foundmessage = (FoundMessage) this.Current.ParentModel.ObjectList.FirstOrDefault(t => t is FoundMessage message && t.Locationy < newmessage.Locationy &&((FoundMessage) t).Text == newmessage.Text);
                         if (foundmessage != null)
                         {
                             NextNodes.Add(new BmscNode((Item)foundmessage.ToObject, (Message)foundmessage, this.CurrentDepth + 1, foundmessage.Locationy, EnteredContainers));
