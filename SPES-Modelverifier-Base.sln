@@ -23,11 +23,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPES-FunktionsnetzTests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPES-ZielmodellTests", "SPES-ZielmodellTests\SPES-ZielmodellTests.csproj", "{565D91DE-7104-4287-B103-0D4A00B0AFCD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testfiles", "Testfiles", "{68BD6360-58AD-4B0B-B6E1-6A418BC2A340}"
-	ProjectSection(SolutionItems) = preProject
-		Testfiles\ControlHighBeamHeadlights_Example.vsdx = Testfiles\ControlHighBeamHeadlights_Example.vsdx
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +73,5 @@ Global
 		{3537C1D0-E062-4C15-B32C-9293F85FC65C} = {3CF3DB4D-68B6-41FE-9235-D6E474A0F3B4}
 		{EBA972E9-F86B-458C-A3F6-615521DD8B5A} = {3CF3DB4D-68B6-41FE-9235-D6E474A0F3B4}
 		{565D91DE-7104-4287-B103-0D4A00B0AFCD} = {3CF3DB4D-68B6-41FE-9235-D6E474A0F3B4}
-		{68BD6360-58AD-4B0B-B6E1-6A418BC2A340} = {3CF3DB4D-68B6-41FE-9235-D6E474A0F3B4}
 	EndGlobalSection
 EndGlobal

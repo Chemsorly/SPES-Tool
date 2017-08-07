@@ -79,6 +79,8 @@
     <Compile Include="Items\NRO.cs" />
     <Compile Include="Items\StartEndItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\UnitTestDetector.cs" />
+    <Compile Include="Utility\UnitTester.cs" />
     <Compile Include="ValidationFailedException.cs" />
     <Compile Include="ValidationFailedMessage.cs" />
   </ItemGroup>

@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using SPES_Modelverifier_Base.ModelChecker;
 using System.Xml.Serialization;
 using SPES_Modelverifier_Base.Items;
+using Utility.Testing;
 
 namespace SPES_Modelverifier_Base
 {
@@ -58,7 +59,7 @@ namespace SPES_Modelverifier_Base
         /// creates a new instance of the model verifier for a specific model type
         /// </summary>
         /// <param name="pApplication">the visio application with the open document</param>
-        protected ModelNetwork(Application pApplication)
+        public ModelNetwork(Application pApplication)
         {
             CollectedValidationMessages = new List<ValidationFailedMessage>();
 
@@ -68,8 +69,12 @@ namespace SPES_Modelverifier_Base
             _visioApplication = pApplication;
 
             //gets called when document is loaded
-            _visioApplication.DocumentCreatedEvent += VisioApplication_DocumentCreatedOrLoadedEvent;
-            _visioApplication.DocumentOpenedEvent += VisioApplication_DocumentCreatedOrLoadedEvent;
+            if (!UnitTestDetector.IsRunningUnittest)
+            {
+                //do not bind to UI events during tests, otherwise visio acts weird
+                _visioApplication.DocumentCreatedEvent += VisioApplication_DocumentCreatedOrLoadedEvent;
+                _visioApplication.DocumentOpenedEvent += VisioApplication_DocumentCreatedOrLoadedEvent;
+            }
 
             // ReSharper disable once VirtualMemberCallInConstructor
             _mapping = Activator.CreateInstance(MappingListType) as MappingList;
