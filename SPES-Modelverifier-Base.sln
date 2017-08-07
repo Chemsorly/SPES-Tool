@@ -15,6 +15,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisioAddin2010", "VisioAddi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPES-Zielmodell", "SPES-Zielmodell\SPES-Zielmodell.csproj", "{11D350E1-4892-4EA7-B93C-9CEE06E48D2A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3CF3DB4D-68B6-41FE-9235-D6E474A0F3B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITU-ScenarioTests", "ITU-ScenarioTests\ITU-ScenarioTests.csproj", "{3537C1D0-E062-4C15-B32C-9293F85FC65C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPES-FunktionsnetzTests", "SPES-FunktionsnetzTests\SPES-FunktionsnetzTests.csproj", "{EBA972E9-F86B-458C-A3F6-615521DD8B5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPES-ZielmodellTests", "SPES-ZielmodellTests\SPES-ZielmodellTests.csproj", "{565D91DE-7104-4287-B103-0D4A00B0AFCD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testfiles", "Testfiles", "{68BD6360-58AD-4B0B-B6E1-6A418BC2A340}"
+	ProjectSection(SolutionItems) = preProject
+		Testfiles\ControlHighBeamHeadlights_Example.vsdx = Testfiles\ControlHighBeamHeadlights_Example.vsdx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,8 +58,26 @@ Global
 		{11D350E1-4892-4EA7-B93C-9CEE06E48D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11D350E1-4892-4EA7-B93C-9CEE06E48D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11D350E1-4892-4EA7-B93C-9CEE06E48D2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3537C1D0-E062-4C15-B32C-9293F85FC65C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3537C1D0-E062-4C15-B32C-9293F85FC65C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3537C1D0-E062-4C15-B32C-9293F85FC65C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3537C1D0-E062-4C15-B32C-9293F85FC65C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBA972E9-F86B-458C-A3F6-615521DD8B5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBA972E9-F86B-458C-A3F6-615521DD8B5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBA972E9-F86B-458C-A3F6-615521DD8B5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBA972E9-F86B-458C-A3F6-615521DD8B5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{565D91DE-7104-4287-B103-0D4A00B0AFCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{565D91DE-7104-4287-B103-0D4A00B0AFCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{565D91DE-7104-4287-B103-0D4A00B0AFCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{565D91DE-7104-4287-B103-0D4A00B0AFCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3537C1D0-E062-4C15-B32C-9293F85FC65C} = {3CF3DB4D-68B6-41FE-9235-D6E474A0F3B4}
+		{EBA972E9-F86B-458C-A3F6-615521DD8B5A} = {3CF3DB4D-68B6-41FE-9235-D6E474A0F3B4}
+		{565D91DE-7104-4287-B103-0D4A00B0AFCD} = {3CF3DB4D-68B6-41FE-9235-D6E474A0F3B4}
+		{68BD6360-58AD-4B0B-B6E1-6A418BC2A340} = {3CF3DB4D-68B6-41FE-9235-D6E474A0F3B4}
 	EndGlobalSection
 EndGlobal
