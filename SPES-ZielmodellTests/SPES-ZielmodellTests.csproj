@@ -83,6 +83,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SPES-Modelverifier-Base\SPES-Modelverifier-Base.csproj">
+      <Project>{B43F3525-9A96-40D4-9E2B-BD9BF9104008}</Project>
+      <Name>SPES-Modelverifier-Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SPES-Zielmodell\SPES-Zielmodell.csproj">
       <Project>{11D350E1-4892-4EA7-B93C-9CEE06E48D2A}</Project>
       <Name>SPES-Zielmodell</Name>

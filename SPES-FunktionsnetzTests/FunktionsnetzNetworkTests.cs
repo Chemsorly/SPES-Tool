@@ -18,12 +18,12 @@ namespace SPES_Funktionsnetz.Tests
     public class FunktionsnetzNetworkTests
     {
         [TestMethod()]
-        [DeploymentItem(@"Testfiles\ControlHighBeamHeadlights_Example.vsdx")]
+        [DeploymentItem(@"Testfiles\ControlHighBeamHeadlights_Example.vsdx", "Funktionsnetze")]
         public void FunktionsnetzTests()
         {
             try
             {
-                UnitTester.RunUnitTests(typeof(FunktionsnetzNetwork));
+                UnitTester.RunUnitVerificationTests(typeof(FunktionsnetzNetwork), "Funktionsnetze");
             }
             catch (Exception ex)
             {
@@ -33,6 +33,21 @@ namespace SPES_Funktionsnetz.Tests
             
         }
 
+        [TestMethod()]
+        [DeploymentItem(@"Testfiles\ControlHighBeamHeadlights_Example.vsdx", "Funktionsnetze")]
+        public void FunktionsnetzExport()
+        {
+            try
+            {
+                UnitTester.RunUnitExportTests(typeof(FunktionsnetzNetwork), "Funktionsnetze");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Assert.Fail(ex.Message);
+            }
+
+        }
         //xml import/export
     }
 }

@@ -158,13 +158,15 @@ namespace SPES_Modelverifier_Base
             {
                 //gets all objects from items namespace: all classes defined in Items and Models namespace. 
                 //Sorts out compiler classes, check https://stackoverflow.com/questions/43068213/getting-all-types-under-a-userdefined-assembly
-                Type[] classes = Assembly.GetAssembly(this.GetType()).GetTypes().Where(t => 
+                List<Type> classes = Assembly.GetAssembly(this.GetType()).GetTypes().Where(t => 
                 t.IsClass && 
                 !t.GetTypeInfo().IsDefined(typeof(CompilerGeneratedAttribute)) &&
                 (t.Namespace.EndsWith("Items") || t.Namespace.EndsWith("Models")))
-                .ToArray();
+                .ToList();
+                //add NRO because missing
+                classes.Add(typeof(NRO));
 
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Model>), classes);
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Model>), classes.ToArray());
                 
                 using (FileStream stream = new FileStream(pFile, FileMode.OpenOrCreate))
                 {
