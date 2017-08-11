@@ -33,6 +33,12 @@ namespace ITU_Scenario
             { "Lost Message", typeof(LostMessage) },
             { "Found Message", typeof(FoundMessage) },
             { "Coregion Box", typeof(CoregionBox) },
+            { "Inline Expr: alt (bmsc)", typeof(BMSCInlineExpressionAltPar) },
+            { "Inline Expr: par (bmsc)", typeof(BMSCInlineExpressionAltPar) },
+            //no function in bmsc atm
+            //{ "Inline Expr: loop (bmsc)", typeof(BMSCInlineExpressionLoopOptExc) },
+            //{ "Inline Expr: opt (bmsc)", typeof(BMSCInlineExpressionLoopOptExc) },
+            //{ "Inline Expr: exc (bmsc)", typeof(BMSCInlineExpressionLoopOptExc) },
 
             //both
             { "Condition", typeof(Condition) },
