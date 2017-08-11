@@ -74,9 +74,9 @@ namespace ITU_Scenario.ModelChecker
             //IncomingMessageContainer = pIncomingMessageContainer;
 
             //case depth > 100 (TODO proper abort function for bmsc)
-            if (CurrentDepth > 100)
+            if (CurrentDepth > 200)
             {
-                throw new ValidationFailedException(Current, "Path length > 100 found");
+                throw new ValidationFailedException(Current, "Path length > 200 found");
             }
 
             //expand tree
@@ -89,10 +89,8 @@ namespace ITU_Scenario.ModelChecker
         private void SetNextNodesNew()
         {
             //get all outgoing messages
-            var outgoing = this.Current.Connections.Where(t => (t is Message || t is LostMessage) && t.FromObject == this.Current).Where(t => t.Locationy <= IncomingHeight);
-            var coregions = this.Current.ParentModel.ObjectList.Where(t => t is CoregionBox && 
-                (t as CoregionBox).Locationx < this.Current.Locationtopright.X &&
-                (t as CoregionBox).Locationx > this.Current.Locationtopleft.X);
+            var outgoing = this.Current.Connections.Where(t => (t is Message || t is LostMessage) && t.FromObject != null && t.FromObject == this.Current).Where(t => t.Locationy <= IncomingHeight);
+            var coregions = this.Current.ParentModel.ObjectList.Where(t => t is CoregionBox && Math.Abs((t as CoregionBox).Locationx - this.Current.Locationx) < 1);
             var messages = new HashSet<Connection>();
 
             //check if next messages (or coregions) exist, return if not
@@ -119,6 +117,8 @@ namespace ITU_Scenario.ModelChecker
                 if (coregions.Any())
                 {
                     var fittingCoregions = coregions.Where(t => t.Locationtopleft.Y < this.IncomingHeight);
+                    if(nextmessagesList.Any() && fittingCoregions.Any())
+                        fittingCoregions = fittingCoregions.Where(t => t.Locationtopleft.Y > nextmessagesList.First().Locationy).ToList();
 
                     if (fittingCoregions.Any())
                     {

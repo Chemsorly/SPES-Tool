@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -14,5 +15,7 @@ namespace ITU_Scenario.Items
         public override List<Type> AllowedConnectedTypes => new List<Type>() {typeof(Instance), typeof(CoregionBox)};
 
         public override bool Inverted => false;
+
+        //public override bool AllowsOnlyOneConnectedItem => true;
     }
 }
