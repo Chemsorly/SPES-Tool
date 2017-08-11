@@ -21,7 +21,7 @@ namespace ITU_Scenario.Models
             typeof(HMSCCondition),
             typeof(HMSCGuardingCondition)
         };
-
+        [XmlIgnore]
         public override List<Type> CheckersToRun => new List<Type>() {typeof(GuardingConditionExistenceChecker), typeof(HmscValidPathChecker) };
     }
 }

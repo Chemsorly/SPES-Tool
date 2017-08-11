@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Xml.Serialization;
 using MoreLinq;
 
 namespace SPES_Modelverifier_Base.Items
@@ -10,30 +11,32 @@ namespace SPES_Modelverifier_Base.Items
         /// <summary>
         /// All BaseObjects in the container item
         /// </summary>
+        [XmlIgnore]
         public List<BaseObject> ContainingItems => _containingItems ?? (_containingItems = GetContainingItems());
         private List<BaseObject> _containingItems;
 
         /// <summary>
         /// most top/parent container in hierarchy. returns itself if already top
         /// </summary>
+        [XmlIgnore]
         public Container TopContainer => _topContainer ?? (_topContainer = GetTopContainer());
         private Container _topContainer;
-        
+
         /// <summary>
         /// direct parent container. null if no parent
-        /// </summary>
+        [XmlIgnore]
         public Container ParentContainer => _parentContainer ?? (_parentContainer = GetParentContainer());
         private Container _parentContainer;
-        
+
         /// <summary>
         /// all childcontainers
-        /// </summary>
+        [XmlIgnore]
         public List<Container> ChildContainers => _childContainers ?? (_childContainers = GetAllChildContainers());
         private List<Container> _childContainers;
-        
+
         /// <summary>
         /// all direct descendend childcontainers
-        /// </summary>
+        [XmlIgnore]
         public List<Container> FirstLevelChildContainers => _firstLevelChildContainers ?? (_firstLevelChildContainers = GetFirstLevelChildContainers());
         private List<Container> _firstLevelChildContainers;
 

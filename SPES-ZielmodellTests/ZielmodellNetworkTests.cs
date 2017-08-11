@@ -15,6 +15,7 @@ namespace SPES_Zielmodell.Tests
         private const string Subfolder = "Zielmodelle";
 
         [TestMethod()]
+        [DeploymentItem(@"Testfiles\Zielmodelle_Systemtest1.vsdx", Subfolder)]
         public void ZielmodellTests()
         {
             try
@@ -29,6 +30,7 @@ namespace SPES_Zielmodell.Tests
         }
 
         [TestMethod()]
+        [DeploymentItem(@"Testfiles\Zielmodelle_Systemtest1.vsdx", Subfolder)]
         public void ZielmodellExport()
         {
             try
