@@ -15,6 +15,9 @@ namespace ITU_Scenario.Tests
         private const string Subfolder = "Szenariomodelle";
 
         [TestMethod()]
+        [DeploymentItem(@"Testfiles\Bmsc_ContainerTest1.vsdx", Subfolder)]
+        [DeploymentItem(@"Testfiles\Bmsc_CoregionTest1.vsdx", Subfolder)]
+        [DeploymentItem(@"Testfiles\Szenario_Systemtest1.vsdx", Subfolder)]
         public void ScenarioTests()
         {
             try
@@ -29,6 +32,9 @@ namespace ITU_Scenario.Tests
         }
 
         [TestMethod()]
+        [DeploymentItem(@"Testfiles\Bmsc_ContainerTest1.vsdx", Subfolder)]
+        [DeploymentItem(@"Testfiles\Bmsc_CoregionTest1.vsdx", Subfolder)]
+        [DeploymentItem(@"Testfiles\Szenario_Systemtest1.vsdx", Subfolder)]
         public void ScenarioExport()
         {
             try

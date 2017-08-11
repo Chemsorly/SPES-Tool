@@ -8,6 +8,7 @@ using NetOffice.VisioApi;
 using ITU_Scenario;
 using SPES_Funktionsnetz;
 using System.Windows.Forms;
+using NetOffice.VisioApi.Enums;
 using SPES_Zielmodell;
 
 namespace VisioAddin2013
@@ -71,6 +72,15 @@ namespace VisioAddin2013
                     {
                         //show results window
                         activeResultForm?.Dispose();
+
+                        //foreach (var result in results)
+                        //{
+                        //    if (result.ExceptionObject != null && result.ExceptionObject.Visioshape != null)
+                        //    {
+                        //        var targetCell = result.ExceptionObject.Visioshape.get_CellsSRC((short)VisSectionIndices.visSectionObject, (short)VisRowIndices.visRowFill, (short)VisCellIndices.visFillForegnd);
+                        //        targetCell.FormulaU = "RGB(255,0,0)";
+                        //    }
+                        //}
 
                         ResultForm window = new ResultForm(results);
                         activeResultForm = window;
