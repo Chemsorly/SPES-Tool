@@ -145,19 +145,7 @@ namespace SPES_Modelverifier_Base.Models
                 }
             });
 
-            //run checkers if any specified
-            foreach (var checkertype in CheckersToRun)
-            {
-                //check checker
-                Debug.Assert(checkertype.IsSubclassOf(typeof(IModelChecker)));
 
-                //create defined checker
-                var checker = (IModelChecker)Activator.CreateInstance(checkertype);
-                checker.ValidationFailedEvent += delegate (ValidationFailedMessage pMessage) { ValidationFailedEvent?.Invoke(pMessage); };
-
-                //run initialize method
-                checker.Initialize(this);
-            }
         }
 
         /// <summary>

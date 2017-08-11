@@ -30,11 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             this.ResultsDataGridView = new System.Windows.Forms.DataGridView();
+            this.validationFailedMessageBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.processLevelDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Sheet = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ExceptionObject = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.messageDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.validationFailedMessageBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.ResultsDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.validationFailedMessageBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -48,6 +49,7 @@
             this.ResultsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ResultsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.processLevelDataGridViewTextBoxColumn,
+            this.Sheet,
             this.ExceptionObject,
             this.messageDataGridViewTextBoxColumn});
             this.ResultsDataGridView.DataSource = this.validationFailedMessageBindingSource;
@@ -58,13 +60,16 @@
             this.ResultsDataGridView.Size = new System.Drawing.Size(584, 261);
             this.ResultsDataGridView.TabIndex = 0;
             // 
+            // validationFailedMessageBindingSource
+            // 
+            this.validationFailedMessageBindingSource.DataSource = typeof(SPES_Modelverifier_Base.ValidationFailedMessage);
+            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.dataGridViewTextBoxColumn1.DataPropertyName = "ExceptionObject";
             this.dataGridViewTextBoxColumn1.HeaderText = "Item";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.Width = 52;
             // 
             // processLevelDataGridViewTextBoxColumn
             // 
@@ -74,6 +79,13 @@
             this.processLevelDataGridViewTextBoxColumn.Name = "processLevelDataGridViewTextBoxColumn";
             this.processLevelDataGridViewTextBoxColumn.ReadOnly = true;
             this.processLevelDataGridViewTextBoxColumn.Width = 58;
+            // 
+            // Sheet
+            // 
+            this.Sheet.DataPropertyName = "Sheet";
+            this.Sheet.HeaderText = "Sheet";
+            this.Sheet.Name = "Sheet";
+            this.Sheet.ReadOnly = true;
             // 
             // ExceptionObject
             // 
@@ -91,10 +103,6 @@
             this.messageDataGridViewTextBoxColumn.HeaderText = "Message";
             this.messageDataGridViewTextBoxColumn.Name = "messageDataGridViewTextBoxColumn";
             this.messageDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // validationFailedMessageBindingSource
-            // 
-            this.validationFailedMessageBindingSource.DataSource = typeof(SPES_Modelverifier_Base.ValidationFailedMessage);
             // 
             // ResultForm
             // 
@@ -114,9 +122,10 @@
         #endregion
         private System.Windows.Forms.BindingSource validationFailedMessageBindingSource;
         private System.Windows.Forms.DataGridView ResultsDataGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn processLevelDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Sheet;
         private System.Windows.Forms.DataGridViewTextBoxColumn ExceptionObject;
         private System.Windows.Forms.DataGridViewTextBoxColumn messageDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
     }
 }

@@ -7,9 +7,11 @@ using SPES_Modelverifier_Base.Models;
 
 namespace ITU_Scenario.Items
 {
-    public class BMSCReference : ModelReference
+    public class HMSCMscReference : ModelReference
     {
         [XmlIgnore]
         public override List<Type> AllowedReferenceTypes => new List<Type>() { typeof(BMSCModel) };
+
+        public override bool CanHaveDuplicateText => true;
     }
 }

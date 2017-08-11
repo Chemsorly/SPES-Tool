@@ -18,13 +18,15 @@ namespace ITU_Scenario
             { "Connection Point", typeof(ConnectionPoint) },
             { "Start Symbol", typeof(StartSymbol) },
             { "End Symbol", typeof(EndSymbol) },
-            { "MSC Reference", typeof(BMSCReference) },
+            { "MSC Reference", typeof(HMSCMscReference) },
             { "Connection Arrow", typeof(ConnectionArrow) },
             { "Inline Expr: alt", typeof(HMSCInlineExpressionAltPar) },
             { "Inline Expr: par", typeof(HMSCInlineExpressionAltPar) },
             { "Inline Expr: loop", typeof(HMSCInlineExpressionLoopOptExc) },
             { "Inline Expr: opt", typeof(HMSCInlineExpressionLoopOptExc) },
             { "Inline Expr: exc", typeof(HMSCInlineExpressionLoopOptExc) },
+            { "Condition", typeof(HMSCCondition) },
+            { "Guarding Condition", typeof(HMSCGuardingCondition) },
 
             //BMSC            
             { "Line Instance", typeof(Instance) },
@@ -39,10 +41,11 @@ namespace ITU_Scenario
             //{ "Inline Expr: loop (bmsc)", typeof(BMSCInlineExpressionLoopOptExc) },
             //{ "Inline Expr: opt (bmsc)", typeof(BMSCInlineExpressionLoopOptExc) },
             //{ "Inline Expr: exc (bmsc)", typeof(BMSCInlineExpressionLoopOptExc) },
+            { "Condition (bmsc)", typeof(BMSCCondition) },
+            { "Guarding Condition (bmsc)", typeof(BMSCGuardingCondition) },
+            { "MSC Reference (bmsc)", typeof(BMSCMscReference) }
 
-            //both
-            { "Condition", typeof(Condition) },
-            { "Guarding Condition", typeof(GuardingCondition) }
+
         };
 
         protected override List<Type>TargetModels => new List<Type>() { typeof(HMSCModel), typeof(BMSCModel) };

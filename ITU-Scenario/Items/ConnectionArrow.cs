@@ -13,11 +13,11 @@ namespace ITU_Scenario.Items
             typeof(ConnectionPoint),
             typeof(StartSymbol),
             typeof(EndSymbol),
-            typeof(BMSCReference),
+            typeof(HMSCMscReference),
             typeof(HMSCInlineExpressionAltPar),
             typeof(HMSCInlineExpressionLoopOptExc),
-            typeof(Condition),
-            typeof(GuardingCondition)};
+            typeof(HMSCCondition),
+            typeof(HMSCGuardingCondition)};
 
         public override bool Inverted => true;
     }

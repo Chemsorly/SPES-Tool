@@ -14,8 +14,9 @@ namespace ITU_Scenario.Models
             typeof(Instance) ,
             typeof(Message) ,
             typeof(BMSCInlineExpressionAltPar),
-            typeof(Condition),
-            typeof(GuardingCondition),
+            typeof(BMSCCondition),
+            typeof(BMSCGuardingCondition),
+            typeof(BMSCMscReference),
             typeof(LostMessage),
             typeof(FoundMessage),
             typeof(CoregionBox)

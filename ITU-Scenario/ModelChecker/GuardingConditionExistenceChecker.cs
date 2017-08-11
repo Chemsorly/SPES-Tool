@@ -19,7 +19,7 @@ namespace ITU_Scenario.ModelChecker
             Debug.Assert(pModel != null);
 
             //check if any guarding condition exist
-            var gcs = pModel.ObjectList.Where(t => t is GuardingCondition).Cast<GuardingCondition>();
+            var gcs = pModel.ObjectList.Where(t => t is HMSCGuardingCondition || t is BMSCGuardingCondition).Cast<BaseCondition>();
 
             //init parent model list
             List<Model> modelstocheck = new List<Model>() { pModel };
@@ -41,26 +41,21 @@ namespace ITU_Scenario.ModelChecker
             //check everys gc for their key-value pair and check if a condition in the model or any parent model with a corresponding key-value pair exist
             foreach (var gc in gcs)
             {
-                foreach (var model in modelstocheck)
+                var correspondingCondition = modelstocheck.SelectMany(t => t.ObjectList).Where(t => t is HMSCCondition || t is BMSCCondition).Cast<BaseCondition>().Where(t => t.Key == gc.Key);
+                if (correspondingCondition.Any())
                 {
-                    //check if a corresponding condition exists somewhere
-                    var correspondingCondition = model.ObjectList.Where(t => t is Condition).Cast<Condition>().Where(t => t.Key == gc.Key);
-                    if (correspondingCondition.Any())
-                    {
-                        //if value is empty, just check if key has been touched anywhere before
-                        if (string.IsNullOrWhiteSpace(gc.Key))
-                            break;
+                    //if value is empty, just check if key has been touched anywhere before
+                    if (string.IsNullOrWhiteSpace(gc.Value))
+                        break;
 
-                        //compare values; check if a condition with same value exists
-                        if(!correspondingCondition.Any(t => t.Key == gc.Key))
-                            NotifyValidationFailed(new ValidationFailedMessage(4, $"no corresponding condition with the key {gc.Key} and value {gc.Value} found", gc));
-                    }
-                    else
-                    {
-                        NotifyValidationFailed(new ValidationFailedMessage(4, $"no corresponding condition with the key {gc.Key} found",gc));
-                    }
+                    //compare values; check if a condition with same value exists
+                    if (!correspondingCondition.Any(t => t.Value == gc.Value))
+                        NotifyValidationFailed(new ValidationFailedMessage(4, $"no corresponding condition with the key {gc.Key} and value {gc.Value} found", gc));
                 }
-
+                else
+                {
+                    NotifyValidationFailed(new ValidationFailedMessage(4, $"no corresponding condition with the key {gc.Key} found", gc));
+                }
             }
         }
     }

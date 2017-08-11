@@ -64,10 +64,13 @@
     <Compile Include="Items\Action.cs" />
     <Compile Include="Items\BaseCondition.cs" />
     <Compile Include="Items\BaseLostFoundMessage.cs" />
-    <Compile Include="Items\Condition.cs" />
+    <Compile Include="Items\BMSCCondition.cs" />
+    <Compile Include="Items\BMSCGuardingCondition.cs" />
+    <Compile Include="Items\HMSCMscReference.cs" />
+    <Compile Include="Items\HMSCCondition.cs" />
     <Compile Include="Items\CoregionBox.cs" />
     <Compile Include="Items\FoundMessage.cs" />
-    <Compile Include="Items\GuardingCondition.cs" />
+    <Compile Include="Items\HMSCGuardingCondition.cs" />
     <Compile Include="Items\HMSCInlineExpressionAltPar.cs" />
     <Compile Include="Items\HMSCInlineExpressionLoopOptExc.cs" />
     <Compile Include="Items\LostMessage.cs" />
@@ -76,7 +79,7 @@
     <Compile Include="ModelChecker\HmscTree.cs" />
     <Compile Include="ModelChecker\HmscValidPathChecker.cs" />
     <Compile Include="Models\BMSCModel.cs" />
-    <Compile Include="Items\BMSCReference.cs" />
+    <Compile Include="Items\BMSCMscReference.cs" />
     <Compile Include="Items\ConnectionArrow.cs" />
     <Compile Include="Items\ConnectionPoint.cs" />
     <Compile Include="Items\BMSCInlineExpressionAltPar.cs" />

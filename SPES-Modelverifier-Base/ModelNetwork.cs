@@ -136,6 +136,23 @@ namespace SPES_Modelverifier_Base
                 checker.Initialize(this);
             }
 
+            //run checkers from models
+            foreach (var model in ModelList)
+            {
+                foreach (var checkertype in model.CheckersToRun)
+                {
+                    //check checker
+                    Debug.Assert(checkertype.IsSubclassOf(typeof(IModelChecker)));
+
+                    //create defined checker
+                    var checker = (IModelChecker) Activator.CreateInstance(checkertype);
+                    checker.ValidationFailedEvent += NotifyVerificationFailed;
+
+                    //run initialize method
+                    checker.Initialize(model);
+                }
+            }
+
             return CollectedValidationMessages;
         }
 

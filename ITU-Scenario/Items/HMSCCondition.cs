@@ -7,7 +7,7 @@ using SPES_Modelverifier_Base.Items;
 
 namespace ITU_Scenario.Items
 {
-    public class Condition : BaseCondition
+    public class HMSCCondition : BaseCondition
     {
 
     }
