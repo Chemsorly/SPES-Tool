@@ -12,12 +12,14 @@ namespace SPES_Zielmodell.Tests
     [TestClass()]
     public class ZielmodellNetworkTests
     {
+        private const string Subfolder = "Zielmodelle";
+
         [TestMethod()]
         public void ZielmodellTests()
         {
             try
             {
-                UnitTester.RunUnitVerificationTests(typeof(ZielmodellNetwork), "Zielmodelle");
+                UnitTester.RunUnitVerificationTests(typeof(ZielmodellNetwork), Subfolder);
             }
             catch (Exception ex)
             {
@@ -31,7 +33,7 @@ namespace SPES_Zielmodell.Tests
         {
             try
             {
-                UnitTester.RunUnitExportTests(typeof(ZielmodellNetwork), "Zielmodelle");
+                UnitTester.RunUnitExportTests(typeof(ZielmodellNetwork), Subfolder);
             }
             catch (Exception ex)
             {

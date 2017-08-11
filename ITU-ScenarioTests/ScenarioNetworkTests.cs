@@ -12,12 +12,14 @@ namespace ITU_Scenario.Tests
     [TestClass()]
     public class ScenarioNetworkTests
     {
+        private const string Subfolder = "Szenariomodelle";
+
         [TestMethod()]
         public void ScenarioTests()
         {
             try
             {
-                UnitTester.RunUnitVerificationTests(typeof(ScenarioNetwork), "Szenariomodelle");
+                UnitTester.RunUnitVerificationTests(typeof(ScenarioNetwork), Subfolder);
             }
             catch (Exception ex)
             {
@@ -31,7 +33,7 @@ namespace ITU_Scenario.Tests
         {
             try
             {
-                UnitTester.RunUnitExportTests(typeof(ScenarioNetwork), "Szenariomodelle");
+                UnitTester.RunUnitExportTests(typeof(ScenarioNetwork), Subfolder);
             }
             catch (Exception ex)
             {

@@ -70,7 +70,7 @@ namespace SPES_Modelverifier_Base.Utility
             foreach (var file in files)
             {
                 Exception validationFail = null;
-                List<ValidationFailedMessage> violations = null;
+                //List<ValidationFailedMessage> violations = null;
 
                 //start application
                 using (Application application = new Application())

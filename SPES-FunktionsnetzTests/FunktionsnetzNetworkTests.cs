@@ -17,13 +17,15 @@ namespace SPES_Funktionsnetz.Tests
     [TestClass()]
     public class FunktionsnetzNetworkTests
     {
+        private const string Subfolder = "Funktionsnetze";
+
         [TestMethod()]
-        [DeploymentItem(@"Testfiles\ControlHighBeamHeadlights_Example.vsdx", "Funktionsnetze")]
+        [DeploymentItem(@"Testfiles\ControlHighBeamHeadlights_Example.vsdx", Subfolder)]
         public void FunktionsnetzTests()
         {
             try
             {
-                UnitTester.RunUnitVerificationTests(typeof(FunktionsnetzNetwork), "Funktionsnetze");
+                UnitTester.RunUnitVerificationTests(typeof(FunktionsnetzNetwork), Subfolder);
             }
             catch (Exception ex)
             {
@@ -34,12 +36,12 @@ namespace SPES_Funktionsnetz.Tests
         }
 
         [TestMethod()]
-        [DeploymentItem(@"Testfiles\ControlHighBeamHeadlights_Example.vsdx", "Funktionsnetze")]
+        [DeploymentItem(@"Testfiles\ControlHighBeamHeadlights_Example.vsdx", Subfolder)]
         public void FunktionsnetzExport()
         {
             try
             {
-                UnitTester.RunUnitExportTests(typeof(FunktionsnetzNetwork), "Funktionsnetze");
+                UnitTester.RunUnitExportTests(typeof(FunktionsnetzNetwork), Subfolder);
             }
             catch (Exception ex)
             {
