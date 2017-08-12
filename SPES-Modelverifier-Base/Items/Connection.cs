@@ -30,6 +30,11 @@ namespace SPES_Modelverifier_Base.Items
         public BaseObject ToObject { get; set; }
 
         /// <summary>
+        /// defines if the connection item only connects with one end
+        /// </summary>
+        public virtual bool AllowOnlyOneConnectedItem => false;
+
+        /// <summary>
         /// searches all items in a model and sets the pointer if a match has been found
         /// </summary>
         /// <param name="pAllObjects"></param>
@@ -39,28 +44,35 @@ namespace SPES_Modelverifier_Base.Items
             BaseObject xFromObject = this.GetObjectConnectingFrom(pAllObjects);
             BaseObject xToObject = this.GetObjectConnectingTo(pAllObjects);
 
-            if (xFromObject != null && xToObject != null &&
-                (AllowedConnectedTypes.Any() ? AllowedConnectedTypes.Contains(xFromObject.GetType()) : true) &&
-                (AllowedConnectedTypes.Any() ? AllowedConnectedTypes.Contains(xToObject.GetType()) : true))
+            //differentiate on allowonlyoneconnecteditem
+            if (AllowOnlyOneConnectedItem)
             {
-                //flip from and to because visio
-                if (Inverted)
+                if (xFromObject != null && (AllowedConnectedTypes.Any() ? AllowedConnectedTypes.Contains(xFromObject.GetType()) : true))
                 {
-                    this.FromObject = xToObject;
-                    this.ToObject = xFromObject;
+                    SetConnectionValue(null, xFromObject);
+                }
+                else if (xToObject != null && (AllowedConnectedTypes.Any() ? AllowedConnectedTypes.Contains(xToObject.GetType()) : true))
+                {
+                    SetConnectionValue(xToObject, null);
                 }
                 else
                 {
-                    this.FromObject = xFromObject;
-                    this.ToObject = xToObject;
+                    throw new ValidationFailedException(this, this.GetType().Name + " " + this.Uniquename + " doesn't connect to an allowed types and/or connected item is null.");
                 }
-
-                //set connection items at target objects
-                (FromObject as Item).Connections.Add(this);
-                (ToObject as Item).Connections.Add(this);
             }
             else
-                throw new ValidationFailedException(this, this.GetType().Name + " " + this.Uniquename + " doesn't connect to two allowed types and/or connected items are null.");
+            {
+                if (xFromObject != null && xToObject != null && 
+                    (AllowedConnectedTypes.Any() ? AllowedConnectedTypes.Contains(xFromObject.GetType()) : true) &&
+                    (AllowedConnectedTypes.Any() ? AllowedConnectedTypes.Contains(xToObject.GetType()) : true))
+                {
+                    SetConnectionValue(xToObject,xFromObject);
+                }
+                else
+                {
+                    throw new ValidationFailedException(this, this.GetType().Name + " " + this.Uniquename + " doesn't connect to two allowed types and/or connected items are null.");
+                }
+            }
         }
 
         private BaseObject GetObjectConnectingTo(List<BaseObject> pAllObjects)
@@ -79,6 +91,25 @@ namespace SPES_Modelverifier_Base.Items
                 return pAllObjects.Find(t => t.Visioshape == this.Visioshape.Connects[2].ToSheet);
             }
             catch { return null; }
+        }
+
+        private void SetConnectionValue(BaseObject pToObject, BaseObject pFromObject)
+        {
+            //flip from and to because visio
+            if (Inverted)
+            {
+                this.FromObject = pToObject;
+                this.ToObject = pFromObject;
+            }
+            else
+            {
+                this.FromObject = pFromObject;
+                this.ToObject = pToObject;
+            }
+
+            //set connection items at target objects
+            (FromObject as Item)?.Connections.Add(this);
+            (ToObject as Item)?.Connections.Add(this);
         }
     }
 }

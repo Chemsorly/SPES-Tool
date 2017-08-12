@@ -82,7 +82,12 @@ namespace ITU_Scenario.ModelChecker
 
             //check if all messages are traversed with valid paths
             var allmessages = StartNode.Current.ParentModel.ObjectList.Where(t => t is Message);
-            var validpathmessages = validpaths.SelectMany(t => t).SelectMany(t => t.NextMessages).Distinct();
+            var allnextvalidpathmessagesmessages = validpaths.SelectMany(t => t).SelectMany(t => t.NextMessages).ToList();
+            //special case: specifically add found messages
+            var allnextvalidpathincomingmessages = validpaths.SelectMany(t => t).Select(t => t.IncomingMessage);
+            allnextvalidpathmessagesmessages.AddRange(allnextvalidpathincomingmessages);
+            var validpathmessages = allnextvalidpathmessagesmessages.Distinct();
+
             var missingmessages = allmessages.Where(t => !validpathmessages.Contains(t)).ToList();
             if(missingmessages.Any())
                 missingmessages.ForEach(t => ValidationFailedEvent?.Invoke(new ValidationFailedMessage(4, $"Message({t.Text}) has no valid path.", t)));

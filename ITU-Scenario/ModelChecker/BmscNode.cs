@@ -108,7 +108,7 @@ namespace ITU_Scenario.ModelChecker
                     for (int i = 0; i < outgoingordered.Count; i++)
                     {
                         nextmessagesList.Add(outgoingordered[i]);
-                        if (outgoingordered[i] is Message)
+                        if (!(outgoingordered[i] is LostMessage))
                             break;
                     }
                 }

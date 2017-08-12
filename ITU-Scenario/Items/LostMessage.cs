@@ -8,5 +8,6 @@ namespace ITU_Scenario.Items
 {
     public class LostMessage : BaseLostFoundMessage
     {
+        public override bool Inverted => true;
     }
 }

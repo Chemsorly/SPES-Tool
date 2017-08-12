@@ -16,6 +16,6 @@ namespace ITU_Scenario.Items
 
         public override bool Inverted => false;
 
-        //public override bool AllowsOnlyOneConnectedItem => true;
+        public override bool AllowOnlyOneConnectedItem => true;
     }
 }
