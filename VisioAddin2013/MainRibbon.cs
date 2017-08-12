@@ -167,7 +167,7 @@ namespace VisioAddin2013
             }
         }
 
-        //TODO: aktuell für debug, später raus
+        //TODO: aktuell für debug, später raus // durch gitlab api -> new issue ersetzen
         private void AboutButton_Click(object sender, RibbonControlEventArgs e)
         {
             if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
