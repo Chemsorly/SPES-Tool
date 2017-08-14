@@ -72,6 +72,15 @@ namespace VisioAddin2010
                         //show results window
                         activeResultForm?.Dispose();
 
+                        //foreach (var result in results)
+                        //{
+                        //    if (result.ExceptionObject != null && result.ExceptionObject.Visioshape != null)
+                        //    {
+                        //        var targetCell = result.ExceptionObject.Visioshape.get_CellsSRC((short)VisSectionIndices.visSectionObject, (short)VisRowIndices.visRowFill, (short)VisCellIndices.visFillForegnd);
+                        //        targetCell.FormulaU = "RGB(255,0,0)";
+                        //    }
+                        //}
+
                         ResultForm window = new ResultForm(results);
                         activeResultForm = window;
                         window.Show();
@@ -102,7 +111,8 @@ namespace VisioAddin2010
                 SaveFileDialog dialog = new SaveFileDialog
                 {
                     AddExtension = true,
-                    DefaultExt = "xml"
+                    DefaultExt = "xml",
+                    Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*"
                 };
 
                 if (dialog.ShowDialog() == DialogResult.OK)
@@ -156,13 +166,13 @@ namespace VisioAddin2010
             }
         }
 
-        //TODO: aktuell für debug, später raus
+        //TODO: aktuell für debug, später raus // durch gitlab api -> new issue ersetzen
         private void AboutButton_Click(object sender, RibbonControlEventArgs e)
         {
             if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
             {
                 Version v = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion;
-                System.Windows.Forms.MessageBox.Show("Version: " + String.Format(@" v{0}.{1}.{2}.{3}", v.Major, v.Minor, v.Build, v.Revision));
+                System.Windows.Forms.MessageBox.Show($@"Version:  v{v.Major}.{v.Minor}.{v.Build}.{v.Revision} \nMaintainer: adrian.neubauer@paluno.uni-due.de", "About");
             }
             else
             {

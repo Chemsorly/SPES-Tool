@@ -72,7 +72,9 @@ namespace ITU_Scenario.ModelChecker
 
             //validpths should now contain all paths where .Last() == StartEndItem with !IsStart
             //take all items from valid paths and check if they are equal with all items in model
-            var allitems = StartNode.Current.ParentModel.ObjectList.Where(t => t is Item);
+            //for bmsc: only instances are relevant as placeableobjects are not part of the tree
+            var allitems = StartNode.Current.ParentModel.ObjectList.Where(t => t is Instance);
+
             var validpathitems = validpaths.SelectMany(t => t).Select(t => t.Current).Distinct();
             var missingitems = allitems.Where(t => !validpathitems.Contains(t)).ToList();
             if (missingitems.Any())
@@ -80,7 +82,12 @@ namespace ITU_Scenario.ModelChecker
 
             //check if all messages are traversed with valid paths
             var allmessages = StartNode.Current.ParentModel.ObjectList.Where(t => t is Message);
-            var validpathmessages = validpaths.SelectMany(t => t).SelectMany(t => t.NextMessages).Distinct();
+            var allnextvalidpathmessagesmessages = validpaths.SelectMany(t => t).SelectMany(t => t.NextMessages).ToList();
+            //special case: specifically add found messages
+            var allnextvalidpathincomingmessages = validpaths.SelectMany(t => t).Select(t => t.IncomingMessage);
+            allnextvalidpathmessagesmessages.AddRange(allnextvalidpathincomingmessages);
+            var validpathmessages = allnextvalidpathmessagesmessages.Distinct();
+
             var missingmessages = allmessages.Where(t => !validpathmessages.Contains(t)).ToList();
             if(missingmessages.Any())
                 missingmessages.ForEach(t => ValidationFailedEvent?.Invoke(new ValidationFailedMessage(4, $"Message({t.Text}) has no valid path.", t)));

@@ -29,6 +29,12 @@ namespace SPES_Modelverifier_Base.Models
         public virtual List<Type> CheckersToRun => new List<Type>() { typeof(ModelChecker.Path.ValidPathChecker) };
 
         /// <summary>
+        /// the target parent model, if applicable
+        /// </summary>
+        [XmlIgnore]
+        public Model ParentModel { get; set; }
+
+        /// <summary>
         /// the list of all shapes on a sheet
         /// </summary>
         public List<BaseObject> ObjectList { get; set; }
@@ -101,7 +107,7 @@ namespace SPES_Modelverifier_Base.Models
         /// <summary>
         /// validates basic intra model spezifications. Can be overwritten and extended by calling base.Validate()
         /// </summary>
-        public virtual void Validate()
+        public virtual void Verify()
         {
             //check if sheet is not empty
             if (ObjectList.Count < 1)
@@ -139,19 +145,7 @@ namespace SPES_Modelverifier_Base.Models
                 }
             });
 
-            //run checkers if any specified
-            foreach (var checkertype in CheckersToRun)
-            {
-                //check checker
-                Debug.Assert(checkertype.IsSubclassOf(typeof(IModelChecker)));
 
-                //create defined checker
-                var checker = (IModelChecker)Activator.CreateInstance(checkertype);
-                checker.ValidationFailedEvent += delegate (ValidationFailedMessage pMessage) { ValidationFailedEvent?.Invoke(pMessage); };
-
-                //run initialize method
-                checker.Initialize(this);
-            }
         }
 
         /// <summary>

@@ -8,8 +8,9 @@ namespace SPES_Modelverifier_Base.Items
         [XmlIgnore]
         public List<Connection> Connections { get; }
         public virtual bool CanHaveDuplicateText => false;
+        public virtual bool IsPathItem => true;
 
-        public Item()
+        protected Item()
         {
             Connections = new List<Connection>();
         }
@@ -18,7 +19,7 @@ namespace SPES_Modelverifier_Base.Items
         {
             base.Verify();
 
-            if (Connections.Count == 0)
+            if (IsPathItem && Connections.Count == 0)
                 throw new ValidationFailedException(this, "Item has no connections");
         }
     }

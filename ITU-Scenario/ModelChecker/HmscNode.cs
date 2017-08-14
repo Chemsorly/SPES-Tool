@@ -16,13 +16,5 @@ namespace ITU_Scenario.ModelChecker
             //no changes to basic behaviour
         }
 
-        public override List<Node> GetAllNextNodes()
-        {
-            //TODO: feedback notwendig: wie sieht hmsc mit spaltung aus? falls direkte verbindung zu jeder node: nicht notwendig 
-            var outgoing = this.Current.Connections.Where(t => t.FromObject == this.Current);
-            List<Node> nodes = new List<Node>();
-            outgoing.ForEach(t => nodes.Add(new Node((t.ToObject as Item), this.CurrentDepth + 1)));
-            return nodes;
-        }
     }
 }

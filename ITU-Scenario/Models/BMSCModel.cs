@@ -13,10 +13,16 @@ namespace ITU_Scenario.Models
         {
             typeof(Instance) ,
             typeof(Message) ,
-            typeof(BMSCInlineExpressionAltPar)
+            typeof(BMSCInlineExpressionAltPar),
+            typeof(BMSCCondition),
+            typeof(BMSCGuardingCondition),
+            typeof(BMSCMscReference),
+            typeof(LostMessage),
+            typeof(FoundMessage),
+            typeof(CoregionBox)
         };
 
         [XmlIgnore]
-        public override List<Type> CheckersToRun => new List<Type>() {typeof(BmscValidPathChecker)};
+        public override List<Type> CheckersToRun => new List<Type>() {typeof(BmscValidPathChecker), typeof(GuardingConditionExistenceChecker)};
     }
 }

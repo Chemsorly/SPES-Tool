@@ -1,41 +1,54 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Xml.Serialization;
 using MoreLinq;
 
 namespace SPES_Modelverifier_Base.Items
 {
-    public abstract class Container : BaseObject
+    public abstract class Container : Item
     {
         /// <summary>
         /// All BaseObjects in the container item
         /// </summary>
+        [XmlIgnore]
         public List<BaseObject> ContainingItems => _containingItems ?? (_containingItems = GetContainingItems());
         private List<BaseObject> _containingItems;
 
         /// <summary>
         /// most top/parent container in hierarchy. returns itself if already top
         /// </summary>
+        [XmlIgnore]
         public Container TopContainer => _topContainer ?? (_topContainer = GetTopContainer());
         private Container _topContainer;
-        
+
         /// <summary>
         /// direct parent container. null if no parent
-        /// </summary>
+        [XmlIgnore]
         public Container ParentContainer => _parentContainer ?? (_parentContainer = GetParentContainer());
         private Container _parentContainer;
-        
+
         /// <summary>
         /// all childcontainers
-        /// </summary>
+        [XmlIgnore]
         public List<Container> ChildContainers => _childContainers ?? (_childContainers = GetAllChildContainers());
         private List<Container> _childContainers;
-        
+
         /// <summary>
         /// all direct descendend childcontainers
-        /// </summary>
+        [XmlIgnore]
         public List<Container> FirstLevelChildContainers => _firstLevelChildContainers ?? (_firstLevelChildContainers = GetFirstLevelChildContainers());
         private List<Container> _firstLevelChildContainers;
+
+        /// <summary>
+        /// containers are not supposed to be checked by text
+        /// </summary>
+        public override bool CanHaveDuplicateText => true;
+
+        /// <summary>
+        /// containers usually are not part of path checking unless explicitly specified
+        /// </summary>
+        public override bool IsPathItem => false;
 
         public override void Initialize()
         {
@@ -55,7 +68,8 @@ namespace SPES_Modelverifier_Base.Items
         /// </summary>
         public override void Verify()
         {
-            base.Verify();
+            //do not call base: containers do not need the checking from items
+            //base.Verify();
 
             //check if overlapping
             if(DoParentAndChildrenCrossBorders())

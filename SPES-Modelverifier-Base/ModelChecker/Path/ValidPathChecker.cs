@@ -27,9 +27,15 @@ namespace SPES_Modelverifier_Base.ModelChecker.Path
                 //check if start item is unique; check if minimum one end item exists;
                 var startenditems = pModel.ObjectList.Where(t => t is StartEndItem).Cast<StartEndItem>().ToList();
                 if (startenditems.Count(t => t.IsStart) > 1)
-                    NotifyValidationFailed(new ValidationFailedMessage(4, "Model contains more than one start item.", startenditems.First(t => t.IsStart)));
+                {
+                    NotifyValidationFailed(new ValidationFailedMessage(4, "Model contains more than one start item.",startenditems.First(t => t.IsStart)));
+                    return;
+                }
                 if (startenditems.Count(t => !t.IsStart) == 0)
+                {
                     NotifyValidationFailed(new ValidationFailedMessage(4, "Model contains no enditems", startenditems.First()));
+                    return;
+                }
 
                 //tree validation
                 //create tree
@@ -39,7 +45,7 @@ namespace SPES_Modelverifier_Base.ModelChecker.Path
                 //call validate function
                 try
                 {
-                    tree.Initialize(pModel);
+                    tree.Initialize(new Node(startenditems.First(),0));
                     tree.Validate();
                 }
                 catch (ValidationFailedException ex)

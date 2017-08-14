@@ -22,27 +22,21 @@ namespace SPES_Modelverifier_Base.ModelChecker.Path
         /// <summary>
         /// startnode in tree to traverse from
         /// </summary>
-        private Node StartNode { get; set; }
+        protected Node StartNode { get; set; }
 
-        public void Initialize(Model pModel)
+        public void Initialize(Node pNode)
         {
-            //check if model contains start item, if not abort
-            var startitem = pModel.ObjectList.Find(t => t is StartEndItem && (t as StartEndItem).IsStart);
-            if (startitem == null)
-                throw new ValidationFailedException(pModel.ObjectList.First(t => t is StartEndItem), "StartItem not found");
-
-            //create startnode and recursively create tree
-            StartNode = new Node(startitem as Item, 1);
+            //set starting node
+            StartNode = pNode;
         }
 
         public void Validate()
         {
             //check all valid paths if they include all items
             ValidateAllNodesInValidPaths(StartNode);
-
         }
 
-        private void ValidateAllNodesInValidPaths(Node pRoot)
+        protected virtual void ValidateAllNodesInValidPaths(Node pRoot)
         {
             //http://stackoverflow.com/questions/5691926/traverse-every-unique-path-from-root-to-leaf-in-an-arbitrary-tree-structure
             //create list and traverse tree. only return paths with enditem as leaf
@@ -51,14 +45,14 @@ namespace SPES_Modelverifier_Base.ModelChecker.Path
 
             //validpths should now contain all paths where .Last() == StartEndItem with !IsStart
             //take all items from valid paths and check if they are equal with all items in model
-            var allitems = StartNode.Current.ParentModel.ObjectList.Where(t => t is Item);
+            var allitems = StartNode.Current.ParentModel.ObjectList.Where(t => t is Item && ((Item) t).IsPathItem);
             var validpathitems = validpaths.SelectMany(t => t).Select(t => t.Current).Distinct();
             var missingitems = allitems.Where(t => !validpathitems.Contains(t)).ToList();
             if (missingitems.Any())
-                missingitems.ForEach(t => ValidationFailedEvent?.Invoke(new ValidationFailedMessage(4, "Item has no valid path.", t)));
+                missingitems.ForEach(t => NotifyValidationFailed(new ValidationFailedMessage(4, "Item has no valid path.", t)));
         }
 
-        private static void Traverse(Node pRoot, List<Node> pPath, List<List<Node>> pValidpaths)
+        protected static void Traverse(Node pRoot, List<Node> pPath, List<List<Node>> pValidpaths)
         {
             pPath.Add(pRoot);
 
@@ -71,6 +65,15 @@ namespace SPES_Modelverifier_Base.ModelChecker.Path
 
             //if no leaf, continue
             pRoot.NextNodes.ForEach(t => Traverse(t, new List<Node>(pPath), pValidpaths));            
+        }
+
+        /// <summary>
+        /// notifies when a validation error occured
+        /// </summary>
+        /// <param name="pArgs">validation failed message</param>
+        public void NotifyValidationFailed(ValidationFailedMessage pArgs)
+        {
+            ValidationFailedEvent?.Invoke(pArgs);
         }
     }
 }

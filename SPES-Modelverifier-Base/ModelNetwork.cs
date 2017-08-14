@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using SPES_Modelverifier_Base.ModelChecker;
 using System.Xml.Serialization;
 using SPES_Modelverifier_Base.Items;
+using Utility.Testing;
 
 namespace SPES_Modelverifier_Base
 {
@@ -58,7 +59,7 @@ namespace SPES_Modelverifier_Base
         /// creates a new instance of the model verifier for a specific model type
         /// </summary>
         /// <param name="pApplication">the visio application with the open document</param>
-        protected ModelNetwork(Application pApplication)
+        public ModelNetwork(Application pApplication)
         {
             CollectedValidationMessages = new List<ValidationFailedMessage>();
 
@@ -68,8 +69,12 @@ namespace SPES_Modelverifier_Base
             _visioApplication = pApplication;
 
             //gets called when document is loaded
-            _visioApplication.DocumentCreatedEvent += VisioApplication_DocumentCreatedOrLoadedEvent;
-            _visioApplication.DocumentOpenedEvent += VisioApplication_DocumentCreatedOrLoadedEvent;
+            if (!UnitTestDetector.IsRunningUnittest)
+            {
+                //do not bind to UI events during tests, otherwise visio acts weird
+                _visioApplication.DocumentCreatedEvent += VisioApplication_DocumentCreatedOrLoadedEvent;
+                _visioApplication.DocumentOpenedEvent += VisioApplication_DocumentCreatedOrLoadedEvent;
+            }
 
             // ReSharper disable once VirtualMemberCallInConstructor
             _mapping = Activator.CreateInstance(MappingListType) as MappingList;
@@ -95,7 +100,7 @@ namespace SPES_Modelverifier_Base
                 return CollectedValidationMessages;
 
             //step 2: validate connections between entities
-            ModelList.ForEach(t => t.Validate());
+            ModelList.ForEach(t => t.Verify());
             if (CollectedValidationMessages.Any())
                 return CollectedValidationMessages;
 
@@ -105,9 +110,12 @@ namespace SPES_Modelverifier_Base
                 {
                     var correspondingmodel = ModelList.FirstOrDefault(t => t.PageName == modelref.Text);
                     if (correspondingmodel == null)
-                        NotifyVerificationFailed(modelref,3, "Could not locate matching submodel.");
+                        NotifyVerificationFailed(modelref, 3, "Could not locate matching submodel.");
                     else
+                    {
                         ((ModelReference) modelref).LinkedModel = correspondingmodel;
+                        correspondingmodel.ParentModel = model;
+                    }
                 }
 
             if (CollectedValidationMessages.Any())
@@ -126,6 +134,23 @@ namespace SPES_Modelverifier_Base
 
                 //run initialize method
                 checker.Initialize(this);
+            }
+
+            //run checkers from models
+            foreach (var model in ModelList)
+            {
+                foreach (var checkertype in model.CheckersToRun)
+                {
+                    //check checker
+                    Debug.Assert(checkertype.IsSubclassOf(typeof(IModelChecker)));
+
+                    //create defined checker
+                    var checker = (IModelChecker) Activator.CreateInstance(checkertype);
+                    checker.ValidationFailedEvent += NotifyVerificationFailed;
+
+                    //run initialize method
+                    checker.Initialize(model);
+                }
             }
 
             return CollectedValidationMessages;
@@ -150,13 +175,15 @@ namespace SPES_Modelverifier_Base
             {
                 //gets all objects from items namespace: all classes defined in Items and Models namespace. 
                 //Sorts out compiler classes, check https://stackoverflow.com/questions/43068213/getting-all-types-under-a-userdefined-assembly
-                Type[] classes = Assembly.GetAssembly(this.GetType()).GetTypes().Where(t => 
+                List<Type> classes = Assembly.GetAssembly(this.GetType()).GetTypes().Where(t => 
                 t.IsClass && 
                 !t.GetTypeInfo().IsDefined(typeof(CompilerGeneratedAttribute)) &&
                 (t.Namespace.EndsWith("Items") || t.Namespace.EndsWith("Models")))
-                .ToArray();
+                .ToList();
+                //add NRO because missing
+                classes.Add(typeof(NRO));
 
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Model>), classes);
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Model>), classes.ToArray());
                 
                 using (FileStream stream = new FileStream(pFile, FileMode.OpenOrCreate))
                 {
