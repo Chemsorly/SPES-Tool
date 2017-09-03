@@ -13,7 +13,7 @@ namespace SPES_Modelverifier_Base
         public int ProcessLevel { get; }
         public String Message { get; }
         public BaseObject ExceptionObject { get; }
-        public String Sheet => ExceptionObject.Visiopage;
+        public String Sheet => ExceptionObject?.Visiopage;
 
         public ValidationFailedMessage(int pProcessLevel, String pMessage, BaseObject pTargetobject = null)
         {
