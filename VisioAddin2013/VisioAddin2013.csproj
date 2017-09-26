@@ -143,6 +143,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\VSTO\Microsoft.Office.Tools.v4.0.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.VisualStudio.Tools.Applications.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\VSTO\Microsoft.VisualStudio.Tools.Applications.Runtime.dll</HintPath>
@@ -199,6 +200,12 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainRibbon.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -208,6 +215,9 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <EmbeddedResource Include="About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainRibbon.resx">
       <DependentUpon>MainRibbon.cs</DependentUpon>
     </EmbeddedResource>
@@ -257,6 +267,10 @@
     <ProjectReference Include="..\ITU-Scenario\ITU-Scenario.csproj">
       <Project>{77C6D225-B8D8-49C6-89D5-C20D2B1A07CD}</Project>
       <Name>ITU-Scenario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SPES-App\SPES-App.csproj">
+      <Project>{BDF156CE-910E-453F-A86F-A660D92F99FA}</Project>
+      <Name>SPES-App</Name>
     </ProjectReference>
     <ProjectReference Include="..\SPES-Funktionsnetz\SPES-Funktionsnetz.csproj">
       <Project>{0D5C987D-6A0C-436D-BA67-842531D147D5}</Project>

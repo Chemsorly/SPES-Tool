@@ -9,6 +9,7 @@ using ITU_Scenario;
 using SPES_Funktionsnetz;
 using System.Windows.Forms;
 using NetOffice.VisioApi.Enums;
+using SPES_App;
 using SPES_Zielmodell;
 
 namespace VisioAddin2013
@@ -21,11 +22,13 @@ namespace VisioAddin2013
         private ModelNetwork activeModelverifier => modelverifiers.FirstOrDefault(t => t.ToString() == this.ModelTargetDropDown.SelectedItem?.Label);
         private ResultForm activeResultForm { get; set; }
         private bool initialized = false;
+        private NetOffice.VisioApi.Application application;
 
         private void MainRibbon_Load(object sender, RibbonUIEventArgs e)
         {
             //get current application
-            var application = NetOffice.VisioApi.Application.GetActiveInstance();
+            this.application = NetOffice.VisioApi.Application.GetActiveInstance();
+            this.spesapp = new SpesActivities(this.application);
 
             //add modelverifiers
             modelverifiers.Add(new ScenarioNetwork(application));
@@ -173,12 +176,141 @@ namespace VisioAddin2013
             if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
             {
                 Version v = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion;
-                System.Windows.Forms.MessageBox.Show($@"Version:  v{v.Major}.{v.Minor}.{v.Build}.{v.Revision} \nMaintainer: adrian.neubauer@paluno.uni-due.de", "About");
+                About about = new About($"{v.Major}.{v.Minor}.{v.Revision}.{v.Build}");
+                about.ShowDialog();
             }
             else
             {
-                System.Windows.Forms.MessageBox.Show("not deployed");
+                About about = new About();
+                about.ShowDialog();
             }
         }
+
+        //kevin teil beginnt hier:
+        #region kevin 
+
+        private SpesActivities spesapp;
+
+        private void CreateNewSPESProject_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                // code causing TargetInvocationException
+
+                //Ruft Dialogbox auf, in der der Benutzer den Namen das Systems angibt
+                string systemname = Microsoft.VisualBasic.Interaction.InputBox("Type in the name of the system", "Get System name", "System_Name");
+                //Zum Starten der Modellierung werden die folgenden Methoden aufgerufen.
+                FolderBrowserDialog folder = new FolderBrowserDialog();
+                folder.ShowDialog();
+
+                string path = folder.SelectedPath;
+                this.application.ActiveDocument.SaveAs(System.IO.Path.Combine(path, systemname + "_Overview.vsdx"));
+                this.spesapp.CreateRectangle(systemname);
+                this.spesapp.CreateSystem();
+                this.spesapp.SetHyperlink();
+
+                //this._spesapp.deleteModels();
+            }
+            //Fange mögliche Fehler ab und informiere Benutzer, dass die Generierung unvollständig ist
+            catch (Exception exc)
+            {
+                if (exc.InnerException != null)
+                {
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling.");
+                }
+            }
+        }
+
+        private void CreateNewEngineeringPath_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+
+                //this._application.ActiveDocument.Save();
+                this.spesapp.CreateSubsystems();
+                System.Windows.Forms.MessageBox.Show("Creation successfully!");
+            }
+            //Fange mögliche Fehler ab und informiere Benutzer, dass die Generierung unvollständig ist
+            catch (Exception exc)
+            {
+                if (exc.InnerException != null)
+                {
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling." + exc);
+                }
+            }
+        }
+
+        private void DefineContextEntitiesBehaviour_Click(object sender, RibbonControlEventArgs e)
+        {
+            //Button, welches für jede Context Entity auf aktivem Zeichenblatt ein neues Zeichenblatt  erstellt
+            try
+            {
+                this.spesapp.EntitytoPage();
+                System.Windows.Forms.MessageBox.Show("Creation successfully!");
+            }
+            //Fange mögliche Fehler ab und informiere Benutzer, dass die Generierung unvollständig ist
+            catch (Exception exc)
+            {
+                if (exc.InnerException != null)
+                {
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling.");
+                }
+            }
+        }
+
+        private void DefineContextFunctionsBehaviour_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                //Button, welches für jede Context Function auf aktivem Zeichenblatt ein neues Zeichenblatt  erstellt
+                this.spesapp.FunctiontoPage();
+                System.Windows.Forms.MessageBox.Show("Creation successfully!");
+            }
+            //Fange mögliche Fehler ab und informiere Benutzer, dass die Generierung unvollständig ist
+            catch (Exception exc)
+            {
+                if (exc.InnerException != null)
+                {
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling.");
+                }
+            }
+        }
+
+        private void CreateBMSCs_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                this.spesapp.CreateSheetsforMscReferences();
+                System.Windows.Forms.MessageBox.Show("Creation of References successfully done!.");
+
+            }
+            //Fange mögliche Fehler ab und informiere Benutzer, dass die Generierung unvollständig ist
+            catch (Exception exc)
+            {
+                if (exc.InnerException != null)
+                {
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling.");
+                }
+            }
+        }
+
+        private void CompleteInterfaceAutomata_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                this.spesapp.CreateInandOutput();
+                System.Windows.Forms.MessageBox.Show("Creation of In- and Output finished.");
+
+            }
+            //Fange mögliche Fehler ab und informiere Benutzer, dass die Generierung unvollständig ist
+            catch (Exception exc)
+            {
+                if (exc.InnerException != null)
+                {
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling.");
+                }
+            }
+        }
+        #endregion
     }
 }

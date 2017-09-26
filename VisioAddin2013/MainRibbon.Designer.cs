@@ -42,6 +42,12 @@
             this.VerifyButton = this.Factory.CreateRibbonButton();
             this.ImportButton = this.Factory.CreateRibbonButton();
             this.ExportButton = this.Factory.CreateRibbonButton();
+            this.CreateNewSPESProject = this.Factory.CreateRibbonButton();
+            this.CreateNewEngineeringPath = this.Factory.CreateRibbonButton();
+            this.DefineContextEntitiesBehaviour = this.Factory.CreateRibbonButton();
+            this.DefineContextFunctionsBehaviour = this.Factory.CreateRibbonButton();
+            this.CreateBMSCs = this.Factory.CreateRibbonButton();
+            this.CompleteInterfaceAutomata = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.SuspendLayout();
@@ -60,6 +66,12 @@
             this.group1.Items.Add(this.VerifyButton);
             this.group1.Items.Add(this.ImportButton);
             this.group1.Items.Add(this.ExportButton);
+            this.group1.Items.Add(this.CreateNewSPESProject);
+            this.group1.Items.Add(this.CreateNewEngineeringPath);
+            this.group1.Items.Add(this.DefineContextEntitiesBehaviour);
+            this.group1.Items.Add(this.DefineContextFunctionsBehaviour);
+            this.group1.Items.Add(this.CreateBMSCs);
+            this.group1.Items.Add(this.CompleteInterfaceAutomata);
             this.group1.Label = "SPES Modelverification";
             this.group1.Name = "group1";
             // 
@@ -105,6 +117,54 @@
             this.ExportButton.ShowImage = true;
             this.ExportButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ExportButton_Click);
             // 
+            // CreateNewSPESProject
+            // 
+            this.CreateNewSPESProject.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.CreateNewSPESProject.Label = "CreateNewProject";
+            this.CreateNewSPESProject.Name = "CreateNewSPESProject";
+            this.CreateNewSPESProject.ShowImage = true;
+            this.CreateNewSPESProject.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CreateNewSPESProject_Click);
+            // 
+            // CreateNewEngineeringPath
+            // 
+            this.CreateNewEngineeringPath.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.CreateNewEngineeringPath.Label = "Create New Engineering Path";
+            this.CreateNewEngineeringPath.Name = "CreateNewEngineeringPath";
+            this.CreateNewEngineeringPath.ShowImage = true;
+            this.CreateNewEngineeringPath.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CreateNewEngineeringPath_Click);
+            // 
+            // DefineContextEntitiesBehaviour
+            // 
+            this.DefineContextEntitiesBehaviour.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.DefineContextEntitiesBehaviour.Label = "Define Context Entities\' Behaviour";
+            this.DefineContextEntitiesBehaviour.Name = "DefineContextEntitiesBehaviour";
+            this.DefineContextEntitiesBehaviour.ShowImage = true;
+            this.DefineContextEntitiesBehaviour.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.DefineContextEntitiesBehaviour_Click);
+            // 
+            // DefineContextFunctionsBehaviour
+            // 
+            this.DefineContextFunctionsBehaviour.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.DefineContextFunctionsBehaviour.Label = "Define Context Functions\' Behaviour";
+            this.DefineContextFunctionsBehaviour.Name = "DefineContextFunctionsBehaviour";
+            this.DefineContextFunctionsBehaviour.ShowImage = true;
+            this.DefineContextFunctionsBehaviour.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.DefineContextFunctionsBehaviour_Click);
+            // 
+            // CreateBMSCs
+            // 
+            this.CreateBMSCs.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.CreateBMSCs.Label = "Create BMSCs";
+            this.CreateBMSCs.Name = "CreateBMSCs";
+            this.CreateBMSCs.ShowImage = true;
+            this.CreateBMSCs.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CreateBMSCs_Click);
+            // 
+            // CompleteInterfaceAutomata
+            // 
+            this.CompleteInterfaceAutomata.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.CompleteInterfaceAutomata.Label = "Complete Interface Automata";
+            this.CompleteInterfaceAutomata.Name = "CompleteInterfaceAutomata";
+            this.CompleteInterfaceAutomata.ShowImage = true;
+            this.CompleteInterfaceAutomata.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CompleteInterfaceAutomata_Click);
+            // 
             // MainRibbon
             // 
             this.Name = "MainRibbon";
@@ -128,6 +188,12 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton ExportButton;
         internal Microsoft.Office.Tools.Ribbon.RibbonDropDown ModelTargetDropDown;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton AboutButton;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton CreateNewSPESProject;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton CreateNewEngineeringPath;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton DefineContextEntitiesBehaviour;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton DefineContextFunctionsBehaviour;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton CreateBMSCs;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton CompleteInterfaceAutomata;
     }
 
     partial class ThisRibbonCollection
