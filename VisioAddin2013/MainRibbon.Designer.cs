@@ -120,7 +120,7 @@
             // CreateNewSPESProject
             // 
             this.CreateNewSPESProject.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.CreateNewSPESProject.Label = "CreateNewProject";
+            this.CreateNewSPESProject.Label = "Create New Project";
             this.CreateNewSPESProject.Name = "CreateNewSPESProject";
             this.CreateNewSPESProject.ShowImage = true;
             this.CreateNewSPESProject.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CreateNewSPESProject_Click);
