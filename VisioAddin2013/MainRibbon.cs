@@ -240,6 +240,11 @@ namespace VisioAddin2013
             }
         }
 
+        /// <summary>
+        /// kommt raus: ist nix anderes als create submodels
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DefineContextEntitiesBehaviour_Click(object sender, RibbonControlEventArgs e)
         {
             //Button, welches für jede Context Entity auf aktivem Zeichenblatt ein neues Zeichenblatt  erstellt
@@ -258,6 +263,11 @@ namespace VisioAddin2013
             }
         }
 
+        /// <summary>
+        /// kommt raus: ist nix anderes als create submodels
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DefineContextFunctionsBehaviour_Click(object sender, RibbonControlEventArgs e)
         {
             try
@@ -311,6 +321,10 @@ namespace VisioAddin2013
                 }
             }
         }
+        //neue symbole: new engineering path = appbar.tournament.bracket.up
+        // create submodels = appbar.section.expand.all
+        // create new project = appbar.folder + photoshop plus
+        // complete interfacee automata = appbar.flag.wavy
         #endregion
     }
 }

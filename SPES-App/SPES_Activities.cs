@@ -729,6 +729,9 @@ namespace SPES_App
         }
 
         //createfor each Connection a Entry or Exit Point at the Boundary Shape
+        /// <summary>
+        /// erstellt input/output knoten am rand des interface automaten
+        /// </summary>
         public void CreateInandOutput()
         {
             List<IVPage> pagesBound = new List<IVPage>();
