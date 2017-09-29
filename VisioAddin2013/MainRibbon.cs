@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Microsoft.Office.Tools.Ribbon;
@@ -32,6 +33,9 @@ namespace VisioAddin2013
         private ResultForm activeResultForm { get; set; }
         private bool initialized = false;
         private NetOffice.VisioApi.Application application;
+
+        private bool IsSPESproject => application.ActiveDocument.Path != "" && Directory.GetFiles(new FileInfo(application.ActiveDocument.Path).Directory.FullName).Contains("spesconfig.xml");
+        
 
         private void MainRibbon_Load(object sender, RibbonUIEventArgs e)
         {
@@ -193,6 +197,26 @@ namespace VisioAddin2013
                 ModelTargetDropDown_SelectionChanged(null, null);
                 initialized = true;
             }
+
+            //set ribbon behaviour
+            if (IsSPESproject)
+            {
+                //set SPES specifics
+                this.CreateNewEngineeringPath.Visible = true;
+                this.DefineContextEntitiesBehaviour.Visible = true;
+                this.DefineContextFunctionsBehaviour.Visible = true;
+                this.CompleteInterfaceAutomata.Visible = true;
+                this.CreateBMSCs.Visible = true;
+            }
+            else
+            {
+                //set normal behaviour
+                this.CreateNewEngineeringPath.Visible = false;
+                this.DefineContextEntitiesBehaviour.Visible = false;
+                this.DefineContextFunctionsBehaviour.Visible = false;
+                this.CompleteInterfaceAutomata.Visible = false;
+                this.CreateBMSCs.Visible = false;
+            }
         }
 
         //TODO: aktuell für debug, später raus // durch gitlab api -> new issue ersetzen
@@ -233,6 +257,9 @@ namespace VisioAddin2013
                 this.spesapp.CreateRectangle(systemname);
                 this.spesapp.CreateSystem();
                 this.spesapp.SetHyperlink();
+
+                //create config file
+                File.Create(System.IO.Path.Combine(path, "spesconfig.xml"));
 
                 //this._spesapp.deleteModels();
             }
