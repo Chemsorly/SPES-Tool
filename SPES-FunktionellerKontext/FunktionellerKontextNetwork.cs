@@ -10,7 +10,7 @@ namespace SPES_FunktionellerKontext
 {
     public class FunktionellerKontextNetwork : ModelNetwork
     {
-        protected override List<string> ShapeTemplateFiles => throw new NotImplementedException();
+        protected override List<string> ShapeTemplateFiles => new List<String> { "SMT_FuC.vssx", "SMT_SoC.vssx" };
 
         protected override Type MappingListType => null;
 

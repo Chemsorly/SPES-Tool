@@ -10,7 +10,7 @@ namespace SPES_SzenarioUseCases
 {
     public class SzenarioUseCasesNetwork : ModelNetwork
     {
-        protected override List<string> ShapeTemplateFiles => throw new NotImplementedException();
+        protected override List<string> ShapeTemplateFiles => new List<String> { "SMT_UCM.vssx" };
 
         protected override Type MappingListType => null;
 

@@ -10,11 +10,11 @@ namespace SPES_TechnicalViewpoint
 {
     public class TechnicalViewpointNetwork : ModelNetwork
     {
+
+        protected override List<string> ShapeTemplateFiles => new List<String>() { "SMT_SM.vssx", "SMT_IA.vssx" };
+        protected override Type MappingListType => null;
         public TechnicalViewpointNetwork(Application pApplication) : base(pApplication)
         {
         }
-
-        protected override List<string> ShapeTemplateFiles { get; }
-        protected override Type MappingListType { get; }
     }
 }

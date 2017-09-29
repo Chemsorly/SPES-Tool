@@ -10,7 +10,7 @@ namespace SPES_FunktionellePerspektive
 {
     public class FunktionellePerspektiveNetwork : ModelNetwork
     {
-        protected override List<string> ShapeTemplateFiles { get; }
+        protected override List<string> ShapeTemplateFiles => new List<String>() { "SMT_Activity.vssx"};
         protected override Type MappingListType => null;
 
         public FunktionellePerspektiveNetwork(Application pApplication) : base(pApplication)

@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace SPES_StrukturellerKontext
 {
-    public class StrukturellerKonextNetwork : ModelNetwork
+    public class StrukturellerKontextNetwork : ModelNetwork
     {
-        protected override List<string> ShapeTemplateFiles => throw new NotImplementedException();
+        protected override List<string> ShapeTemplateFiles => new List<String> { "SMT_SoC.vssx", "SMT_BeC.vssx" };
 
         protected override Type MappingListType => null;
 
-        public StrukturellerKonextNetwork(Application pApplication) : base(pApplication)
+        public StrukturellerKontextNetwork(Application pApplication) : base(pApplication)
         {
         }
     }

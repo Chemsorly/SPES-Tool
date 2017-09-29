@@ -10,11 +10,10 @@ namespace SPES_LogicalViewpoint
 {
     public class LogicalViewpointNetwork : ModelNetwork
     {
+        protected override List<string> ShapeTemplateFiles => new List<string>() {"SMT_Class.vssx"};
+        protected override Type MappingListType => null;
         public LogicalViewpointNetwork(Application pApplication) : base(pApplication)
         {
         }
-
-        protected override List<string> ShapeTemplateFiles { get; }
-        protected override Type MappingListType { get; }
     }
 }

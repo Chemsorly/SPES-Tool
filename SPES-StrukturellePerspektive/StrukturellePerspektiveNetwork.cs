@@ -10,7 +10,7 @@ namespace SPES_StrukturellePerspektive
 {
     public class StrukturellePerspektiveNetwork : ModelNetwork
     {
-        protected override List<string> ShapeTemplateFiles => throw new NotImplementedException();
+        protected override List<string> ShapeTemplateFiles => new List<String> { "SMT_Class.vssx" };
 
         protected override Type MappingListType => null;
 

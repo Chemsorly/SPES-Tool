@@ -10,7 +10,7 @@ namespace SPES_Wissenskontext
 {
     public class WissenskontextNetwork : ModelNetwork
     {
-        protected override List<string> ShapeTemplateFiles => throw new NotImplementedException();
+        protected override List<string> ShapeTemplateFiles => new List<String> { "SMT_CoK.vssx" };
 
         protected override Type MappingListType => null;
 
