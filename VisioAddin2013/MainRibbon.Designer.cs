@@ -43,6 +43,7 @@
             this.ImportButton = this.Factory.CreateRibbonButton();
             this.ExportButton = this.Factory.CreateRibbonButton();
             this.CreateNewSPESProject = this.Factory.CreateRibbonButton();
+            this.GenerateSubmodelsButton = this.Factory.CreateRibbonButton();
             this.CreateNewEngineeringPath = this.Factory.CreateRibbonButton();
             this.DefineContextEntitiesBehaviour = this.Factory.CreateRibbonButton();
             this.DefineContextFunctionsBehaviour = this.Factory.CreateRibbonButton();
@@ -67,6 +68,7 @@
             this.group1.Items.Add(this.ImportButton);
             this.group1.Items.Add(this.ExportButton);
             this.group1.Items.Add(this.CreateNewSPESProject);
+            this.group1.Items.Add(this.GenerateSubmodelsButton);
             this.group1.Items.Add(this.CreateNewEngineeringPath);
             this.group1.Items.Add(this.DefineContextEntitiesBehaviour);
             this.group1.Items.Add(this.DefineContextFunctionsBehaviour);
@@ -125,6 +127,15 @@
             this.CreateNewSPESProject.Name = "CreateNewSPESProject";
             this.CreateNewSPESProject.ShowImage = true;
             this.CreateNewSPESProject.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CreateNewSPESProject_Click);
+            // 
+            // GenerateSubmodelsButton
+            // 
+            this.GenerateSubmodelsButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.GenerateSubmodelsButton.Image = ((System.Drawing.Image)(resources.GetObject("GenerateSubmodelsButton.Image")));
+            this.GenerateSubmodelsButton.Label = "Generate Submodels";
+            this.GenerateSubmodelsButton.Name = "GenerateSubmodelsButton";
+            this.GenerateSubmodelsButton.ShowImage = true;
+            this.GenerateSubmodelsButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.GenerateSubmodelsButton_Click);
             // 
             // CreateNewEngineeringPath
             // 
@@ -200,6 +211,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton DefineContextFunctionsBehaviour;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton CreateBMSCs;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton CompleteInterfaceAutomata;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton GenerateSubmodelsButton;
     }
 
     partial class ThisRibbonCollection

@@ -469,6 +469,23 @@ namespace SPES_Modelverifier_Base
         }
 
         /// <summary>
+        /// generates a coresponding submodel for every ModelReference Item. models do not exist during execution and need to be created first.
+        /// </summary>
+        public virtual void GenerateSubmodels()
+        {
+            var models = this.GenerateModels();
+            foreach (var model in models)
+                foreach (var modelReference in model.ObjectList.Where(t => t is ModelReference))
+                {
+                    if (this._visioApplication.ActiveDocument.Pages.All(t => t.Name != modelReference.Text))
+                    {
+                        var page = this._visioApplication.ActiveDocument.Pages.Add();
+                        page.Name = modelReference.Text;
+                    }
+                }
+        }
+
+        /// <summary>
         /// returns the model type for the target visio page. if more than one exists, the most likely one will be returned (based on the amount of matching shapes)
         /// </summary>
         /// <param name="pPage">the visio page</param>

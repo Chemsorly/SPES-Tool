@@ -178,6 +178,27 @@ namespace VisioAddin2013
             }
         }
 
+        /// <summary>
+        /// creates empty sheets for unreferenced submodels
+        /// </summary>
+        private void GenerateSubmodelsButton_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (activeModelverifier != null)
+            {
+                try
+                {
+                    activeModelverifier.GenerateSubmodels();
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.Forms.MessageBox.Show("Error: " + ex.Message,
+                        "ERROR",
+                        System.Windows.Forms.MessageBoxButtons.OK,
+                        System.Windows.Forms.MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void ModelTargetDropDown_SelectionChanged(object sender, RibbonControlEventArgs e)
         {
             previousModelverifier?.UnloadShapes();
@@ -380,5 +401,7 @@ namespace VisioAddin2013
         // create new project = appbar.folder + photoshop plus
         // complete interfacee automata = appbar.flag.wavy
         #endregion
+
+
     }
 }
