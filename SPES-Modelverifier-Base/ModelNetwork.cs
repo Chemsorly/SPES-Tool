@@ -77,7 +77,11 @@ namespace SPES_Modelverifier_Base
             }
 
             // ReSharper disable once VirtualMemberCallInConstructor
-            _mapping = Activator.CreateInstance(MappingListType) as MappingList;
+            //if mapping type defined, create
+            if(this.MappingListType != null)
+                _mapping = Activator.CreateInstance(MappingListType) as MappingList;
+            else
+                _mapping = null;
         }
 
         /// <summary>
