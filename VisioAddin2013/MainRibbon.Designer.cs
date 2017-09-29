@@ -72,7 +72,7 @@
             this.group1.Items.Add(this.DefineContextFunctionsBehaviour);
             this.group1.Items.Add(this.CreateBMSCs);
             this.group1.Items.Add(this.CompleteInterfaceAutomata);
-            this.group1.Label = "SPES Modelverification";
+            this.group1.Label = "SPES Modelling Toolbox";
             this.group1.Name = "group1";
             // 
             // ModelTargetDropDown
