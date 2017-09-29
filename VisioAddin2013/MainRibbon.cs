@@ -33,6 +33,7 @@ namespace VisioAddin2013
         private ResultForm activeResultForm { get; set; }
         private bool initialized = false;
         private NetOffice.VisioApi.Application application;
+        private SPES_DocumentReferencer documentReferencer;
 
         private bool IsSPESproject => application.ActiveDocument.Path != "" && Directory.GetFiles(new FileInfo(application.ActiveDocument.Path).Directory.FullName).Contains("spesconfig.xml");
         
