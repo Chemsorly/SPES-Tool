@@ -12,7 +12,7 @@ namespace SPES_Verhaltensperspektive
     {
         protected override List<string> ShapeTemplateFiles => new List<String> { "SMT_SM.vssx" };
 
-        protected override Type MappingListType => throw new NotImplementedException();
+        protected override Type MappingListType => null;
 
         public VerhaltensperspektiveNetwork(Application pApplication) : base(pApplication)
         {

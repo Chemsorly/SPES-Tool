@@ -10,6 +10,15 @@ using SPES_Funktionsnetz;
 using System.Windows.Forms;
 using NetOffice.VisioApi.Enums;
 using SPES_App;
+using SPES_FunktionellePerspektive;
+using SPES_FunktionellerKontext;
+using SPES_LogicalViewpoint;
+using SPES_StrukturellePerspektive;
+using SPES_StrukturellerKontext;
+using SPES_SzenarioUseCases;
+using SPES_TechnicalViewpoint;
+using SPES_Verhaltensperspektive;
+using SPES_Wissenskontext;
 using SPES_Zielmodell;
 
 namespace VisioAddin2013
@@ -34,6 +43,17 @@ namespace VisioAddin2013
             modelverifiers.Add(new ScenarioNetwork(application));
             modelverifiers.Add(new FunktionsnetzNetwork(application));
             modelverifiers.Add(new ZielmodellNetwork(application));
+
+            //new ones
+            modelverifiers.Add(new WissenskontextNetwork(application));
+            modelverifiers.Add(new StrukturellerKontextNetwork(application));
+            modelverifiers.Add(new FunktionellerKontextNetwork(application));
+            modelverifiers.Add(new SzenarioUseCasesNetwork(application));
+            modelverifiers.Add(new StrukturellePerspektiveNetwork(application));
+            modelverifiers.Add(new FunktionellePerspektiveNetwork(application));
+            modelverifiers.Add(new VerhaltensperspektiveNetwork(application));
+            modelverifiers.Add(new LogicalViewpointNetwork(application));
+            modelverifiers.Add(new TechnicalViewpointNetwork(application));
 
             //add modelverifiers to dropdown menu and subscribe to events
             foreach (var obj in modelverifiers)
@@ -159,6 +179,11 @@ namespace VisioAddin2013
             previousModelverifier?.UnloadShapes();
             activeModelverifier.LoadShapes();
             previousModelverifier = activeModelverifier;
+
+            //update ui
+            this.VerifyButton.Enabled = this.activeModelverifier.CanVerify;
+            this.ImportButton.Enabled = this.activeModelverifier.CanVerify;
+            this.ExportButton.Enabled = this.activeModelverifier.CanVerify;
         }
 
         private void Application_DocumentLoadedOrCreated(IVDocument pDoc)

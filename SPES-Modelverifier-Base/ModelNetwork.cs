@@ -56,6 +56,11 @@ namespace SPES_Modelverifier_Base
         public event OnLogMessageReceived OnLogMessageReceivedEvent;
 
         /// <summary>
+        /// Returns if the model contains an implemented mapping (and therefor can be verified)
+        /// </summary>
+        public bool CanVerify => _mapping != null;
+
+        /// <summary>
         /// creates a new instance of the model verifier for a specific model type
         /// </summary>
         /// <param name="pApplication">the visio application with the open document</param>
