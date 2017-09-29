@@ -229,6 +229,7 @@ namespace VisioAddin2013
                 this.DefineContextFunctionsBehaviour.Visible = true;
                 this.CompleteInterfaceAutomata.Visible = true;
                 this.CreateBMSCs.Visible = true;
+                this.CreateNewSPESProject.Visible = false;
             }
             else
             {
@@ -239,6 +240,7 @@ namespace VisioAddin2013
                 this.DefineContextFunctionsBehaviour.Visible = false;
                 this.CompleteInterfaceAutomata.Visible = false;
                 this.CreateBMSCs.Visible = false;
+                this.CreateNewSPESProject.Visible = true;
             }
         }
 
