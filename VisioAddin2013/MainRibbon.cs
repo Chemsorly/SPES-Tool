@@ -202,6 +202,7 @@ namespace VisioAddin2013
             if (IsSPESproject)
             {
                 //set SPES specifics
+                this.ModelTargetDropDown.Enabled = false;
                 this.CreateNewEngineeringPath.Visible = true;
                 this.DefineContextEntitiesBehaviour.Visible = true;
                 this.DefineContextFunctionsBehaviour.Visible = true;
@@ -211,6 +212,7 @@ namespace VisioAddin2013
             else
             {
                 //set normal behaviour
+                this.ModelTargetDropDown.Enabled = true;
                 this.CreateNewEngineeringPath.Visible = false;
                 this.DefineContextEntitiesBehaviour.Visible = false;
                 this.DefineContextFunctionsBehaviour.Visible = false;

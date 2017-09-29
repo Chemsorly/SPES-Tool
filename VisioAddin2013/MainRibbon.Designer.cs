@@ -120,6 +120,7 @@
             // CreateNewSPESProject
             // 
             this.CreateNewSPESProject.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.CreateNewSPESProject.Image = ((System.Drawing.Image)(resources.GetObject("CreateNewSPESProject.Image")));
             this.CreateNewSPESProject.Label = "Create New Project";
             this.CreateNewSPESProject.Name = "CreateNewSPESProject";
             this.CreateNewSPESProject.ShowImage = true;
@@ -128,6 +129,7 @@
             // CreateNewEngineeringPath
             // 
             this.CreateNewEngineeringPath.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.CreateNewEngineeringPath.Image = ((System.Drawing.Image)(resources.GetObject("CreateNewEngineeringPath.Image")));
             this.CreateNewEngineeringPath.Label = "Create New Engineering Path";
             this.CreateNewEngineeringPath.Name = "CreateNewEngineeringPath";
             this.CreateNewEngineeringPath.ShowImage = true;
@@ -136,6 +138,7 @@
             // DefineContextEntitiesBehaviour
             // 
             this.DefineContextEntitiesBehaviour.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.DefineContextEntitiesBehaviour.Image = ((System.Drawing.Image)(resources.GetObject("DefineContextEntitiesBehaviour.Image")));
             this.DefineContextEntitiesBehaviour.Label = "Define Context Entities\' Behaviour";
             this.DefineContextEntitiesBehaviour.Name = "DefineContextEntitiesBehaviour";
             this.DefineContextEntitiesBehaviour.ShowImage = true;
@@ -144,6 +147,7 @@
             // DefineContextFunctionsBehaviour
             // 
             this.DefineContextFunctionsBehaviour.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.DefineContextFunctionsBehaviour.Image = ((System.Drawing.Image)(resources.GetObject("DefineContextFunctionsBehaviour.Image")));
             this.DefineContextFunctionsBehaviour.Label = "Define Context Functions\' Behaviour";
             this.DefineContextFunctionsBehaviour.Name = "DefineContextFunctionsBehaviour";
             this.DefineContextFunctionsBehaviour.ShowImage = true;
@@ -152,6 +156,7 @@
             // CreateBMSCs
             // 
             this.CreateBMSCs.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.CreateBMSCs.Image = ((System.Drawing.Image)(resources.GetObject("CreateBMSCs.Image")));
             this.CreateBMSCs.Label = "Create BMSCs";
             this.CreateBMSCs.Name = "CreateBMSCs";
             this.CreateBMSCs.ShowImage = true;
@@ -160,6 +165,7 @@
             // CompleteInterfaceAutomata
             // 
             this.CompleteInterfaceAutomata.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.CompleteInterfaceAutomata.Image = ((System.Drawing.Image)(resources.GetObject("CompleteInterfaceAutomata.Image")));
             this.CompleteInterfaceAutomata.Label = "Complete Interface Automata";
             this.CompleteInterfaceAutomata.Name = "CompleteInterfaceAutomata";
             this.CompleteInterfaceAutomata.ShowImage = true;
