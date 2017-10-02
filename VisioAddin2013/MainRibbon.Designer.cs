@@ -45,8 +45,6 @@
             this.CreateNewSPESProject = this.Factory.CreateRibbonButton();
             this.GenerateSubmodelsButton = this.Factory.CreateRibbonButton();
             this.CreateNewEngineeringPath = this.Factory.CreateRibbonButton();
-            this.DefineContextEntitiesBehaviour = this.Factory.CreateRibbonButton();
-            this.DefineContextFunctionsBehaviour = this.Factory.CreateRibbonButton();
             this.CompleteInterfaceAutomata = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
@@ -69,8 +67,6 @@
             this.group1.Items.Add(this.CreateNewSPESProject);
             this.group1.Items.Add(this.GenerateSubmodelsButton);
             this.group1.Items.Add(this.CreateNewEngineeringPath);
-            this.group1.Items.Add(this.DefineContextEntitiesBehaviour);
-            this.group1.Items.Add(this.DefineContextFunctionsBehaviour);
             this.group1.Items.Add(this.CompleteInterfaceAutomata);
             this.group1.Label = "SPES Modelling Toolbox";
             this.group1.Name = "group1";
@@ -142,25 +138,8 @@
             this.CreateNewEngineeringPath.Label = "Create New Engineering Path";
             this.CreateNewEngineeringPath.Name = "CreateNewEngineeringPath";
             this.CreateNewEngineeringPath.ShowImage = true;
+            this.CreateNewEngineeringPath.Visible = false;
             this.CreateNewEngineeringPath.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CreateNewEngineeringPath_Click);
-            // 
-            // DefineContextEntitiesBehaviour
-            // 
-            this.DefineContextEntitiesBehaviour.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.DefineContextEntitiesBehaviour.Image = ((System.Drawing.Image)(resources.GetObject("DefineContextEntitiesBehaviour.Image")));
-            this.DefineContextEntitiesBehaviour.Label = "Define Context Entities\' Behaviour";
-            this.DefineContextEntitiesBehaviour.Name = "DefineContextEntitiesBehaviour";
-            this.DefineContextEntitiesBehaviour.ShowImage = true;
-            this.DefineContextEntitiesBehaviour.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.DefineContextEntitiesBehaviour_Click);
-            // 
-            // DefineContextFunctionsBehaviour
-            // 
-            this.DefineContextFunctionsBehaviour.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.DefineContextFunctionsBehaviour.Image = ((System.Drawing.Image)(resources.GetObject("DefineContextFunctionsBehaviour.Image")));
-            this.DefineContextFunctionsBehaviour.Label = "Define Context Functions\' Behaviour";
-            this.DefineContextFunctionsBehaviour.Name = "DefineContextFunctionsBehaviour";
-            this.DefineContextFunctionsBehaviour.ShowImage = true;
-            this.DefineContextFunctionsBehaviour.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.DefineContextFunctionsBehaviour_Click);
             // 
             // CompleteInterfaceAutomata
             // 
@@ -169,6 +148,7 @@
             this.CompleteInterfaceAutomata.Label = "Complete Interface Automata";
             this.CompleteInterfaceAutomata.Name = "CompleteInterfaceAutomata";
             this.CompleteInterfaceAutomata.ShowImage = true;
+            this.CompleteInterfaceAutomata.Visible = false;
             this.CompleteInterfaceAutomata.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CompleteInterfaceAutomata_Click);
             // 
             // MainRibbon
@@ -196,8 +176,6 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton AboutButton;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton CreateNewSPESProject;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton CreateNewEngineeringPath;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton DefineContextEntitiesBehaviour;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton DefineContextFunctionsBehaviour;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton CompleteInterfaceAutomata;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton GenerateSubmodelsButton;
     }

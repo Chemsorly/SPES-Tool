@@ -106,15 +106,6 @@ namespace VisioAddin2013
                         //show results window
                         activeResultForm?.Dispose();
 
-                        //foreach (var result in results)
-                        //{
-                        //    if (result.ExceptionObject != null && result.ExceptionObject.Visioshape != null)
-                        //    {
-                        //        var targetCell = result.ExceptionObject.Visioshape.get_CellsSRC((short)VisSectionIndices.visSectionObject, (short)VisRowIndices.visRowFill, (short)VisCellIndices.visFillForegnd);
-                        //        targetCell.FormulaU = "RGB(255,0,0)";
-                        //    }
-                        //}
-
                         ResultForm window = new ResultForm(results);
                         activeResultForm = window;
                         window.Show();
@@ -193,7 +184,20 @@ namespace VisioAddin2013
             {
                 try
                 {
-                    activeModelverifier.GenerateSubmodels();
+                    //special case: StrukturellerKontext
+                    if (activeModelverifier.GetType() == typeof(StrukturellerKontextNetwork))
+                    {
+                        this.spesapp.EntitytoPage();
+                    }
+                    //special case: FunktionellerKontext
+                    else if (activeModelverifier.GetType() == typeof(FunktionellerKontextNetwork))
+                    {
+                        this.spesapp.FunctiontoPage();
+                    }
+                    else
+                    {
+                        activeModelverifier.GenerateSubmodels();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -217,6 +221,21 @@ namespace VisioAddin2013
                 this.VerifyButton.Enabled = this.activeModelverifier.CanVerify;
                 this.ImportButton.Enabled = this.activeModelverifier.CanVerify;
                 this.ExportButton.Enabled = this.activeModelverifier.CanVerify;
+
+                //special cases:
+                if (activeModelverifier.GetType() == typeof(LogicalViewpointNetwork))
+                {
+                    this.CreateNewEngineeringPath.Visible = true;
+                }
+                else if (activeModelverifier.GetType() == typeof(FunktionsnetzNetwork) || activeModelverifier.GetType() == typeof(TechnicalViewpointNetwork))
+                {
+                    this.CompleteInterfaceAutomata.Visible = true;
+                }
+                else
+                {
+                    this.CompleteInterfaceAutomata.Visible = false;
+                    this.CreateNewEngineeringPath.Visible = false;
+                }
             }
         }
 
@@ -233,10 +252,6 @@ namespace VisioAddin2013
 
                     //set SPES specifics
                     this.ModelTargetDropDown.Enabled = false;
-                    this.CreateNewEngineeringPath.Visible = true;
-                    this.DefineContextEntitiesBehaviour.Visible = true;
-                    this.DefineContextFunctionsBehaviour.Visible = true;
-                    this.CompleteInterfaceAutomata.Visible = true;
                     this.CreateNewSPESProject.Visible = false;
 
                     //load module based on definition
@@ -250,10 +265,6 @@ namespace VisioAddin2013
                 {
                     //set normal behaviour
                     this.ModelTargetDropDown.Enabled = true;
-                    this.CreateNewEngineeringPath.Visible = false;
-                    this.DefineContextEntitiesBehaviour.Visible = false;
-                    this.DefineContextFunctionsBehaviour.Visible = false;
-                    this.CompleteInterfaceAutomata.Visible = false;
                     this.CreateNewSPESProject.Visible = true;
                 }
 
@@ -322,7 +333,6 @@ namespace VisioAddin2013
         {
             try
             {
-
                 //this._application.ActiveDocument.Save();
                 this.spesapp.CreateSubsystems(documentReferencer);
                 System.Windows.Forms.MessageBox.Show("Creation successfully!");
@@ -333,52 +343,6 @@ namespace VisioAddin2013
                 if (exc.InnerException != null)
                 {
                     System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling." + exc);
-                }
-            }
-        }
-
-        /// <summary>
-        /// kommt raus: ist nix anderes als create submodels
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DefineContextEntitiesBehaviour_Click(object sender, RibbonControlEventArgs e)
-        {
-            //Button, welches für jede Context Entity auf aktivem Zeichenblatt ein neues Zeichenblatt  erstellt
-            try
-            {
-                this.spesapp.EntitytoPage();
-                System.Windows.Forms.MessageBox.Show("Creation successfully!");
-            }
-            //Fange mögliche Fehler ab und informiere Benutzer, dass die Generierung unvollständig ist
-            catch (Exception exc)
-            {
-                if (exc.InnerException != null)
-                {
-                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling.");
-                }
-            }
-        }
-
-        /// <summary>
-        /// kommt raus: ist nix anderes als create submodels
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DefineContextFunctionsBehaviour_Click(object sender, RibbonControlEventArgs e)
-        {
-            try
-            {
-                //Button, welches für jede Context Function auf aktivem Zeichenblatt ein neues Zeichenblatt  erstellt
-                this.spesapp.FunctiontoPage();
-                System.Windows.Forms.MessageBox.Show("Creation successfully!");
-            }
-            //Fange mögliche Fehler ab und informiere Benutzer, dass die Generierung unvollständig ist
-            catch (Exception exc)
-            {
-                if (exc.InnerException != null)
-                {
-                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling.");
                 }
             }
         }
@@ -400,10 +364,6 @@ namespace VisioAddin2013
                 }
             }
         }
-        //neue symbole: new engineering path = appbar.tournament.bracket.up
-        // create submodels = appbar.section.expand.all
-        // create new project = appbar.folder + photoshop plus
-        // complete interfacee automata = appbar.flag.wavy
         #endregion
 
 
