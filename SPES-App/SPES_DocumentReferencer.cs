@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace VisioAddin2013
+namespace SPES_App
 {
-    class SPES_DocumentReferencer
+    public class SPES_DocumentReferencer
     {
         /// <summary>
         /// contains a mapping for [Filename,Moduletype]
@@ -18,6 +18,11 @@ namespace VisioAddin2013
         public void AddAssignment(String pFilename, Type pType)
         {
             ShapeAssignments.Add(pFilename, pType);
+        }
+
+        public Type GetTypeFromFile(String pFile)
+        {
+            return ShapeAssignments.FirstOrDefault(t => t.Key == pFile).Value;
         }
 
         public void LoadConfigFromFile(String pPath)

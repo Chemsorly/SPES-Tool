@@ -34,8 +34,10 @@ namespace VisioAddin2013
         private bool initialized = false;
         private NetOffice.VisioApi.Application application;
         private SPES_DocumentReferencer documentReferencer;
+        private String documentReferencerFile => Directory.GetFiles(new FileInfo(application.ActiveDocument.Path).Directory.FullName)
+                    .FirstOrDefault(t => t.Contains("spesconfig.xml"));
 
-        private bool IsSPESproject => application.ActiveDocument.Path != "" && Directory.GetFiles(new FileInfo(application.ActiveDocument.Path).Directory.FullName).Contains("spesconfig.xml");
+        private bool IsSPESproject => application.ActiveDocument.Path != "" && Directory.GetFiles(new FileInfo(application.ActiveDocument.Path).Directory.FullName).Any(t => t.Contains("spesconfig.xml"));
         
 
         private void MainRibbon_Load(object sender, RibbonUIEventArgs e)
@@ -223,14 +225,21 @@ namespace VisioAddin2013
             //set ribbon behaviour
             if (IsSPESproject)
             {
+                //set document referencer
+                documentReferencer = new SPES_DocumentReferencer();
+                documentReferencer.LoadConfigFromFile(documentReferencerFile);
+
                 //set SPES specifics
                 this.ModelTargetDropDown.Enabled = false;
                 this.CreateNewEngineeringPath.Visible = true;
                 this.DefineContextEntitiesBehaviour.Visible = true;
                 this.DefineContextFunctionsBehaviour.Visible = true;
                 this.CompleteInterfaceAutomata.Visible = true;
-                this.CreateBMSCs.Visible = true;
                 this.CreateNewSPESProject.Visible = false;
+
+                //load module based on definition
+                var type = documentReferencer.GetTypeFromFile(application.ActiveDocument.Name);
+                ModelTargetDropDown.SelectedItem = ModelTargetDropDown.Items.First(t => t.Label == type.ToString());
             }
             else
             {
@@ -240,7 +249,6 @@ namespace VisioAddin2013
                 this.DefineContextEntitiesBehaviour.Visible = false;
                 this.DefineContextFunctionsBehaviour.Visible = false;
                 this.CompleteInterfaceAutomata.Visible = false;
-                this.CreateBMSCs.Visible = false;
                 this.CreateNewSPESProject.Visible = true;
             }
         }
@@ -278,14 +286,16 @@ namespace VisioAddin2013
                 FolderBrowserDialog folder = new FolderBrowserDialog();
                 folder.ShowDialog();
 
+                documentReferencer = new SPES_DocumentReferencer();
+
                 string path = folder.SelectedPath;
                 this.application.ActiveDocument.SaveAs(System.IO.Path.Combine(path, systemname + "_Overview.vsdx"));
                 this.spesapp.CreateRectangle(systemname);
-                this.spesapp.CreateSystem();
+                this.spesapp.CreateSystem(documentReferencer);
                 this.spesapp.SetHyperlink();
 
                 //create config file
-                File.Create(System.IO.Path.Combine(path, "spesconfig.xml"));
+                documentReferencer.SaveConfigToFile(documentReferencerFile);
 
                 //this._spesapp.deleteModels();
             }
@@ -353,24 +363,6 @@ namespace VisioAddin2013
                 //Button, welches für jede Context Function auf aktivem Zeichenblatt ein neues Zeichenblatt  erstellt
                 this.spesapp.FunctiontoPage();
                 System.Windows.Forms.MessageBox.Show("Creation successfully!");
-            }
-            //Fange mögliche Fehler ab und informiere Benutzer, dass die Generierung unvollständig ist
-            catch (Exception exc)
-            {
-                if (exc.InnerException != null)
-                {
-                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling.");
-                }
-            }
-        }
-
-        private void CreateBMSCs_Click(object sender, RibbonControlEventArgs e)
-        {
-            try
-            {
-                this.spesapp.CreateSheetsforMscReferences();
-                System.Windows.Forms.MessageBox.Show("Creation of References successfully done!.");
-
             }
             //Fange mögliche Fehler ab und informiere Benutzer, dass die Generierung unvollständig ist
             catch (Exception exc)

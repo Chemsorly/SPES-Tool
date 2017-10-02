@@ -2,6 +2,18 @@
 using System.Collections.Generic;
 using NetOffice.VisioApi;
 using SPES_App.Utility;
+using SPES_Wissenskontext;
+using SPES_Funktionsnetz;
+using SPES_LogicalViewpoint;
+using SPES_TechnicalViewpoint;
+using SPES_FunktionellerKontext;
+using SPES_StrukturellerKontext;
+using SPES_Zielmodell;
+using SPES_SzenarioUseCases;
+using ITU_Scenario;
+using SPES_StrukturellePerspektive;
+using SPES_FunktionellePerspektive;
+using SPES_Verhaltensperspektive;
 
 namespace SPES_App
 {
@@ -26,7 +38,7 @@ namespace SPES_App
             this._application = a;
         }
 
-        public void CreateSystem()
+        public void CreateSystem(SPES_DocumentReferencer pReferencer)
         {
             IVShape systemshape = null;
             foreach (Shape s in this._application.ActivePage.Shapes)
@@ -35,7 +47,7 @@ namespace SPES_App
             }
             IVPage p = this._application.ActiveDocument.Pages.Add();
             p.Name = systemshape.Text;
-            CreateSystemElements(p);
+            CreateSystemElements(p, pReferencer);
             System.Windows.Forms.MessageBox.Show("Artifact Creation for Level 0 finished!");
         }
 
@@ -47,7 +59,7 @@ namespace SPES_App
             s.CellsSRC(1, 3, 0).FormulaU = "THEMEGUARD(RGB(255,255,255))";
         }
 
-        private void CreateSystemElements( IVPage p)
+        private void CreateSystemElements( IVPage p, SPES_DocumentReferencer pReferencer)
         {
             //CellsSRC(1,11,4) gibt an, wo der Text positioniert werden soll
             //setCenter (double x, double y) positioniert das ausgewaehlte Shape an die gewuenschte Stelle, angegebene Werte
@@ -76,8 +88,8 @@ namespace SPES_App
             tvp = p.DrawRectangle(1, 1, 2.5, 3); tvp.Text = "Technical Viewpoint"; tvp.SetCenter(16.2/2.54, (22.8 / 2.54));
             tvp.CellsSRC(1, 11, 4).Formula = "0"; tvp.CellsSRC(1, 3, 0).FormulaU = "THEMEGUARD(RGB(255,255,255))";
             statusTvp = p.DrawOval(1, 1, 1.16, 1.16); statusTvp.SetCenter(16.2 / 2.54, 21.3 / 2.54); statusTvp.CellsSRC(1, 3, 0).FormulaU = "THEMEGUARD(RGB(255,0,0))";
-            System.Windows.Forms.MessageBox.Show(("Create Documents?"));
-            CreateViewPointDocs(p.Name, this._application.ActiveDocument.Path);
+            //System.Windows.Forms.MessageBox.Show(("Create Documents?"));
+            CreateViewPointDocs(p.Name, this._application.ActiveDocument.Path, pReferencer);
 
             rvphl=rvp.AddHyperlink();
             rvphl.Address = (System.IO.Path.Combine(this._application.ActiveDocument.Path, systemName.Text + "_RVP.vsdx"));
@@ -113,7 +125,7 @@ namespace SPES_App
 
             if (references.Count>=1)
             {
-                this._application.Documents.OpenEx("basic Message Sequence Chart.vssx",4);
+                this._application.Documents.OpenEx("SMT_bMSC.vssx", 4);
                 foreach (var r in references)
                 {
                     bool exist = false;
@@ -141,7 +153,7 @@ namespace SPES_App
             };
         }
 
-        private void CreateViewPointDocs(string systemname, string path)
+        private void CreateViewPointDocs(string systemname, string path, SPES_DocumentReferencer pReferencer)
         {
 
             using (Application app = new Application())
@@ -161,27 +173,34 @@ namespace SPES_App
                     };
                 }
                 OpenWindowGetter.SetForegroundWindow(helpappkey);
-                CreateemptyModels(app, path, systemname);
+                CreateemptyModels(app, path, systemname, pReferencer);
                 var doc = app.Documents.Add("");
                 CreateRvp(systemname, doc);
                 doc.SaveAs(System.IO.Path.Combine(path, systemname + "_RVP.vsdx"));
                 doc.Close();
+                
                 doc = app.Documents.Add("");
                 CreateFvp(systemname, doc);
-                app.Documents.OpenEx("Functional Design - Function Network.vssx", 4); app.Documents.OpenEx("Interface Automata.vssx", 4);
+                //app.Documents.OpenEx("SMT_FN_Funktionsnetz.vssx", 4); app.Documents.OpenEx("SMT_IA.vssx", 4);
                 doc.SaveAs(System.IO.Path.Combine(path, systemname + "_FVP.vsdx"));
                 doc.Close();
+                pReferencer.AddAssignment(systemname + "_FVP.vsdx", typeof(FunktionsnetzNetwork));
+
                 doc = app.Documents.Add("");
                 CreateLvp(systemname, doc);
-                app.Documents.OpenEx("Class Diagram.vssx", 4); 
+                //app.Documents.OpenEx("SMT_Class.vssx", 4); 
                 doc.SaveAs(System.IO.Path.Combine(path, systemname + "_LVP.vsdx"));
                 doc.Close();
+                pReferencer.AddAssignment(systemname + "_LVP.vsdx", typeof(LogicalViewpointNetwork));
+
                 doc = app.Documents.Add("");
                 CreateTvp(systemname, doc);
-                app.Documents.OpenEx("State Machine.vssx", 4);
-                app.Documents.OpenEx("Interface Automata.vssx", 4);
+                //app.Documents.OpenEx("SMT_SM.vssx", 4);
+                //app.Documents.OpenEx("SMT_IA.vssx", 4);
                 doc.SaveAs(System.IO.Path.Combine(path, systemname + "_TVP.vsdx"));
                 doc.Close();
+                pReferencer.AddAssignment(systemname + "_TVP.vsdx", typeof(TechnicalViewpointNetwork));
+
                 OpenWindowGetter.SetForegroundWindow(appkey);
                 app.Quit();
             }
@@ -332,61 +351,66 @@ namespace SPES_App
 
         }
 
-        private void CreateemptyModels(Application subapp, string path, string systemname)
+        private void CreateemptyModels(Application subapp, string path, string systemname, SPES_DocumentReferencer pReferencer)
         {
             var doct = subapp.Documents.Add("");
-            subapp.Documents.OpenEx("Context of Knowledge.vssx", 4);
+            //subapp.Documents.OpenEx("SMT_CoK.vssx", 4);
             doct.SaveAs(System.IO.Path.Combine(path, systemname + "_RVP_CoK.vsdx"));
             doct.Close();
-            
+            pReferencer.AddAssignment(systemname + "_RVP_CoK.vsdx", typeof(WissenskontextNetwork));
+
             doct = subapp.Documents.Add("");
-            subapp.Documents.OpenEx("Functional Context.vssx", 4); 
+            //subapp.Documents.OpenEx("SMT_FuC.vssx", 4); 
             subapp.ActivePage.Name = "funktional Perspective";
             doct.SaveAs(System.IO.Path.Combine(path, systemname + "_RVP_foC.vsdx"));
             doct.Close();
-            
+            pReferencer.AddAssignment(systemname + "_RVP_foC.vsdx", typeof(FunktionellerKontextNetwork));
+
             doct = subapp.Documents.Add("");
-            subapp.Documents.OpenEx("Structural Context.vssx", 4); 
+            //subapp.Documents.OpenEx("SMT_SoC.vssx", 4); 
             subapp.ActivePage.Name = "static Perspective";
             doct.SaveAs(System.IO.Path.Combine(path, systemname + "_RVP_soC.vsdx"));
             doct.Close();
-            
+            pReferencer.AddAssignment(systemname + "_RVP_soC.vsdx", typeof(StrukturellerKontextNetwork));
+
             //Dokumente für Loesungsneutrale Modelle
             doct = subapp.Documents.Add("");
-            subapp.Documents.OpenEx("Goal-oriented Requirements Language.vssx", 4);
+            //subapp.Documents.OpenEx("SMT_GRL.vssx", 4);
             doct.SaveAs(System.IO.Path.Combine(path, systemname + "_RVP_Goals.vsdx"));
             doct.Close();
-            
-            doct = subapp.Documents.Add("");
-            subapp.Documents.OpenEx("Use Case Maps.vssx", 4);
-            doct.SaveAs(System.IO.Path.Combine(path, systemname + "_RVP_UCM.vsdx"));
-            doct.Close();
-            
+            pReferencer.AddAssignment(systemname + "_RVP_Goals.vsdx", typeof(ZielmodellNetwork));
 
             doct = subapp.Documents.Add("");
-            subapp.Documents.OpenEx("high Level Message Sequence Chart.vssx", 4); 
+            //subapp.Documents.OpenEx("SMT_UCM.vssx", 4);
+            doct.SaveAs(System.IO.Path.Combine(path, systemname + "_RVP_UCM.vsdx"));
+            doct.Close();
+            pReferencer.AddAssignment(systemname + "_RVP_UCM.vsdx", typeof(SzenarioUseCasesNetwork));
+
+            doct = subapp.Documents.Add("");
+            //subapp.Documents.OpenEx("SMT_hMSC.vssx", 4); 
             doct.SaveAs(System.IO.Path.Combine(path, systemname + "_RVP_MSC.vsdx"));
             doct.Close();
-            
+            pReferencer.AddAssignment(systemname + "_RVP_MSC.vsdx", typeof(ScenarioNetwork));
 
             //Dokumente für Loesungsbezogene Modelle
             doct = subapp.Documents.Add("");
-            subapp.Documents.OpenEx("Class Diagram.vssx", 4);
+            //subapp.Documents.OpenEx("SMT_Class.vssx", 4);
             doct.SaveAs(System.IO.Path.Combine(path, systemname + "_RVP_stP.vsdx"));
             doct.Close();
-            
+            pReferencer.AddAssignment(systemname + "_RVP_stP.vsdx", typeof(StrukturellePerspektiveNetwork));
 
             doct = subapp.Documents.Add("");
-            subapp.Documents.OpenEx("Activity Diagram.vssx", 4);
+            //subapp.Documents.OpenEx("SMT_Activity.vssx", 4);
             doct.SaveAs(System.IO.Path.Combine(path, systemname + "_RVP_fuP.vsdx"));
             doct.Close();
-            
+            pReferencer.AddAssignment(systemname + "_RVP_fuP.vsdx", typeof(FunktionellePerspektiveNetwork));
 
             doct = subapp.Documents.Add("");
-            subapp.Documents.OpenEx("State Machine.vssx", 4);
+            //subapp.Documents.OpenEx("SMT_SM.vssx", 4);
             doct.SaveAs(System.IO.Path.Combine(path,systemname+  "_RVP_BP.vsdx"));
             doct.Close();
-            
+            pReferencer.AddAssignment(systemname + "_RVP_BP.vsdx", typeof(VerhaltensperspektiveNetwork));
+
         }
 
         public void SetHyperlink()
@@ -433,7 +457,7 @@ namespace SPES_App
             }
             if (shapes.Count >= 1)
             {
-                IVDocument stencil = this._application.Documents.OpenEx("Behavioral Context.vssx", 4);
+                IVDocument stencil = this._application.Documents.OpenEx("SMT_BeC.vssx", 4);
                 IVMaster masterfunction = new IVMaster();
                 foreach (var m in stencil.Masters)
                 {
@@ -491,7 +515,7 @@ namespace SPES_App
                 {
                     IVPage page = this._application.ActiveDocument.Pages.Add();
                     page.Name = shape.Text;
-                    IVDocument stencil = this._application.Documents.OpenEx("Behavioral Context.vssx", 4);
+                    IVDocument stencil = this._application.Documents.OpenEx("SMT_BeC.vssx", 4);
                     IVMaster masterentity = new IVMaster();
                     foreach (var m in stencil.Masters)
                     {
@@ -515,7 +539,7 @@ namespace SPES_App
 
         }
 
-        public void CreateSubsystems()
+        public void CreateSubsystems(SPES_DocumentReferencer pReferencer)
         {
             //bestimme Namen des übergeordneten Systems anhand des Seitennamens
 
@@ -550,7 +574,7 @@ namespace SPES_App
                     shapes.Add(shape);
                 }
             }
-            System.Windows.Forms.MessageBox.Show("Create Documents?");
+            //System.Windows.Forms.MessageBox.Show("Create Documents?");
             //getPage "Systemübersicht"--> dazu Document holen mit passender Page
             //speichere aktuelle Applikation ab und suche Applikation mit der Page "Systemübersicht"
             IVDocument systemdoc = null;
@@ -617,7 +641,7 @@ namespace SPES_App
                 hl.SubAddress = shapePage.Name; //geht nur wenn, Page in selber Dokumentebene ist.
 
                 //rufe Methode auf, die für die gespeicherten Pages, die benötigten Dokumente erstellt und einbindet
-                CreateSubSystemElements(shapePage, applickey);
+                CreateSubSystemElements(shapePage, applickey, pReferencer);
             }
             //setze Verbinder als gerade/straight
             foreach (var connects in systemoverview.Shapes)
@@ -631,7 +655,7 @@ namespace SPES_App
             OpenWindowGetter.SetForegroundWindow(subapplickey);
         }
 
-        private void CreateSubSystemElements(IVPage p, IntPtr appkey)
+        private void CreateSubSystemElements(IVPage p, IntPtr appkey, SPES_DocumentReferencer pReferencer)
         {
             using (Application app = new Application())
             {
@@ -650,7 +674,7 @@ namespace SPES_App
 
                 }
                 OpenWindowGetter.SetForegroundWindow(helpappkey);
-                CreateemptyModels(app, this._application.ActiveDocument.Path, p.Name);
+                CreateemptyModels(app, this._application.ActiveDocument.Path, p.Name, pReferencer);
                 IVShape header, systemName, rvp, fvp, lvp, tvp, statusRvp, statusFvp, statusLvp, statusTvp;
                 IVHyperlink rvphl, fvphl, lvphl, tvphl;
                 header = p.DrawRectangle(1, 1, 8, 1.5); header.LineStyle = "none"; header.Text = "Artifacts of " + p.Name;
@@ -687,28 +711,31 @@ namespace SPES_App
 
                 doc = app.Documents.Add("");
                 CreateFvp(p.Name, doc);
-                app.Documents.OpenEx("Functional Design - Function Network.vssx", 4); app.Documents.OpenEx("Interface Automata.vssx", 4);
+                //todo: load shapes -> load modules
+                //app.Documents.OpenEx("SMT_FN_Funktionsnetz.vssx", 4);
+                //app.Documents.OpenEx("SMT_IA.vssx", 4);
                 doc.SaveAs(System.IO.Path.Combine(this._application.ActiveDocument.Path, systemName.Text + "_FVP.vsdx"));
-                    doc.Close();
+                doc.Close();
+                pReferencer.AddAssignment(systemName.Text + "_FVP.vsdx", typeof(FunktionsnetzNetwork));
                 fvphl = fvp.AddHyperlink();
                 fvphl.Address = (System.IO.Path.Combine(this._application.ActiveDocument.Path, systemName.Text + "_FVP.vsdx"));
 
                 doc = app.Documents.Add("");
                 CreateLvp(p.Name, doc);
-                app.Documents.OpenEx("Class Diagram.vssx", 4);
+                //app.Documents.OpenEx("SMT_Class.vssx", 4);
                 doc.SaveAs(System.IO.Path.Combine(this._application.ActiveDocument.Path, systemName.Text + "_LVP.vsdx"));
-                    doc.Close();
+                doc.Close();
+                pReferencer.AddAssignment(systemName.Text + "_LVP.vsdx", typeof(LogicalViewpointNetwork));
                 lvphl = lvp.AddHyperlink();
                 lvphl.Address = (System.IO.Path.Combine(this._application.ActiveDocument.Path, systemName.Text + "_LVP.vsdx"));
 
                 doc = app.Documents.Add("");
                 CreateTvp(p.Name, doc);
-                app.Documents.OpenEx("State Machine.vssx", 4);
-                app.Documents.OpenEx("Interface Automata.vssx", 4);
+                //app.Documents.OpenEx("SMT_SM.vssx", 4);
+                //app.Documents.OpenEx("SMT_IA.vssx", 4);
                 doc.SaveAs(System.IO.Path.Combine(this._application.ActiveDocument.Path, systemName.Text + "_TVP.vsdx"));
-                    doc.Close();
-
-
+                doc.Close();
+                pReferencer.AddAssignment(systemName.Text + "_TVP.vsdx", typeof(TechnicalViewpointNetwork));
                 tvphl = tvp.AddHyperlink();
                 tvphl.Address = (System.IO.Path.Combine(this._application.ActiveDocument.Path, systemName.Text + "_TVP.vsdx"));
                 app.Quit();

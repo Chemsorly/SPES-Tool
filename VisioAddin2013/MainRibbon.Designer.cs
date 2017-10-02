@@ -47,7 +47,6 @@
             this.CreateNewEngineeringPath = this.Factory.CreateRibbonButton();
             this.DefineContextEntitiesBehaviour = this.Factory.CreateRibbonButton();
             this.DefineContextFunctionsBehaviour = this.Factory.CreateRibbonButton();
-            this.CreateBMSCs = this.Factory.CreateRibbonButton();
             this.CompleteInterfaceAutomata = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
@@ -72,7 +71,6 @@
             this.group1.Items.Add(this.CreateNewEngineeringPath);
             this.group1.Items.Add(this.DefineContextEntitiesBehaviour);
             this.group1.Items.Add(this.DefineContextFunctionsBehaviour);
-            this.group1.Items.Add(this.CreateBMSCs);
             this.group1.Items.Add(this.CompleteInterfaceAutomata);
             this.group1.Label = "SPES Modelling Toolbox";
             this.group1.Name = "group1";
@@ -164,15 +162,6 @@
             this.DefineContextFunctionsBehaviour.ShowImage = true;
             this.DefineContextFunctionsBehaviour.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.DefineContextFunctionsBehaviour_Click);
             // 
-            // CreateBMSCs
-            // 
-            this.CreateBMSCs.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.CreateBMSCs.Image = ((System.Drawing.Image)(resources.GetObject("CreateBMSCs.Image")));
-            this.CreateBMSCs.Label = "Create BMSCs";
-            this.CreateBMSCs.Name = "CreateBMSCs";
-            this.CreateBMSCs.ShowImage = true;
-            this.CreateBMSCs.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CreateBMSCs_Click);
-            // 
             // CompleteInterfaceAutomata
             // 
             this.CompleteInterfaceAutomata.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -209,7 +198,6 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton CreateNewEngineeringPath;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton DefineContextEntitiesBehaviour;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton DefineContextFunctionsBehaviour;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton CreateBMSCs;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton CompleteInterfaceAutomata;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton GenerateSubmodelsButton;
     }
