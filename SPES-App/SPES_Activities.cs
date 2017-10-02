@@ -184,14 +184,14 @@ namespace SPES_App
                 //app.Documents.OpenEx("SMT_FN_Funktionsnetz.vssx", 4); app.Documents.OpenEx("SMT_IA.vssx", 4);
                 doc.SaveAs(System.IO.Path.Combine(path, systemname + "_FVP.vsdx"));
                 doc.Close();
-                pReferencer.AddAssignment(systemname + "_FVP.vsdx", typeof(FunktionsnetzNetwork));
+                pReferencer.AddAssignment(systemname + "_FVP.vsdx", typeof(FunktionsnetzNetwork).Name);
 
                 doc = app.Documents.Add("");
                 CreateLvp(systemname, doc);
                 //app.Documents.OpenEx("SMT_Class.vssx", 4); 
                 doc.SaveAs(System.IO.Path.Combine(path, systemname + "_LVP.vsdx"));
                 doc.Close();
-                pReferencer.AddAssignment(systemname + "_LVP.vsdx", typeof(LogicalViewpointNetwork));
+                pReferencer.AddAssignment(systemname + "_LVP.vsdx", typeof(LogicalViewpointNetwork).Name);
 
                 doc = app.Documents.Add("");
                 CreateTvp(systemname, doc);
@@ -199,7 +199,7 @@ namespace SPES_App
                 //app.Documents.OpenEx("SMT_IA.vssx", 4);
                 doc.SaveAs(System.IO.Path.Combine(path, systemname + "_TVP.vsdx"));
                 doc.Close();
-                pReferencer.AddAssignment(systemname + "_TVP.vsdx", typeof(TechnicalViewpointNetwork));
+                pReferencer.AddAssignment(systemname + "_TVP.vsdx", typeof(TechnicalViewpointNetwork).Name);
 
                 OpenWindowGetter.SetForegroundWindow(appkey);
                 app.Quit();
@@ -357,59 +357,59 @@ namespace SPES_App
             //subapp.Documents.OpenEx("SMT_CoK.vssx", 4);
             doct.SaveAs(System.IO.Path.Combine(path, systemname + "_RVP_CoK.vsdx"));
             doct.Close();
-            pReferencer.AddAssignment(systemname + "_RVP_CoK.vsdx", typeof(WissenskontextNetwork));
+            pReferencer.AddAssignment(systemname + "_RVP_CoK.vsdx", typeof(WissenskontextNetwork).Name);
 
             doct = subapp.Documents.Add("");
             //subapp.Documents.OpenEx("SMT_FuC.vssx", 4); 
             subapp.ActivePage.Name = "funktional Perspective";
             doct.SaveAs(System.IO.Path.Combine(path, systemname + "_RVP_foC.vsdx"));
             doct.Close();
-            pReferencer.AddAssignment(systemname + "_RVP_foC.vsdx", typeof(FunktionellerKontextNetwork));
+            pReferencer.AddAssignment(systemname + "_RVP_foC.vsdx", typeof(FunktionellerKontextNetwork).Name);
 
             doct = subapp.Documents.Add("");
             //subapp.Documents.OpenEx("SMT_SoC.vssx", 4); 
             subapp.ActivePage.Name = "static Perspective";
             doct.SaveAs(System.IO.Path.Combine(path, systemname + "_RVP_soC.vsdx"));
             doct.Close();
-            pReferencer.AddAssignment(systemname + "_RVP_soC.vsdx", typeof(StrukturellerKontextNetwork));
+            pReferencer.AddAssignment(systemname + "_RVP_soC.vsdx", typeof(StrukturellerKontextNetwork).Name);
 
             //Dokumente für Loesungsneutrale Modelle
             doct = subapp.Documents.Add("");
             //subapp.Documents.OpenEx("SMT_GRL.vssx", 4);
             doct.SaveAs(System.IO.Path.Combine(path, systemname + "_RVP_Goals.vsdx"));
             doct.Close();
-            pReferencer.AddAssignment(systemname + "_RVP_Goals.vsdx", typeof(ZielmodellNetwork));
+            pReferencer.AddAssignment(systemname + "_RVP_Goals.vsdx", typeof(ZielmodellNetwork).Name);
 
             doct = subapp.Documents.Add("");
             //subapp.Documents.OpenEx("SMT_UCM.vssx", 4);
             doct.SaveAs(System.IO.Path.Combine(path, systemname + "_RVP_UCM.vsdx"));
             doct.Close();
-            pReferencer.AddAssignment(systemname + "_RVP_UCM.vsdx", typeof(SzenarioUseCasesNetwork));
+            pReferencer.AddAssignment(systemname + "_RVP_UCM.vsdx", typeof(SzenarioUseCasesNetwork).Name);
 
             doct = subapp.Documents.Add("");
             //subapp.Documents.OpenEx("SMT_hMSC.vssx", 4); 
             doct.SaveAs(System.IO.Path.Combine(path, systemname + "_RVP_MSC.vsdx"));
             doct.Close();
-            pReferencer.AddAssignment(systemname + "_RVP_MSC.vsdx", typeof(ScenarioNetwork));
+            pReferencer.AddAssignment(systemname + "_RVP_MSC.vsdx", typeof(ScenarioNetwork).Name);
 
             //Dokumente für Loesungsbezogene Modelle
             doct = subapp.Documents.Add("");
             //subapp.Documents.OpenEx("SMT_Class.vssx", 4);
             doct.SaveAs(System.IO.Path.Combine(path, systemname + "_RVP_stP.vsdx"));
             doct.Close();
-            pReferencer.AddAssignment(systemname + "_RVP_stP.vsdx", typeof(StrukturellePerspektiveNetwork));
+            pReferencer.AddAssignment(systemname + "_RVP_stP.vsdx", typeof(StrukturellePerspektiveNetwork).Name);
 
             doct = subapp.Documents.Add("");
             //subapp.Documents.OpenEx("SMT_Activity.vssx", 4);
             doct.SaveAs(System.IO.Path.Combine(path, systemname + "_RVP_fuP.vsdx"));
             doct.Close();
-            pReferencer.AddAssignment(systemname + "_RVP_fuP.vsdx", typeof(FunktionellePerspektiveNetwork));
+            pReferencer.AddAssignment(systemname + "_RVP_fuP.vsdx", typeof(FunktionellePerspektiveNetwork).Name);
 
             doct = subapp.Documents.Add("");
             //subapp.Documents.OpenEx("SMT_SM.vssx", 4);
             doct.SaveAs(System.IO.Path.Combine(path,systemname+  "_RVP_BP.vsdx"));
             doct.Close();
-            pReferencer.AddAssignment(systemname + "_RVP_BP.vsdx", typeof(VerhaltensperspektiveNetwork));
+            pReferencer.AddAssignment(systemname + "_RVP_BP.vsdx", typeof(VerhaltensperspektiveNetwork).Name);
 
         }
 
@@ -716,7 +716,7 @@ namespace SPES_App
                 //app.Documents.OpenEx("SMT_IA.vssx", 4);
                 doc.SaveAs(System.IO.Path.Combine(this._application.ActiveDocument.Path, systemName.Text + "_FVP.vsdx"));
                 doc.Close();
-                pReferencer.AddAssignment(systemName.Text + "_FVP.vsdx", typeof(FunktionsnetzNetwork));
+                pReferencer.AddAssignment(systemName.Text + "_FVP.vsdx", typeof(FunktionsnetzNetwork).Name);
                 fvphl = fvp.AddHyperlink();
                 fvphl.Address = (System.IO.Path.Combine(this._application.ActiveDocument.Path, systemName.Text + "_FVP.vsdx"));
 
@@ -725,7 +725,7 @@ namespace SPES_App
                 //app.Documents.OpenEx("SMT_Class.vssx", 4);
                 doc.SaveAs(System.IO.Path.Combine(this._application.ActiveDocument.Path, systemName.Text + "_LVP.vsdx"));
                 doc.Close();
-                pReferencer.AddAssignment(systemName.Text + "_LVP.vsdx", typeof(LogicalViewpointNetwork));
+                pReferencer.AddAssignment(systemName.Text + "_LVP.vsdx", typeof(LogicalViewpointNetwork).Name);
                 lvphl = lvp.AddHyperlink();
                 lvphl.Address = (System.IO.Path.Combine(this._application.ActiveDocument.Path, systemName.Text + "_LVP.vsdx"));
 
@@ -735,7 +735,7 @@ namespace SPES_App
                 //app.Documents.OpenEx("SMT_IA.vssx", 4);
                 doc.SaveAs(System.IO.Path.Combine(this._application.ActiveDocument.Path, systemName.Text + "_TVP.vsdx"));
                 doc.Close();
-                pReferencer.AddAssignment(systemName.Text + "_TVP.vsdx", typeof(TechnicalViewpointNetwork));
+                pReferencer.AddAssignment(systemName.Text + "_TVP.vsdx", typeof(TechnicalViewpointNetwork).Name);
                 tvphl = tvp.AddHyperlink();
                 tvphl.Address = (System.IO.Path.Combine(this._application.ActiveDocument.Path, systemName.Text + "_TVP.vsdx"));
                 app.Quit();

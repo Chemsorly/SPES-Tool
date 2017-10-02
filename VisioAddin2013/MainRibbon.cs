@@ -34,8 +34,8 @@ namespace VisioAddin2013
         private bool initialized = false;
         private NetOffice.VisioApi.Application application;
         private SPES_DocumentReferencer documentReferencer;
-        private String documentReferencerFile => Directory.GetFiles(new FileInfo(application.ActiveDocument.Path).Directory.FullName)
-                    .FirstOrDefault(t => t.Contains("spesconfig.xml"));
+
+        private String documentReferencerFile => System.IO.Path.Combine(new FileInfo(application.ActiveDocument.Path).Directory.FullName, "spesconfig.xml");
 
         private bool IsSPESproject => application.ActiveDocument.Path != "" && Directory.GetFiles(new FileInfo(application.ActiveDocument.Path).Directory.FullName).Any(t => t.Contains("spesconfig.xml"));
         
@@ -239,7 +239,12 @@ namespace VisioAddin2013
 
                 //load module based on definition
                 var type = documentReferencer.GetTypeFromFile(application.ActiveDocument.Name);
-                ModelTargetDropDown.SelectedItem = ModelTargetDropDown.Items.First(t => t.Label == type.ToString());
+                if (type != null)
+                {
+                    ModelTargetDropDown.SelectedItem =
+                        ModelTargetDropDown.Items.Where(t => t.Label == type.ToString()).First();
+                    ModelTargetDropDown_SelectionChanged(null, null);
+                }
             }
             else
             {
@@ -315,7 +320,7 @@ namespace VisioAddin2013
             {
 
                 //this._application.ActiveDocument.Save();
-                this.spesapp.CreateSubsystems();
+                this.spesapp.CreateSubsystems(documentReferencer);
                 System.Windows.Forms.MessageBox.Show("Creation successfully!");
             }
             //Fange mögliche Fehler ab und informiere Benutzer, dass die Generierung unvollständig ist
