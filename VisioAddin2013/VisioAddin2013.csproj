@@ -143,6 +143,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\VSTO\Microsoft.Office.Tools.v4.0.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.VisualStudio.Tools.Applications.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\VSTO\Microsoft.VisualStudio.Tools.Applications.Runtime.dll</HintPath>
@@ -199,6 +200,12 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainRibbon.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -208,6 +215,9 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <EmbeddedResource Include="About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainRibbon.resx">
       <DependentUpon>MainRibbon.cs</DependentUpon>
     </EmbeddedResource>
@@ -258,13 +268,53 @@
       <Project>{77C6D225-B8D8-49C6-89D5-C20D2B1A07CD}</Project>
       <Name>ITU-Scenario</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SPES-App\SPES-App.csproj">
+      <Project>{BDF156CE-910E-453F-A86F-A660D92F99FA}</Project>
+      <Name>SPES-App</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SPES-FunktionellePerspektive\SPES-FunktionellePerspektive.csproj">
+      <Project>{0b218267-295e-47f5-9861-79feda51ccc4}</Project>
+      <Name>SPES-FunktionellePerspektive</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SPES-FunktionellerKontext\SPES-FunktionellerKontext.csproj">
+      <Project>{b8849f47-92a7-4bc1-851b-a7ccad0304ea}</Project>
+      <Name>SPES-FunktionellerKontext</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SPES-Funktionsnetz\SPES-Funktionsnetz.csproj">
       <Project>{0D5C987D-6A0C-436D-BA67-842531D147D5}</Project>
       <Name>SPES-Funktionsnetz</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SPES-LogicalViewpoint\SPES-LogicalViewpoint.csproj">
+      <Project>{76af04d7-247f-4efd-898c-7d5bc0480605}</Project>
+      <Name>SPES-LogicalViewpoint</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SPES-Modelverifier-Base\SPES-Modelverifier-Base.csproj">
       <Project>{B43F3525-9A96-40D4-9E2B-BD9BF9104008}</Project>
       <Name>SPES-Modelverifier-Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SPES-StrukturellePerspektive\SPES-StrukturellePerspektive.csproj">
+      <Project>{c1824c16-cb78-403b-a219-f39de90d5063}</Project>
+      <Name>SPES-StrukturellePerspektive</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SPES-StrukturellerKontext\SPES-StrukturellerKontext.csproj">
+      <Project>{1ddb6783-c1c9-4f32-af2c-88167ffe6dc9}</Project>
+      <Name>SPES-StrukturellerKontext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SPES-SzenarioUseCases\SPES-SzenarioUseCases.csproj">
+      <Project>{2a71eb76-55d3-427a-88ec-344359ef173b}</Project>
+      <Name>SPES-SzenarioUseCases</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SPES-TechnicalViewpoint\SPES-TechnicalViewpoint.csproj">
+      <Project>{72aaed58-8e56-4160-a837-5b49b16be156}</Project>
+      <Name>SPES-TechnicalViewpoint</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SPES-Verhaltensperspektive\SPES-Verhaltensperspektive.csproj">
+      <Project>{34fb08b9-3a0e-45ce-8459-16ee04d68145}</Project>
+      <Name>SPES-Verhaltensperspektive</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SPES-Wissenskontext\SPES-Wissenskontext.csproj">
+      <Project>{95c98443-7f46-46ff-a118-cbb927b77132}</Project>
+      <Name>SPES-Wissenskontext</Name>
     </ProjectReference>
     <ProjectReference Include="..\SPES-Zielmodell\SPES-Zielmodell.csproj">
       <Project>{11d350e1-4892-4ea7-b93c-9cee06e48d2a}</Project>
@@ -273,6 +323,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Icons\appbar.flag.wavy.png" />
+    <Content Include="Icons\appbar.folder.png" />
+    <Content Include="Icons\appbar.section.expand.all.png" />
     <Content Include="Icons\appbar_control_play.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

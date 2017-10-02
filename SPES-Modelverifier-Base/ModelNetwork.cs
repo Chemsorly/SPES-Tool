@@ -56,6 +56,11 @@ namespace SPES_Modelverifier_Base
         public event OnLogMessageReceived OnLogMessageReceivedEvent;
 
         /// <summary>
+        /// Returns if the model contains an implemented mapping (and therefor can be verified)
+        /// </summary>
+        public bool CanVerify => _mapping != null;
+
+        /// <summary>
         /// creates a new instance of the model verifier for a specific model type
         /// </summary>
         /// <param name="pApplication">the visio application with the open document</param>
@@ -77,7 +82,11 @@ namespace SPES_Modelverifier_Base
             }
 
             // ReSharper disable once VirtualMemberCallInConstructor
-            _mapping = Activator.CreateInstance(MappingListType) as MappingList;
+            //if mapping type defined, create
+            if(this.MappingListType != null)
+                _mapping = Activator.CreateInstance(MappingListType) as MappingList;
+            else
+                _mapping = null;
         }
 
         /// <summary>
@@ -457,6 +466,23 @@ namespace SPES_Modelverifier_Base
             }
 
             return models;
+        }
+
+        /// <summary>
+        /// generates a coresponding submodel for every ModelReference Item. models do not exist during execution and need to be created first.
+        /// </summary>
+        public virtual void GenerateSubmodels()
+        {
+            var models = this.GenerateModels();
+            foreach (var model in models)
+                foreach (var modelReference in model.ObjectList.Where(t => t is ModelReference))
+                {
+                    if (this._visioApplication.ActiveDocument.Pages.All(t => t.Name != modelReference.Text))
+                    {
+                        var page = this._visioApplication.ActiveDocument.Pages.Add();
+                        page.Name = modelReference.Text;
+                    }
+                }
         }
 
         /// <summary>
