@@ -63,6 +63,9 @@ namespace VisioAddin2013
             modelverifiers.Add(new TechnicalViewpointNetwork(application));
 
             //add modelverifiers to dropdown menu and subscribe to events
+            var defaultitem = Globals.Factory.GetRibbonFactory().CreateRibbonDropDownItem();
+            defaultitem.Label = "none";
+            this.ModelTargetDropDown.Items.Add(defaultitem);
             foreach (var obj in modelverifiers)
             {
                 //dropdown
@@ -205,56 +208,57 @@ namespace VisioAddin2013
         private void ModelTargetDropDown_SelectionChanged(object sender, RibbonControlEventArgs e)
         {
             previousModelverifier?.UnloadShapes();
-            activeModelverifier.LoadShapes();
+            activeModelverifier?.LoadShapes();
             previousModelverifier = activeModelverifier;
 
             //update ui
-            this.VerifyButton.Enabled = this.activeModelverifier.CanVerify;
-            this.ImportButton.Enabled = this.activeModelverifier.CanVerify;
-            this.ExportButton.Enabled = this.activeModelverifier.CanVerify;
+            if (activeModelverifier != null)
+            {
+                this.VerifyButton.Enabled = this.activeModelverifier.CanVerify;
+                this.ImportButton.Enabled = this.activeModelverifier.CanVerify;
+                this.ExportButton.Enabled = this.activeModelverifier.CanVerify;
+            }
         }
 
         private void Application_DocumentLoadedOrCreated(IVDocument pDoc)
         {
             if (!initialized)
             {
+                //set ribbon behaviour
+                if (IsSPESproject)
+                {
+                    //set document referencer
+                    documentReferencer = new SPES_DocumentReferencer();
+                    documentReferencer.LoadConfigFromFile(documentReferencerFile);
+
+                    //set SPES specifics
+                    this.ModelTargetDropDown.Enabled = false;
+                    this.CreateNewEngineeringPath.Visible = true;
+                    this.DefineContextEntitiesBehaviour.Visible = true;
+                    this.DefineContextFunctionsBehaviour.Visible = true;
+                    this.CompleteInterfaceAutomata.Visible = true;
+                    this.CreateNewSPESProject.Visible = false;
+
+                    //load module based on definition
+                    var type = documentReferencer.GetTypeFromFile(application.ActiveDocument.Name);
+                    if (type != null)
+                    {
+                        ModelTargetDropDown.SelectedItem = ModelTargetDropDown.Items.Where(t => t.Label == type.ToString()).First();
+                    }
+                }
+                else
+                {
+                    //set normal behaviour
+                    this.ModelTargetDropDown.Enabled = true;
+                    this.CreateNewEngineeringPath.Visible = false;
+                    this.DefineContextEntitiesBehaviour.Visible = false;
+                    this.DefineContextFunctionsBehaviour.Visible = false;
+                    this.CompleteInterfaceAutomata.Visible = false;
+                    this.CreateNewSPESProject.Visible = true;
+                }
+
                 ModelTargetDropDown_SelectionChanged(null, null);
                 initialized = true;
-            }
-
-            //set ribbon behaviour
-            if (IsSPESproject)
-            {
-                //set document referencer
-                documentReferencer = new SPES_DocumentReferencer();
-                documentReferencer.LoadConfigFromFile(documentReferencerFile);
-
-                //set SPES specifics
-                this.ModelTargetDropDown.Enabled = false;
-                this.CreateNewEngineeringPath.Visible = true;
-                this.DefineContextEntitiesBehaviour.Visible = true;
-                this.DefineContextFunctionsBehaviour.Visible = true;
-                this.CompleteInterfaceAutomata.Visible = true;
-                this.CreateNewSPESProject.Visible = false;
-
-                //load module based on definition
-                var type = documentReferencer.GetTypeFromFile(application.ActiveDocument.Name);
-                if (type != null)
-                {
-                    ModelTargetDropDown.SelectedItem =
-                        ModelTargetDropDown.Items.Where(t => t.Label == type.ToString()).First();
-                    ModelTargetDropDown_SelectionChanged(null, null);
-                }
-            }
-            else
-            {
-                //set normal behaviour
-                this.ModelTargetDropDown.Enabled = true;
-                this.CreateNewEngineeringPath.Visible = false;
-                this.DefineContextEntitiesBehaviour.Visible = false;
-                this.DefineContextFunctionsBehaviour.Visible = false;
-                this.CompleteInterfaceAutomata.Visible = false;
-                this.CreateNewSPESProject.Visible = true;
             }
         }
 
