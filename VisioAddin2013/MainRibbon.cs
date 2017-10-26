@@ -335,6 +335,8 @@ namespace VisioAddin2013
             {
                 //this._application.ActiveDocument.Save();
                 this.spesapp.CreateSubsystems(documentReferencer);
+                documentReferencer.SaveConfigToFile(documentReferencerFile);
+
                 System.Windows.Forms.MessageBox.Show("Creation successfully!");
             }
             //Fange mögliche Fehler ab und informiere Benutzer, dass die Generierung unvollständig ist
