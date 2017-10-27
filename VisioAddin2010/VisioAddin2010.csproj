@@ -297,6 +297,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="VisioAddin2013_TemporaryKey.pfx" />
     <None Include="VSTO\Microsoft.Office.Tools.Common.v4.0.Utilities.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -315,7 +316,7 @@
     <ManifestKeyFile>VisioAddin2013_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>CABF90A02DF6F866BC6D2749D2D3542631378897</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>66FEAF11095E3D2E64DD4CE5EECAAB26948507AE</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
