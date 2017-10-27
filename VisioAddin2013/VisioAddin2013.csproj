@@ -262,6 +262,7 @@
     </Compile>
     <AppDesigner Include="Properties\" />
     <None Include="VisioAddin2013_1_TemporaryKey.pfx" />
+    <None Include="VisioAddin2013_2_TemporaryKey.pfx" />
     <None Include="VisioAddin2013_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -354,10 +355,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>VisioAddin2013_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>VisioAddin2013_2_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>A82C12D1953692F74109098DA70EDEA0399D4804</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>66FEAF11095E3D2E64DD4CE5EECAAB26948507AE</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
