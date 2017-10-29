@@ -347,6 +347,12 @@
     <Content Include="Icons\appbar_upload.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Icons\PalunoImage.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\SpeditImage.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="VSTO\Microsoft.Office.Tools.Common.v4.0.Utilities.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
