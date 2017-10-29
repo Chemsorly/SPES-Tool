@@ -21,7 +21,8 @@ namespace SPES_Funktionsnetz
             { "Dependency Connector", typeof(DependencyConnection) },
 
             //Automata            
-            { "Step", typeof(Step) },
+            { "State", typeof(Step) },
+            { "Initial State", typeof(Step) },
             { "Connection", typeof(NodeConnection) }
         };
 
