@@ -96,6 +96,12 @@ namespace VisioAddin2013
             //subscribe to application events
             application.DocumentCreatedEvent += Application_DocumentLoadedOrCreated;
             application.DocumentOpenedEvent += Application_DocumentLoadedOrCreated;
+            application.EnterScopeEvent += delegate(IVApplication app, int id, string description)
+                {
+                    //4490 = hyperlink event
+                    if(id == 4490)
+                        this.initialized = false;
+                };
         }
 
         private void Verify_Click(object sender, RibbonControlEventArgs e)
@@ -276,6 +282,10 @@ namespace VisioAddin2013
                     if (type != null)
                     {
                         ModelTargetDropDown.SelectedItem = ModelTargetDropDown.Items.Where(t => t.Label == type.ToString()).First();
+                    }
+                    else
+                    {
+                        ModelTargetDropDown.SelectedItem = ModelTargetDropDown.Items.Where(t => t.Label == "none").First();
                     }
                 }
                 else
