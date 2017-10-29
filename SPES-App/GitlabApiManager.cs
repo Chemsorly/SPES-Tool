@@ -36,7 +36,7 @@ namespace SPES_App
 
             IssueCreate issue = new IssueCreate()
             {
-                Description = $"**_The issue was submitted by {pAuthor} via ANGER_**.\n\n {pBody}",
+                Description = $"**_The issue was submitted by {pAuthor} via API**.\n\n {pBody}",
                 Title = pTitle,
                 ProjectId = pProjectId,
                 Labels = "Bug-Report"
