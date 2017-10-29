@@ -295,7 +295,7 @@ namespace VisioAddin2013
             if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
             {
                 Version v = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion;
-                About about = new About($"{v.Major}.{v.Minor}.{v.Revision}.{v.Build}");
+                About about = new About($"{v.Major}.{v.Minor}.{v.Revision}");
                 about.ShowDialog();
             }
             else
