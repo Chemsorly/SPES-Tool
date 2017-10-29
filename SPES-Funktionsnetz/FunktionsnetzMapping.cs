@@ -23,7 +23,9 @@ namespace SPES_Funktionsnetz
             //Automata            
             { "State", typeof(Step) },
             { "Initial State", typeof(Step) },
-            { "Connection", typeof(NodeConnection) }
+            { "Connection", typeof(NodeConnection) },
+            //automata legacy, TODO lösung finden
+            { "Step", typeof(Step) }
         };
 
         protected override List<Type> TargetModels => new List<Type>() { typeof(FunktionsnetzModel), typeof(AutomataModel) };
