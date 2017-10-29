@@ -17,5 +17,9 @@ namespace SPES_Wissenskontext
         public WissenskontextNetwork(Application pApplication) : base(pApplication)
         {
         }
+        public override string ToString()
+        {
+            return "Context of Knowledge";
+        }
     }
 }

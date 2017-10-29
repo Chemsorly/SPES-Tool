@@ -16,5 +16,9 @@ namespace SPES_TechnicalViewpoint
         public TechnicalViewpointNetwork(Application pApplication) : base(pApplication)
         {
         }
+        public override string ToString()
+        {
+            return "Logical Design";
+        }
     }
 }

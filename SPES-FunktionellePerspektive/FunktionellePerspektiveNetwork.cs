@@ -17,5 +17,9 @@ namespace SPES_FunktionellePerspektive
         {
 
         }
+        public override string ToString()
+        {
+            return "Functional Perspective";
+        }
     }
 }

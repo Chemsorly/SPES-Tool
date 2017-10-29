@@ -17,5 +17,9 @@ namespace SPES_StrukturellerKontext
         public StrukturellerKontextNetwork(Application pApplication) : base(pApplication)
         {
         }
+        public override string ToString()
+        {
+            return "Structural Context";
+        }
     }
 }

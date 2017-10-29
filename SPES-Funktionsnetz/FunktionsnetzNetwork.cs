@@ -48,5 +48,9 @@ namespace SPES_Funktionsnetz
 
             return CollectedValidationMessages;
         }
+        public override string ToString()
+        {
+            return "Functional Design";
+        }
     }
 }

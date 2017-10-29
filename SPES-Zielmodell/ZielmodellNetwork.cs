@@ -27,5 +27,10 @@ namespace SPES_Zielmodell
             //return
             return CollectedValidationMessages;
         }
+
+        public override string ToString()
+        {
+            return "Goal Modeling";
+        }
     }
 }
