@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.Office.Tools.Ribbon;
 using SPES_Modelverifier_Base;
@@ -14,6 +16,8 @@ using SPES_App;
 using SPES_FunktionellePerspektive;
 using SPES_FunktionellerKontext;
 using SPES_LogicalViewpoint;
+using SPES_Modelverifier_Base.Items;
+using SPES_Modelverifier_Base.Utility;
 using SPES_StrukturellePerspektive;
 using SPES_StrukturellerKontext;
 using SPES_SzenarioUseCases;
@@ -222,7 +226,7 @@ namespace VisioAddin2013
                 this.ImportButton.Enabled = this.activeModelverifier.CanVerify;
                 this.ExportButton.Enabled = this.activeModelverifier.CanVerify;
                 this.CreateNewSPESProject.Visible = false;
-                this.GenerateSubmodelsButton.Visible = true;
+                this.GenerateSubmodelsButton.Visible = Reflection.GetAllModelreferenceTypesInModule(activeModelverifier.GetType()).Any();
 
                 //special cases:
                 if (activeModelverifier.GetType() == typeof(LogicalViewpointNetwork))
