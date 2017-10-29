@@ -17,9 +17,10 @@ namespace VisioAddin2013
             InitializeComponent();
         }
 
-        public About(String pVersion) : base()
+        public About(String pVersion)
         {
             this.Text += $" Version:{pVersion}";
+            InitializeComponent();
         }
 
         private void OK_Click(object sender, EventArgs e)
