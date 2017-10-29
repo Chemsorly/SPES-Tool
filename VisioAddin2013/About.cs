@@ -26,5 +26,11 @@ namespace VisioAddin2013
         {
             Close();
         }
+
+        private void CreateIssueButton_Click(object sender, EventArgs e)
+        {
+            using (var form = new GitIssueWindow())
+                form.ShowDialog();
+        }
     }
 }
