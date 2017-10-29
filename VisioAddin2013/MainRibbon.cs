@@ -226,9 +226,11 @@ namespace VisioAddin2013
                 if (activeModelverifier.GetType() == typeof(LogicalViewpointNetwork))
                 {
                     this.CreateNewEngineeringPath.Visible = true;
+                    this.CompleteInterfaceAutomata.Visible = false;
                 }
                 else if (activeModelverifier.GetType() == typeof(FunktionsnetzNetwork) || activeModelverifier.GetType() == typeof(TechnicalViewpointNetwork))
                 {
+                    this.CreateNewEngineeringPath.Visible = false;
                     this.CompleteInterfaceAutomata.Visible = true;
                 }
                 else
@@ -273,7 +275,6 @@ namespace VisioAddin2013
             }
         }
 
-        //TODO: aktuell für debug, später raus // durch gitlab api -> new issue ersetzen
         private void AboutButton_Click(object sender, RibbonControlEventArgs e)
         {
             if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
