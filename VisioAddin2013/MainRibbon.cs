@@ -302,16 +302,23 @@ namespace VisioAddin2013
 
         private void AboutButton_Click(object sender, RibbonControlEventArgs e)
         {
-            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
+            try
             {
-                Version v = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion;
-                About about = new About($"{v.Major}.{v.Minor}.{v.Revision}");
-                about.ShowDialog();
+                if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
+                {
+                    Version v = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion;
+                    About about = new About($"{v.Major}.{v.Minor}.{v.Revision}");
+                    about.ShowDialog();
+                }
+                else
+                {
+                    About about = new About();
+                    about.ShowDialog();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                About about = new About();
-                about.ShowDialog();
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
