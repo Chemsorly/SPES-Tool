@@ -221,6 +221,8 @@ namespace VisioAddin2013
                 this.VerifyButton.Enabled = this.activeModelverifier.CanVerify;
                 this.ImportButton.Enabled = this.activeModelverifier.CanVerify;
                 this.ExportButton.Enabled = this.activeModelverifier.CanVerify;
+                this.CreateNewSPESProject.Visible = false;
+                this.GenerateSubmodelsButton.Visible = true;
 
                 //special cases:
                 if (activeModelverifier.GetType() == typeof(LogicalViewpointNetwork))
@@ -238,6 +240,15 @@ namespace VisioAddin2013
                     this.CompleteInterfaceAutomata.Visible = false;
                     this.CreateNewEngineeringPath.Visible = false;
                 }
+            }
+            else
+            {
+                //none selected
+                this.VerifyButton.Enabled = false;
+                this.ImportButton.Enabled = false;
+                this.ExportButton.Enabled = false;
+                this.CreateNewSPESProject.Visible = true;
+                this.GenerateSubmodelsButton.Visible = false;
             }
         }
 
