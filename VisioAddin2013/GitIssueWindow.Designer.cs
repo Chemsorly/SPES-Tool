@@ -35,7 +35,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.IssueAuthorTextbox = new System.Windows.Forms.TextBox();
             this.SendButton = new System.Windows.Forms.Button();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.IssueCancelButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -104,22 +104,22 @@
             this.SendButton.UseVisualStyleBackColor = true;
             this.SendButton.Click += new System.EventHandler(this.SendButton_Click);
             // 
-            // CancelButton
+            // IssueCancelButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(13, 410);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 3;
-            this.CancelButton.Text = "Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            this.IssueCancelButton.Location = new System.Drawing.Point(13, 410);
+            this.IssueCancelButton.Name = "IssueCancelButton";
+            this.IssueCancelButton.Size = new System.Drawing.Size(75, 23);
+            this.IssueCancelButton.TabIndex = 3;
+            this.IssueCancelButton.Text = "Cancel";
+            this.IssueCancelButton.UseVisualStyleBackColor = true;
+            this.IssueCancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // GitIssueWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(464, 441);
-            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.IssueCancelButton);
             this.Controls.Add(this.SendButton);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -145,6 +145,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TextBox IssueAuthorTextbox;
         private System.Windows.Forms.Button SendButton;
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button IssueCancelButton;
     }
 }
