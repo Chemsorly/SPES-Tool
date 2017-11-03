@@ -31,7 +31,7 @@ namespace ITU_Scenario
 
         public override string ToString()
         {
-            return "Szenario-MSC";
+            return "Scenario-MSC";
         }
     }
 }

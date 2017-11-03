@@ -19,7 +19,7 @@ namespace SPES_SzenarioUseCases
         }
         public override string ToString()
         {
-            return "Szenario-UseCase Maps";
+            return "Scenario-UseCase Maps";
         }
     }
 }
