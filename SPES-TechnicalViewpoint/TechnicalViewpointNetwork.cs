@@ -18,7 +18,7 @@ namespace SPES_TechnicalViewpoint
         }
         public override string ToString()
         {
-            return "Logical Design";
+            return "Technical Design";
         }
     }
 }
