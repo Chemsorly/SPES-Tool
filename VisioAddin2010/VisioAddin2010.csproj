@@ -262,7 +262,6 @@
       <DependentUpon>ThisAddIn.Designer.xml</DependentUpon>
     </Compile>
     <AppDesigner Include="Properties\" />
-    <None Include="VisioAddin2010_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ITU-Scenario\ITU-Scenario.csproj">
@@ -297,7 +296,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="VisioAddin2013_TemporaryKey.pfx" />
     <None Include="VSTO\Microsoft.Office.Tools.Common.v4.0.Utilities.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
