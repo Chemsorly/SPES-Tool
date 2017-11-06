@@ -42,6 +42,10 @@
             this.VerifyButton = this.Factory.CreateRibbonButton();
             this.ImportButton = this.Factory.CreateRibbonButton();
             this.ExportButton = this.Factory.CreateRibbonButton();
+            this.CreateNewSPESProject = this.Factory.CreateRibbonButton();
+            this.GenerateSubmodelsButton = this.Factory.CreateRibbonButton();
+            this.CreateNewEngineeringPath = this.Factory.CreateRibbonButton();
+            this.CompleteInterfaceAutomata = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.SuspendLayout();
@@ -60,7 +64,11 @@
             this.group1.Items.Add(this.VerifyButton);
             this.group1.Items.Add(this.ImportButton);
             this.group1.Items.Add(this.ExportButton);
-            this.group1.Label = "SPES Modelverification";
+            this.group1.Items.Add(this.CreateNewSPESProject);
+            this.group1.Items.Add(this.GenerateSubmodelsButton);
+            this.group1.Items.Add(this.CreateNewEngineeringPath);
+            this.group1.Items.Add(this.CompleteInterfaceAutomata);
+            this.group1.Label = "SPES Modelling Toolbox";
             this.group1.Name = "group1";
             // 
             // ModelTargetDropDown
@@ -76,6 +84,7 @@
             this.AboutButton.Label = "About";
             this.AboutButton.Name = "AboutButton";
             this.AboutButton.ShowImage = true;
+            this.AboutButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.AboutButton_Click);
             // 
             // VerifyButton
             // 
@@ -104,6 +113,44 @@
             this.ExportButton.ShowImage = true;
             this.ExportButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ExportButton_Click);
             // 
+            // CreateNewSPESProject
+            // 
+            this.CreateNewSPESProject.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.CreateNewSPESProject.Image = ((System.Drawing.Image)(resources.GetObject("CreateNewSPESProject.Image")));
+            this.CreateNewSPESProject.Label = "Create New Project";
+            this.CreateNewSPESProject.Name = "CreateNewSPESProject";
+            this.CreateNewSPESProject.ShowImage = true;
+            this.CreateNewSPESProject.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CreateNewSPESProject_Click);
+            // 
+            // GenerateSubmodelsButton
+            // 
+            this.GenerateSubmodelsButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.GenerateSubmodelsButton.Image = ((System.Drawing.Image)(resources.GetObject("GenerateSubmodelsButton.Image")));
+            this.GenerateSubmodelsButton.Label = "Generate Submodels";
+            this.GenerateSubmodelsButton.Name = "GenerateSubmodelsButton";
+            this.GenerateSubmodelsButton.ShowImage = true;
+            this.GenerateSubmodelsButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.GenerateSubmodelsButton_Click);
+            // 
+            // CreateNewEngineeringPath
+            // 
+            this.CreateNewEngineeringPath.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.CreateNewEngineeringPath.Image = ((System.Drawing.Image)(resources.GetObject("CreateNewEngineeringPath.Image")));
+            this.CreateNewEngineeringPath.Label = "Create New Engineering Path";
+            this.CreateNewEngineeringPath.Name = "CreateNewEngineeringPath";
+            this.CreateNewEngineeringPath.ShowImage = true;
+            this.CreateNewEngineeringPath.Visible = false;
+            this.CreateNewEngineeringPath.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CreateNewEngineeringPath_Click);
+            // 
+            // CompleteInterfaceAutomata
+            // 
+            this.CompleteInterfaceAutomata.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.CompleteInterfaceAutomata.Image = ((System.Drawing.Image)(resources.GetObject("CompleteInterfaceAutomata.Image")));
+            this.CompleteInterfaceAutomata.Label = "Complete Interface Automata";
+            this.CompleteInterfaceAutomata.Name = "CompleteInterfaceAutomata";
+            this.CompleteInterfaceAutomata.ShowImage = true;
+            this.CompleteInterfaceAutomata.Visible = false;
+            this.CompleteInterfaceAutomata.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CompleteInterfaceAutomata_Click);
+            // 
             // MainRibbon
             // 
             this.Name = "MainRibbon";
@@ -122,11 +169,15 @@
 
         internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
-        internal Microsoft.Office.Tools.Ribbon.RibbonDropDown ModelTargetDropDown;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton VerifyButton;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton ImportButton;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton ExportButton;
+        internal Microsoft.Office.Tools.Ribbon.RibbonDropDown ModelTargetDropDown;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton AboutButton;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton CreateNewSPESProject;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton CreateNewEngineeringPath;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton CompleteInterfaceAutomata;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton GenerateSubmodelsButton;
     }
 
     partial class ThisRibbonCollection

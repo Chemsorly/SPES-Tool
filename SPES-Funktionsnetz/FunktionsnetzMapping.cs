@@ -21,8 +21,11 @@ namespace SPES_Funktionsnetz
             { "Dependency Connector", typeof(DependencyConnection) },
 
             //Automata            
-            { "Step", typeof(Step) },
-            { "Connection", typeof(NodeConnection) }
+            { "State", typeof(Step) },
+            { "Initial State", typeof(Step) },
+            { "Connection", typeof(NodeConnection) },
+            //automata legacy, TODO lösung finden
+            { "Step", typeof(Step) }
         };
 
         protected override List<Type> TargetModels => new List<Type>() { typeof(FunktionsnetzModel), typeof(AutomataModel) };

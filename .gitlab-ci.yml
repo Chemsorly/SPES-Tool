@@ -23,7 +23,8 @@ before_script:
 docker-build:
     stage: build
     only:
-    - branches
+    - master
+    - nightly
     script:
     - 'echo "container name : %ASSETCONTAINER_NAME% "'
     - 'docker build 

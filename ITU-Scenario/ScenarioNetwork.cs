@@ -28,5 +28,10 @@ namespace ITU_Scenario
             if (!doc.GlueSettings.HasFlag(NetOffice.VisioApi.Enums.VisGlueSettings.visGlueToGeometry))
                 doc.GlueSettings = doc.GlueSettings | NetOffice.VisioApi.Enums.VisGlueSettings.visGlueToGeometry;
         }
+
+        public override string ToString()
+        {
+            return "Scenario-MSC";
+        }
     }
 }
