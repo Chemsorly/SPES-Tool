@@ -332,9 +332,15 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Icons\appbar.flag.wavy.png" />
-    <Content Include="Icons\appbar.folder.png" />
-    <Content Include="Icons\appbar.section.expand.all.png" />
+    <Content Include="Icons\appbar.flag.wavy.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\appbar.folder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\appbar.section.expand.all.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icons\appbar_control_play.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
