@@ -338,6 +338,11 @@ namespace VisioAddin2010
 
                 //Ruft Dialogbox auf, in der der Benutzer den Namen das Systems angibt
                 string systemname = Microsoft.VisualBasic.Interaction.InputBox("Type in the name of the system", "Get System name", "System_Name");
+
+                //pressing abort returns empty string
+                if (String.IsNullOrWhiteSpace(systemname))
+                    return;
+
                 //Zum Starten der Modellierung werden die folgenden Methoden aufgerufen.
                 FolderBrowserDialog folder = new FolderBrowserDialog();
                 folder.ShowDialog();
@@ -345,6 +350,10 @@ namespace VisioAddin2010
                 documentReferencer = new SPES_DocumentReferencer();
 
                 string path = folder.SelectedPath;
+                //pressing abort returns empty string
+                if (String.IsNullOrWhiteSpace(path))
+                    return;
+
                 this.application.ActiveDocument.SaveAs(System.IO.Path.Combine(path, systemname + "_Overview.vsdx"));
                 this.spesapp.CreateRectangle(systemname);
                 this.spesapp.CreateSystem(documentReferencer);
