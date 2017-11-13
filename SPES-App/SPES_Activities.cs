@@ -12,6 +12,7 @@ using SPES_StrukturellerKontext;
 using SPES_Zielmodell;
 using SPES_SzenarioUseCases;
 using ITU_Scenario;
+using NetOffice.VisioApi.Enums;
 using SPES_StrukturellePerspektive;
 using SPES_FunktionellePerspektive;
 using SPES_Verhaltensperspektive;
@@ -594,7 +595,7 @@ namespace SPES_App
             {
                 if (found == false)
                 {
-                    if (window.Value.Contains("Visio Professional"))
+                    if (window.Value.Contains("Visio Professional") || window.Value.Contains("Microsoft Visio"))
                     {
                         OpenWindowGetter.SetForegroundWindow(window.Key);
                         applic = NetOffice.VisioApi.Application.GetActiveInstance();
@@ -618,11 +619,37 @@ namespace SPES_App
 
             if (found == false)
             {
-                var dir = new System.IO.FileInfo(_application.ActiveDocument.FullName).Directory.FullName;
-                _application.Documents.Open($"{dir}\\{systemname}_Overview.vsdx");
-                throw new Exception("Overview file not open. Opening the file now. Please use the command again.");
+                var file = new System.IO.DirectoryInfo(
+                        new System.IO.FileInfo(_application.ActiveDocument.FullName).Directory.FullName)
+                    .GetFiles().First(t => t.Name.Contains("_Overview.vsdx"));
+                _application.Documents.Open(file.FullName);
+
+                foreach (var window in OpenWindowGetter.GetOpenWindows())
+                {
+                    if (found == false)
+                    {
+                        if (window.Value.Contains("Visio Professional") || window.Value.Contains("Microsoft Visio"))
+                        {
+                            OpenWindowGetter.SetForegroundWindow(window.Key);
+                            applic = NetOffice.VisioApi.Application.GetActiveInstance();
+                            if (subapplic == applic) { subapplickey = window.Key; };
+                            foreach (var doc in applic.Documents)
+                            {
+                                foreach (var page in doc.Pages)
+                                {
+                                    if (page.Name == "System Overview")
+                                    {
+                                        systemdoc = doc;
+                                        systemoverview = page;
+                                        applickey = window.Key;
+                                        found = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-                
 
             //erstelle für jede ausgewählte Shape/Subsystem auf dem Zeichenblatt "Systemübersicht" ein Rechteck und verbinde dieses mit dem höher gelegenen System
             int counter = 0;
@@ -666,6 +693,8 @@ namespace SPES_App
                 }
 
             }
+
+            //systemoverview.CreateSelection(VisSelectionTypes.visSelTypeAll).Align(VisHorizontalAlignTypes.visHorzAlignLeft, VisVerticalAlignTypes.visVertAlignMiddle) ;
             OpenWindowGetter.SetForegroundWindow(subapplickey);
         }
 
