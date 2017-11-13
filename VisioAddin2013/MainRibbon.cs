@@ -341,6 +341,7 @@ namespace VisioAddin2013
 
                 //Zum Starten der Modellierung werden die folgenden Methoden aufgerufen.
                 FolderBrowserDialog folder = new FolderBrowserDialog();
+                folder.Description = "Please select an empty folder.";
                 folder.ShowDialog();
 
                 //check if folder is empty
