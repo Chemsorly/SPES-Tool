@@ -334,11 +334,6 @@ namespace VisioAddin2013
         {
             try
             {
-                //TODO check: wenn ordner nicht leer, error
-                //+ bedienungsanleitung
-
-                // code causing TargetInvocationException
-
                 //Zum Starten der Modellierung werden die folgenden Methoden aufgerufen.
                 FolderBrowserDialog folder = new FolderBrowserDialog();
                 folder.Description = "Please select an empty folder.";

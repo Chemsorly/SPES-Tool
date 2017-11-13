@@ -12,6 +12,7 @@ using SPES_StrukturellerKontext;
 using SPES_Zielmodell;
 using SPES_SzenarioUseCases;
 using ITU_Scenario;
+using NetOffice.VisioApi.Enums;
 using SPES_StrukturellePerspektive;
 using SPES_FunktionellePerspektive;
 using SPES_Verhaltensperspektive;
@@ -618,8 +619,10 @@ namespace SPES_App
 
             if (found == false)
             {
-                var dir = new System.IO.FileInfo(_application.ActiveDocument.FullName).Directory.FullName;
-                _application.Documents.Open($"{dir}\\{systemname}_Overview.vsdx");
+                var file = new System.IO.DirectoryInfo(
+                        new System.IO.FileInfo(_application.ActiveDocument.FullName).Directory.FullName)
+                    .GetFiles().First(t => t.Name.Contains("_Overview.vsdx"));
+                _application.Documents.Open(file.FullName);
 
                 foreach (var window in OpenWindowGetter.GetOpenWindows())
                 {
@@ -690,6 +693,8 @@ namespace SPES_App
                 }
 
             }
+
+            //systemoverview.CreateSelection(VisSelectionTypes.visSelTypeAll).Align(VisHorizontalAlignTypes.visHorzAlignLeft, VisVerticalAlignTypes.visVertAlignMiddle) ;
             OpenWindowGetter.SetForegroundWindow(subapplickey);
         }
 
