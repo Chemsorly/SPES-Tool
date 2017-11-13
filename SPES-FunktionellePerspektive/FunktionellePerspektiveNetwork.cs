@@ -17,9 +17,10 @@ namespace SPES_FunktionellePerspektive
         {
 
         }
-        public override string ToString()
-        {
-            return "Functional Perspective";
-        }
+        public override string ModelName => "Functional Perspective";
+        //public override string ToString()
+        //{
+        //    return "Functional Perspective";
+        //}
     }
 }

@@ -17,9 +17,11 @@ namespace SPES_StrukturellePerspektive
         public StrukturellePerspektiveNetwork(Application pApplication) : base(pApplication)
         {
         }
-        public override string ToString()
-        {
-            return "Structural Perspective";
-        }
+
+        public override string ModelName => "Structural Perspective";
+        //public override string ToString()
+        //{
+        //    return "Structural Perspective";
+        //}
     }
 }

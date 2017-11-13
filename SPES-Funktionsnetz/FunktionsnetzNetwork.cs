@@ -48,9 +48,11 @@ namespace SPES_Funktionsnetz
 
             return CollectedValidationMessages;
         }
-        public override string ToString()
-        {
-            return "Functional Design";
-        }
+
+        public override string ModelName => "Functional Design";
+        //public override string ToString()
+        //{
+        //    return "Functional Design";
+        //}
     }
 }

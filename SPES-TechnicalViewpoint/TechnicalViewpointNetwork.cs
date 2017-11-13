@@ -16,9 +16,12 @@ namespace SPES_TechnicalViewpoint
         public TechnicalViewpointNetwork(Application pApplication) : base(pApplication)
         {
         }
-        public override string ToString()
-        {
-            return "Technical Design";
-        }
+
+        public override string ModelName => "Technical Design";
+
+        //public override string ToString()
+        //{
+        //    return "Technical Design";
+        //}
     }
 }

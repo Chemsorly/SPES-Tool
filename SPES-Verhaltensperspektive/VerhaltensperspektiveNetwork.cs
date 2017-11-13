@@ -17,9 +17,11 @@ namespace SPES_Verhaltensperspektive
         public VerhaltensperspektiveNetwork(Application pApplication) : base(pApplication)
         {
         }
-        public override string ToString()
-        {
-            return "Behavioral Perspective";
-        }
+
+        public override string ModelName => "Behavioral Perspective";
+        //public override string ToString()
+        //{
+        //    return "Behavioral Perspective";
+        //}
     }
 }

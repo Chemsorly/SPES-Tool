@@ -28,9 +28,10 @@ namespace SPES_Zielmodell
             return CollectedValidationMessages;
         }
 
-        public override string ToString()
-        {
-            return "Goal Modeling";
-        }
+        public override string ModelName => "Goal Modeling";
+        //public override string ToString()
+        //{
+        //    return "Goal Modeling";
+        //}
     }
 }
