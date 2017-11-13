@@ -334,7 +334,18 @@ namespace VisioAddin2013
         {
             try
             {
+                //TODO check: wenn ordner nicht leer, error
+                //+ bedienungsanleitung
+
                 // code causing TargetInvocationException
+
+                //Zum Starten der Modellierung werden die folgenden Methoden aufgerufen.
+                FolderBrowserDialog folder = new FolderBrowserDialog();
+                folder.ShowDialog();
+
+                //check if folder is empty
+                if (new System.IO.DirectoryInfo(folder.SelectedPath).GetFiles().Any())
+                    throw new Exception("Selected folder is not empty.");
 
                 //Ruft Dialogbox auf, in der der Benutzer den Namen das Systems angibt
                 string systemname = Microsoft.VisualBasic.Interaction.InputBox("Type in the name of the system", "Get System name", "System_Name");
@@ -343,10 +354,6 @@ namespace VisioAddin2013
                 if (String.IsNullOrWhiteSpace(systemname))
                     return;
                 
-                //Zum Starten der Modellierung werden die folgenden Methoden aufgerufen.
-                FolderBrowserDialog folder = new FolderBrowserDialog();
-                folder.ShowDialog();
-
                 documentReferencer = new SPES_DocumentReferencer();
 
                 string path = folder.SelectedPath;
