@@ -424,7 +424,5 @@ namespace VisioAddin2013
             }
         }
         #endregion
-
-
     }
 }

@@ -33,7 +33,7 @@ namespace VisioAddin2010
         private List<ModelNetwork> modelverifiers = new List<ModelNetwork>();
 
         private ModelNetwork previousModelverifier = null;
-        private ModelNetwork activeModelverifier => modelverifiers.FirstOrDefault(t => t.ToString() == this.ModelTargetDropDown.SelectedItem?.Label);
+        private ModelNetwork activeModelverifier => modelverifiers.FirstOrDefault(t => t.ModelName == this.ModelTargetDropDown.SelectedItem?.Label);
         private ResultForm activeResultForm { get; set; }
         private bool initialized = false;
         private NetOffice.VisioApi.Application application;
@@ -74,7 +74,7 @@ namespace VisioAddin2010
             {
                 //dropdown
                 var item = Globals.Factory.GetRibbonFactory().CreateRibbonDropDownItem();
-                item.Label = obj.ToString();
+                item.Label = obj.ModelName;
                 this.ModelTargetDropDown.Items.Add(item);
 
                 //sub to log messages etc.
@@ -284,7 +284,7 @@ namespace VisioAddin2010
                     var type = documentReferencer.GetTypeFromFile(application.ActiveDocument.Name);
                     if (type != null)
                     {
-                        ModelTargetDropDown.SelectedItem = ModelTargetDropDown.Items.Where(t => t.Label == type.ToString()).First();
+                        ModelTargetDropDown.SelectedItem = ModelTargetDropDown.Items.First(k => k.Label == modelverifiers.First(t => t.ToString() == type.ToString()).ModelName);
                     }
                     else
                     {
@@ -369,7 +369,11 @@ namespace VisioAddin2010
             {
                 if (exc.InnerException != null)
                 {
-                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling.");
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling: " + exc.InnerException.Message);
+                }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling: " + exc.Message);
                 }
             }
         }
@@ -379,9 +383,9 @@ namespace VisioAddin2010
             try
             {
                 //this._application.ActiveDocument.Save();
+
                 this.spesapp.CreateSubsystems(documentReferencer);
                 documentReferencer.SaveConfigToFile(documentReferencerFile);
-
                 System.Windows.Forms.MessageBox.Show("Creation successfully!");
             }
             //Fange mögliche Fehler ab und informiere Benutzer, dass die Generierung unvollständig ist
@@ -389,7 +393,11 @@ namespace VisioAddin2010
             {
                 if (exc.InnerException != null)
                 {
-                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling." + exc);
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling: " + exc.InnerException.Message);
+                }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling: " + exc.Message);
                 }
             }
         }
@@ -407,12 +415,14 @@ namespace VisioAddin2010
             {
                 if (exc.InnerException != null)
                 {
-                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling.");
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling: " + exc.InnerException.Message);
+                }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling: " + exc.Message);
                 }
             }
         }
         #endregion
-
-
     }
 }
