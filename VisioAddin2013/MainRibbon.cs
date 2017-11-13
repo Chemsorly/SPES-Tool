@@ -369,7 +369,11 @@ namespace VisioAddin2013
             {
                 if (exc.InnerException != null)
                 {
-                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling.");
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling: " + exc.InnerException.Message);
+                }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling: " + exc.Message);
                 }
             }
         }
@@ -389,11 +393,11 @@ namespace VisioAddin2013
             {
                 if (exc.InnerException != null)
                 {
-                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling." + exc.InnerException);
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling: " + exc.InnerException.Message);
                 }
                 else
                 {
-                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling." + exc);
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling: " + exc.Message);
                 }
             }
         }
@@ -411,7 +415,11 @@ namespace VisioAddin2013
             {
                 if (exc.InnerException != null)
                 {
-                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling.");
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling: " + exc.InnerException.Message);
+                }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling: " + exc.Message);
                 }
             }
         }
