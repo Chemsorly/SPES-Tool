@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NetOffice.VisioApi;
 using SPES_App.Utility;
 using SPES_Wissenskontext;
@@ -546,6 +547,10 @@ namespace SPES_App
             IVPage active = this._application.ActivePage;
             string systemname = active.Name.Substring(4);
 
+            //TODO: check if file is LVP_Overview datei (Logical Viewpoint) / Logical Design
+            if(this._application.ActiveDocument.Name != $"{systemname}_LVP.vsdx")
+                throw new Exception("Active Document is not the LVP overview file.");
+
             IVSelection selects = this._application.ActiveWindow.Selection;
             List<IVShape> shapes = new List<IVShape>();
 
@@ -584,6 +589,7 @@ namespace SPES_App
             IntPtr applickey = new IntPtr(0);
             Application applic = null; ;
             bool found = false;
+
             foreach (var window in OpenWindowGetter.GetOpenWindows())
             {
                 if (found == false)
@@ -609,6 +615,14 @@ namespace SPES_App
                     }
                 }
             }
+
+            if (found == false)
+            {
+                var dir = new System.IO.FileInfo(_application.ActiveDocument.FullName).Directory.FullName;
+                _application.Documents.Open($"{dir}\\{systemname}_Overview.vsdx");
+                throw new Exception("Overview file not open. Opening the file now. Please use the command again.");
+            }
+                
 
             //erstelle für jede ausgewählte Shape/Subsystem auf dem Zeichenblatt "Systemübersicht" ein Rechteck und verbinde dieses mit dem höher gelegenen System
             int counter = 0;

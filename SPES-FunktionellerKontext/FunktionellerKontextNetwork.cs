@@ -17,9 +17,12 @@ namespace SPES_FunktionellerKontext
         public FunktionellerKontextNetwork(Application pApplication) : base(pApplication)
         {
         }
-        public override string ToString()
-        {
-            return "Functional Context";
-        }
+
+        public override string ModelName => "Functional Context";
+
+        //public override string ToString()
+        //{
+        //    return "Functional Context";
+        //}
     }
 }

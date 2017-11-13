@@ -17,9 +17,11 @@ namespace SPES_SzenarioUseCases
         public SzenarioUseCasesNetwork(Application pApplication) : base(pApplication)
         {
         }
-        public override string ToString()
-        {
-            return "Scenario-UseCase Maps";
-        }
+
+        public override string ModelName => "Scenario-UseCase Maps";
+        //public override string ToString()
+        //{
+        //    return "Scenario-UseCase Maps";
+        //}
     }
 }
