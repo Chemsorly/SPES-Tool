@@ -399,7 +399,7 @@ namespace SPES_Modelverifier_Base
         {
             using (var client = new System.Net.WebClient())
             {
-                client.DownloadFile($"https://releases.chemsorly.com/SPES-Modelverifier/visiostencils/{pStencilfile}",
+                client.DownloadFile($"https://spes-tool.paluno.uni-due.de/visiostencils/{pStencilfile}",
                     System.IO.Path.Combine(this._visioApplication.MyShapesPath, pStencilfile));
             }
         }

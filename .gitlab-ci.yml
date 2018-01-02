@@ -29,20 +29,20 @@ docker-build:
     - 'echo "container name : %ASSETCONTAINER_NAME% "'
     - 'docker build 
         --build-arg MSBUILD_PROJECT=SPES-Modelverifier-Base.sln
-        --build-arg MSBUILD_ARGS=/p:ApplicationVersion=%PROJECT_VERSION%.%CI_BUILD_ID%;Configuration=Release;PublishDir=C:\\SPES-Modelverifier\\%CI_BUILD_REF_NAME%\\2013-2016\\;InstallUrl=https://releases.chemsorly.com/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2013-2016/;UpdateUrl=https://releases.chemsorly.com/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2013-2016/
+        --build-arg MSBUILD_ARGS=/p:ApplicationVersion=%PROJECT_VERSION%.%CI_BUILD_ID%;Configuration=Release;PublishDir=C:\\SPES-Modelverifier\\%CI_BUILD_REF_NAME%\\2013-2016\\;InstallUrl=https://spes-tool.paluno.uni-due.de/%CI_BUILD_REF_NAME%/2013-2016/;UpdateUrl=https://spes-tool.paluno.uni-due.de/%CI_BUILD_REF_NAME%/2013-2016/
         --build-arg MSBUILD_TARGET=/t:VisioAddin2013:Publish
         -f build.Dockerfile 
-        -t git.chemsorly.com/chemsorly/spes-modelverifier . '
-    - docker create --name %ASSETCONTAINER_NAME%-2013-2016 git.chemsorly.com/chemsorly/spes-modelverifier
+        -t tag/tag . '
+    - docker create --name %ASSETCONTAINER_NAME%-2013-2016 tag/tag
     - docker cp %ASSETCONTAINER_NAME%-2013-2016:C:\\SPES-Modelverifier\\%CI_BUILD_REF_NAME%\\ C:\\Gitlab-Releases\\SPES-Modelverifier\\
     
     - 'docker build 
         --build-arg MSBUILD_PROJECT=SPES-Modelverifier-Base.sln
-        --build-arg MSBUILD_ARGS=/p:ApplicationVersion=%PROJECT_VERSION%.%CI_BUILD_ID%;Configuration=Release;PublishDir=C:\\SPES-Modelverifier\\%CI_BUILD_REF_NAME%\\2010\\;InstallUrl=https://releases.chemsorly.com/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2010/;UpdateUrl=https://releases.chemsorly.com/SPES-Modelverifier/%CI_BUILD_REF_NAME%/2010/
+        --build-arg MSBUILD_ARGS=/p:ApplicationVersion=%PROJECT_VERSION%.%CI_BUILD_ID%;Configuration=Release;PublishDir=C:\\SPES-Modelverifier\\%CI_BUILD_REF_NAME%\\2010\\;InstallUrl=https://spes-tool.paluno.uni-due.de/%CI_BUILD_REF_NAME%/2010/;UpdateUrl=https://spes-tool.paluno.uni-due.de/%CI_BUILD_REF_NAME%/2010/
         --build-arg MSBUILD_TARGET=/t:VisioAddin2010:Publish
         -f build.Dockerfile 
-        -t git.chemsorly.com/chemsorly/spes-modelverifier . '
-    - docker create --name %ASSETCONTAINER_NAME%-2010 git.chemsorly.com/chemsorly/spes-modelverifier
+        -t tag/tag . '
+    - docker create --name %ASSETCONTAINER_NAME%-2010 tag/tag
     - docker cp %ASSETCONTAINER_NAME%-2010:C:\\SPES-Modelverifier\\%CI_BUILD_REF_NAME%\\ C:\\Gitlab-Releases\\SPES-Modelverifier\\
 
 after_script:
