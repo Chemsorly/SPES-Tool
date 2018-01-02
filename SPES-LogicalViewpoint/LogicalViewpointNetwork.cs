@@ -12,12 +12,14 @@ namespace SPES_LogicalViewpoint
     {
         protected override List<string> ShapeTemplateFiles => new List<string>() {"SMT_Class.vssx"};
         protected override Type MappingListType => null;
+        public override string ModelName => "Logical Design";
+
         public LogicalViewpointNetwork(Application pApplication) : base(pApplication)
         {
         }
-        public override string ToString()
-        {
-            return "Logical Design";
-        }
+        //public override string ToString()
+        //{
+        //    return "Logical Design";
+        //}
     }
 }

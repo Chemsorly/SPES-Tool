@@ -39,7 +39,7 @@ namespace SPES_Modelverifier_Base
         private readonly MappingList _mapping;
         protected List<Model> ModelList;
         protected List<ValidationFailedMessage> CollectedValidationMessages;
-
+        public abstract String ModelName { get; }
 
         /// <summary>
         /// event handler for error messages

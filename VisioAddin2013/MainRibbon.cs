@@ -36,7 +36,7 @@ namespace VisioAddin2013
         private List<ModelNetwork> modelverifiers = new List<ModelNetwork>();
 
         private ModelNetwork previousModelverifier = null;
-        private ModelNetwork activeModelverifier => modelverifiers.FirstOrDefault(t => t.ToString() == this.ModelTargetDropDown.SelectedItem?.Label);
+        private ModelNetwork activeModelverifier => modelverifiers.FirstOrDefault(t => t.ModelName == this.ModelTargetDropDown.SelectedItem?.Label);
         private ResultForm activeResultForm { get; set; }
         private bool initialized = false;
         private NetOffice.VisioApi.Application application;
@@ -76,14 +76,16 @@ namespace VisioAddin2013
                 modelverifiers.Add(new LogicalViewpointNetwork(application));
                 modelverifiers.Add(new TechnicalViewpointNetwork(application));
 
-                //add modelverifiers to dropdown menu and subscribe to events
-
-                foreach (var obj in modelverifiers)
-                {
-                    //dropdown
-                    var item = Globals.Factory.GetRibbonFactory().CreateRibbonDropDownItem();
-                    item.Label = obj.ToString();
-                    this.ModelTargetDropDown.Items.Add(item);
+            //add modelverifiers to dropdown menu and subscribe to events
+            var defaultitem = Globals.Factory.GetRibbonFactory().CreateRibbonDropDownItem();
+            defaultitem.Label = "none";
+            this.ModelTargetDropDown.Items.Add(defaultitem);
+            foreach (var obj in modelverifiers)
+            {
+                //dropdown
+                var item = Globals.Factory.GetRibbonFactory().CreateRibbonDropDownItem();
+                item.Label = obj.ModelName;
+                this.ModelTargetDropDown.Items.Add(item);
 
                     //sub to log messages etc.
                     obj.OnErrorReceivedEvent += delegate (Exception pEx) {
@@ -311,7 +313,7 @@ namespace VisioAddin2013
                     var type = documentReferencer.GetTypeFromFile(application.ActiveDocument.Name);
                     if (type != null)
                     {
-                        ModelTargetDropDown.SelectedItem = ModelTargetDropDown.Items.Where(t => t.Label == type.ToString()).First();
+                        ModelTargetDropDown.SelectedItem = ModelTargetDropDown.Items.First(k => k.Label == modelverifiers.First(t => t.ToString() == type.ToString()).ModelName);
                     }
                     else
                     {
@@ -361,17 +363,29 @@ namespace VisioAddin2013
         {
             try
             {
-                // code causing TargetInvocationException
+                //Zum Starten der Modellierung werden die folgenden Methoden aufgerufen.
+                FolderBrowserDialog folder = new FolderBrowserDialog();
+                folder.Description = "Please select an empty folder.";
+                folder.ShowDialog();
+
+                //check if folder is empty
+                if (new System.IO.DirectoryInfo(folder.SelectedPath).GetFiles().Any())
+                    throw new Exception("Selected folder is not empty.");
 
                 //Ruft Dialogbox auf, in der der Benutzer den Namen das Systems angibt
                 string systemname = Microsoft.VisualBasic.Interaction.InputBox("Type in the name of the system", "Get System name", "System_Name");
-                //Zum Starten der Modellierung werden die folgenden Methoden aufgerufen.
-                FolderBrowserDialog folder = new FolderBrowserDialog();
-                folder.ShowDialog();
 
+                //pressing abort returns empty string
+                if (String.IsNullOrWhiteSpace(systemname))
+                    return;
+                
                 documentReferencer = new SPES_DocumentReferencer();
 
                 string path = folder.SelectedPath;
+                //pressing abort returns empty string
+                if (String.IsNullOrWhiteSpace(path))
+                    return;
+
                 this.application.ActiveDocument.SaveAs(System.IO.Path.Combine(path, systemname + "_Overview.vsdx"));
                 this.spesapp.CreateRectangle(systemname);
                 this.spesapp.CreateSystem(documentReferencer);
@@ -387,7 +401,11 @@ namespace VisioAddin2013
             {
                 if (exc.InnerException != null)
                 {
-                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling.");
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling: " + exc.InnerException.Message);
+                }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling: " + exc.Message);
                 }
             }
         }
@@ -397,9 +415,9 @@ namespace VisioAddin2013
             try
             {
                 //this._application.ActiveDocument.Save();
+
                 this.spesapp.CreateSubsystems(documentReferencer);
                 documentReferencer.SaveConfigToFile(documentReferencerFile);
-
                 System.Windows.Forms.MessageBox.Show("Creation successfully!");
             }
             //Fange mögliche Fehler ab und informiere Benutzer, dass die Generierung unvollständig ist
@@ -407,7 +425,11 @@ namespace VisioAddin2013
             {
                 if (exc.InnerException != null)
                 {
-                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling." + exc);
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling: " + exc.InnerException.Message);
+                }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling: " + exc.Message);
                 }
             }
         }
@@ -425,12 +447,14 @@ namespace VisioAddin2013
             {
                 if (exc.InnerException != null)
                 {
-                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling.");
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling: " + exc.InnerException.Message);
+                }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("Not all elements could created through Modeling: " + exc.Message);
                 }
             }
         }
         #endregion
-
-
     }
 }

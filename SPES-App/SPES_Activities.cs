@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NetOffice.VisioApi;
 using SPES_App.Utility;
 using SPES_Wissenskontext;
@@ -11,6 +12,7 @@ using SPES_StrukturellerKontext;
 using SPES_Zielmodell;
 using SPES_SzenarioUseCases;
 using ITU_Scenario;
+using NetOffice.VisioApi.Enums;
 using SPES_StrukturellePerspektive;
 using SPES_FunktionellePerspektive;
 using SPES_Verhaltensperspektive;
@@ -546,6 +548,10 @@ namespace SPES_App
             IVPage active = this._application.ActivePage;
             string systemname = active.Name.Substring(4);
 
+            //TODO: check if file is LVP_Overview datei (Logical Viewpoint) / Logical Design
+            if(this._application.ActiveDocument.Name != $"{systemname}_LVP.vsdx")
+                throw new Exception("Active Document is not the LVP overview file.");
+
             IVSelection selects = this._application.ActiveWindow.Selection;
             List<IVShape> shapes = new List<IVShape>();
 
@@ -584,11 +590,12 @@ namespace SPES_App
             IntPtr applickey = new IntPtr(0);
             Application applic = null; ;
             bool found = false;
+
             foreach (var window in OpenWindowGetter.GetOpenWindows())
             {
                 if (found == false)
                 {
-                    if (window.Value.Contains("Visio Professional"))
+                    if (window.Value.Contains("Visio Professional") || window.Value.Contains("Microsoft Visio"))
                     {
                         OpenWindowGetter.SetForegroundWindow(window.Key);
                         applic = NetOffice.VisioApi.Application.GetActiveInstance();
@@ -603,6 +610,40 @@ namespace SPES_App
                                     systemoverview = page;
                                     applickey = window.Key;
                                     found = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (found == false)
+            {
+                var file = new System.IO.DirectoryInfo(
+                        new System.IO.FileInfo(_application.ActiveDocument.FullName).Directory.FullName)
+                    .GetFiles().First(t => t.Name.Contains("_Overview.vsdx"));
+                _application.Documents.Open(file.FullName);
+
+                foreach (var window in OpenWindowGetter.GetOpenWindows())
+                {
+                    if (found == false)
+                    {
+                        if (window.Value.Contains("Visio Professional") || window.Value.Contains("Microsoft Visio"))
+                        {
+                            OpenWindowGetter.SetForegroundWindow(window.Key);
+                            applic = NetOffice.VisioApi.Application.GetActiveInstance();
+                            if (subapplic == applic) { subapplickey = window.Key; };
+                            foreach (var doc in applic.Documents)
+                            {
+                                foreach (var page in doc.Pages)
+                                {
+                                    if (page.Name == "System Overview")
+                                    {
+                                        systemdoc = doc;
+                                        systemoverview = page;
+                                        applickey = window.Key;
+                                        found = true;
+                                    }
                                 }
                             }
                         }
@@ -652,6 +693,8 @@ namespace SPES_App
                 }
 
             }
+
+            //systemoverview.CreateSelection(VisSelectionTypes.visSelTypeAll).Align(VisHorizontalAlignTypes.visHorzAlignLeft, VisVerticalAlignTypes.visVertAlignMiddle) ;
             OpenWindowGetter.SetForegroundWindow(subapplickey);
         }
 

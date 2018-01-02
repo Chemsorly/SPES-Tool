@@ -17,6 +17,9 @@ namespace SPES_App
 
         public void AddAssignment(String pFilename, String pType)
         {
+            if(ShapeAssignments.Any(t => t.Key == pFilename))
+                Console.WriteLine($"{pFilename} already exists in ShapeAssignments");
+
             ShapeAssignments.Add(pFilename, pType);
         }
 

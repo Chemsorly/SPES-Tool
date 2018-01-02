@@ -12,6 +12,7 @@ namespace ITU_Scenario
     {
         protected override List<string> ShapeTemplateFiles => new List<String> { "SMT_bMSC.vssx", "SMT_hMSC.vssx" };
         protected override Type MappingListType => typeof(ScenarioMapping);
+        public override string ModelName => "Scenario-MSC";
 
         public ScenarioNetwork(Application pApplication) : base(pApplication)
         {
@@ -29,9 +30,9 @@ namespace ITU_Scenario
                 doc.GlueSettings = doc.GlueSettings | NetOffice.VisioApi.Enums.VisGlueSettings.visGlueToGeometry;
         }
 
-        public override string ToString()
-        {
-            return "Scenario-MSC";
-        }
+        //public override string ToString()
+        //{
+        //    return "Scenario-MSC";
+        //}
     }
 }
