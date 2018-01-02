@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Office.Tools.Ribbon;
 using SPES_Modelverifier_Base;
 using NetOffice.VisioApi;
@@ -28,8 +29,10 @@ using SPES_Zielmodell;
 
 namespace VisioAddin2013
 {
-    public partial class MainRibbon 
+    public partial class MainRibbon
     {
+        private Task startupTask;
+
         private List<ModelNetwork> modelverifiers = new List<ModelNetwork>();
 
         private ModelNetwork previousModelverifier = null;
@@ -46,62 +49,84 @@ namespace VisioAddin2013
 
         private void MainRibbon_Load(object sender, RibbonUIEventArgs e)
         {
-            //get current application
-            this.application = NetOffice.VisioApi.Application.GetActiveInstance();
-            this.spesapp = new SpesActivities(this.application);
-
-            //add modelverifiers
-            modelverifiers.Add(new ScenarioNetwork(application));
-            modelverifiers.Add(new FunktionsnetzNetwork(application));
-            modelverifiers.Add(new ZielmodellNetwork(application));
-
-            //new ones
-            modelverifiers.Add(new WissenskontextNetwork(application));
-            modelverifiers.Add(new StrukturellerKontextNetwork(application));
-            modelverifiers.Add(new FunktionellerKontextNetwork(application));
-            modelverifiers.Add(new SzenarioUseCasesNetwork(application));
-            modelverifiers.Add(new StrukturellePerspektiveNetwork(application));
-            modelverifiers.Add(new FunktionellePerspektiveNetwork(application));
-            modelverifiers.Add(new VerhaltensperspektiveNetwork(application));
-            modelverifiers.Add(new LogicalViewpointNetwork(application));
-            modelverifiers.Add(new TechnicalViewpointNetwork(application));
-
-            //add modelverifiers to dropdown menu and subscribe to events
+            this.group1.Visible = false;
             var defaultitem = Globals.Factory.GetRibbonFactory().CreateRibbonDropDownItem();
             defaultitem.Label = "none";
             this.ModelTargetDropDown.Items.Add(defaultitem);
-            foreach (var obj in modelverifiers)
+
+            startupTask = Task.Run(() =>
             {
-                //dropdown
-                var item = Globals.Factory.GetRibbonFactory().CreateRibbonDropDownItem();
-                item.Label = obj.ToString();
-                this.ModelTargetDropDown.Items.Add(item);
+                //get current application
+                this.application = NetOffice.VisioApi.Application.GetActiveInstance();
+                this.spesapp = new SpesActivities(this.application);
 
-                //sub to log messages etc.
-                obj.OnErrorReceivedEvent += delegate (Exception pEx) {
-                    //move to most inner exception
-                    while (pEx.InnerException != null) pEx = pEx.InnerException;
-                    System.Windows.Forms.MessageBox.Show(pEx.Message);
-                };
-                //obj.OnLogMessageReceivedEvent += delegate (String pMessage) { System.Windows.Forms.MessageBox.Show(pMessage); };
-            }
+                //add modelverifiers
+                modelverifiers.Add(new ScenarioNetwork(application));
+                modelverifiers.Add(new FunktionsnetzNetwork(application));
+                modelverifiers.Add(new ZielmodellNetwork(application));
 
-            //init stencils for modelverifiers
-            modelverifiers.ForEach(t => t.CheckStencils());
+                //new ones
+                modelverifiers.Add(new WissenskontextNetwork(application));
+                modelverifiers.Add(new StrukturellerKontextNetwork(application));
+                modelverifiers.Add(new FunktionellerKontextNetwork(application));
+                modelverifiers.Add(new SzenarioUseCasesNetwork(application));
+                modelverifiers.Add(new StrukturellePerspektiveNetwork(application));
+                modelverifiers.Add(new FunktionellePerspektiveNetwork(application));
+                modelverifiers.Add(new VerhaltensperspektiveNetwork(application));
+                modelverifiers.Add(new LogicalViewpointNetwork(application));
+                modelverifiers.Add(new TechnicalViewpointNetwork(application));
 
-            //call selection changed for init shape load (only if document is loaded)
-            if (application.ActiveDocument != null)
-                ModelTargetDropDown_SelectionChanged(null, null);
+                //add modelverifiers to dropdown menu and subscribe to events
 
-            //subscribe to application events
-            application.DocumentCreatedEvent += Application_DocumentLoadedOrCreated;
-            application.DocumentOpenedEvent += Application_DocumentLoadedOrCreated;
-            application.EnterScopeEvent += delegate(IVApplication app, int id, string description)
+                foreach (var obj in modelverifiers)
+                {
+                    //dropdown
+                    var item = Globals.Factory.GetRibbonFactory().CreateRibbonDropDownItem();
+                    item.Label = obj.ToString();
+                    this.ModelTargetDropDown.Items.Add(item);
+
+                    //sub to log messages etc.
+                    obj.OnErrorReceivedEvent += delegate (Exception pEx) {
+                        //move to most inner exception
+                        while (pEx.InnerException != null) pEx = pEx.InnerException;
+                        System.Windows.Forms.MessageBox.Show(pEx.Message);
+                    };
+                    //obj.OnLogMessageReceivedEvent += delegate (String pMessage) { System.Windows.Forms.MessageBox.Show(pMessage); };
+                }
+
+                //init stencils for modelverifiers
+                modelverifiers.ForEach(t => t.CheckStencils());
+
+                //call selection changed for init shape load (only if document is loaded)
+                if (application.ActiveDocument != null)
+                    ModelTargetDropDown_SelectionChanged(null, null);
+
+                //subscribe to application events
+                application.DocumentCreatedEvent += Application_DocumentLoadedOrCreated;
+                application.DocumentOpenedEvent += Application_DocumentLoadedOrCreated;
+                application.EnterScopeEvent += delegate (IVApplication app, int id, string description)
                 {
                     //4490 = hyperlink event
-                    if(id == 4490)
+                    if (id == 4490)
                         this.initialized = false;
                 };
+            });
+            startupTask.ContinueWith(t =>
+                {
+                    this.group1.Visible = true;
+
+                    this.ModelTargetDropDown.Enabled = true;
+                    this.VerifyButton.Enabled = true;
+                    this.ImportButton.Enabled = true;
+                    this.ExportButton.Enabled = true;
+                    this.CreateNewSPESProject.Enabled = true;
+                    this.GenerateSubmodelsButton.Enabled = true;
+                    this.CompleteInterfaceAutomata.Enabled = true;
+                    this.CreateNewEngineeringPath.Enabled = true;
+
+                    ModelTargetDropDown_SelectionChanged(null, null);
+                }
+            );
         }
 
         private void Verify_Click(object sender, RibbonControlEventArgs e)
@@ -265,8 +290,10 @@ namespace VisioAddin2013
             }
         }
 
-        private void Application_DocumentLoadedOrCreated(IVDocument pDoc)
+        private async void Application_DocumentLoadedOrCreated(IVDocument pDoc)
         {
+            await startupTask;
+
             if (!initialized)
             {
                 //set ribbon behaviour

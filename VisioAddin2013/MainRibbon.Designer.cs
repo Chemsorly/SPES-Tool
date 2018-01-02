@@ -73,6 +73,7 @@
             // 
             // ModelTargetDropDown
             // 
+            this.ModelTargetDropDown.Enabled = false;
             this.ModelTargetDropDown.Label = "dropDown1";
             this.ModelTargetDropDown.Name = "ModelTargetDropDown";
             this.ModelTargetDropDown.ShowLabel = false;
@@ -89,6 +90,7 @@
             // VerifyButton
             // 
             this.VerifyButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.VerifyButton.Enabled = false;
             this.VerifyButton.Image = ((System.Drawing.Image)(resources.GetObject("VerifyButton.Image")));
             this.VerifyButton.Label = "Verify";
             this.VerifyButton.Name = "VerifyButton";
@@ -98,6 +100,7 @@
             // ImportButton
             // 
             this.ImportButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.ImportButton.Enabled = false;
             this.ImportButton.Image = ((System.Drawing.Image)(resources.GetObject("ImportButton.Image")));
             this.ImportButton.Label = "Import";
             this.ImportButton.Name = "ImportButton";
@@ -107,6 +110,7 @@
             // ExportButton
             // 
             this.ExportButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.ExportButton.Enabled = false;
             this.ExportButton.Image = ((System.Drawing.Image)(resources.GetObject("ExportButton.Image")));
             this.ExportButton.Label = "Export";
             this.ExportButton.Name = "ExportButton";
@@ -116,6 +120,7 @@
             // CreateNewSPESProject
             // 
             this.CreateNewSPESProject.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.CreateNewSPESProject.Enabled = false;
             this.CreateNewSPESProject.Image = ((System.Drawing.Image)(resources.GetObject("CreateNewSPESProject.Image")));
             this.CreateNewSPESProject.Label = "Create New Project";
             this.CreateNewSPESProject.Name = "CreateNewSPESProject";
@@ -125,6 +130,7 @@
             // GenerateSubmodelsButton
             // 
             this.GenerateSubmodelsButton.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.GenerateSubmodelsButton.Enabled = false;
             this.GenerateSubmodelsButton.Image = ((System.Drawing.Image)(resources.GetObject("GenerateSubmodelsButton.Image")));
             this.GenerateSubmodelsButton.Label = "Generate Submodels";
             this.GenerateSubmodelsButton.Name = "GenerateSubmodelsButton";
@@ -134,6 +140,7 @@
             // CreateNewEngineeringPath
             // 
             this.CreateNewEngineeringPath.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.CreateNewEngineeringPath.Enabled = false;
             this.CreateNewEngineeringPath.Image = ((System.Drawing.Image)(resources.GetObject("CreateNewEngineeringPath.Image")));
             this.CreateNewEngineeringPath.Label = "Create New Engineering Path";
             this.CreateNewEngineeringPath.Name = "CreateNewEngineeringPath";
@@ -144,6 +151,7 @@
             // CompleteInterfaceAutomata
             // 
             this.CompleteInterfaceAutomata.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.CompleteInterfaceAutomata.Enabled = false;
             this.CompleteInterfaceAutomata.Image = ((System.Drawing.Image)(resources.GetObject("CompleteInterfaceAutomata.Image")));
             this.CompleteInterfaceAutomata.Label = "Complete Interface Automata";
             this.CompleteInterfaceAutomata.Name = "CompleteInterfaceAutomata";
