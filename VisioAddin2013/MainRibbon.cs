@@ -77,9 +77,6 @@ namespace VisioAddin2013
                 modelverifiers.Add(new TechnicalViewpointNetwork(application));
 
             //add modelverifiers to dropdown menu and subscribe to events
-            var defaultitem = Globals.Factory.GetRibbonFactory().CreateRibbonDropDownItem();
-            defaultitem.Label = "none";
-            this.ModelTargetDropDown.Items.Add(defaultitem);
             foreach (var obj in modelverifiers)
             {
                 //dropdown

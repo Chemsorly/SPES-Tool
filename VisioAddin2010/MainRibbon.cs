@@ -81,7 +81,7 @@ namespace VisioAddin2010
             {
                 //dropdown
                 var item = Globals.Factory.GetRibbonFactory().CreateRibbonDropDownItem();
-                item.Label = obj.ModelName
+                item.Label = obj.ModelName;
                 this.ModelTargetDropDown.Items.Add(item);
 
                     //sub to log messages etc.
