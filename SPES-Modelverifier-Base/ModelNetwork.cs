@@ -370,7 +370,7 @@ namespace SPES_Modelverifier_Base
                         var stencilfile =
                             new FileInfo(System.IO.Path.Combine(this._visioApplication.MyShapesPath, file));
 
-                        var webrequest = (HttpWebRequest) WebRequest.Create($"https://releases.chemsorly.com/SPES-Modelverifier/visiostencils/{file}");
+                        var webrequest = (HttpWebRequest) WebRequest.Create($"https://spes-tool.paluno.uni-due.de/visiostencils/{file}");
                         webrequest.Method = "HEAD";
                         webrequest.Timeout = 5000;
                         HttpWebResponse webresponse = null;
