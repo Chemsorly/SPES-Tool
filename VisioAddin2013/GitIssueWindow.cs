@@ -20,6 +20,7 @@ namespace VisioAddin2013
 
         private void SendButton_Click(object sender, EventArgs e)
         {
+            //todo: nach paluno umziehen
             var api = new GitlabApiManager();
             api.Initialize("https://git.chemsorly.com", "dBxGTw9J_hifAxoMUhBx");
 
