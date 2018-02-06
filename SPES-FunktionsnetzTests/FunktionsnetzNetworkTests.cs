@@ -21,6 +21,7 @@ namespace SPES_Funktionsnetz.Tests
 
         [TestMethod()]
         [DeploymentItem(@"Testfiles\ControlHighBeamHeadlights_Example.vsdx", Subfolder)]
+        [DeploymentItem(@"Testfiles\Beispiel_MEKES.vsdx", Subfolder)]
         public void FunktionsnetzTests()
         {
             try
@@ -37,6 +38,7 @@ namespace SPES_Funktionsnetz.Tests
 
         [TestMethod()]
         [DeploymentItem(@"Testfiles\ControlHighBeamHeadlights_Example.vsdx", Subfolder)]
+        [DeploymentItem(@"Testfiles\Beispiel_MEKES.vsdx", Subfolder)]
         public void FunktionsnetzExport()
         {
             try
