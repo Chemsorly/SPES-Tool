@@ -24,15 +24,15 @@ namespace SPES_Funktionsnetz.Items
                 throw new ValidationFailedException(this, "Function " + this.Text + " has no linked model.");
 
             //collect list of messages in connectors
-            List<String> incomingConnectedMessages = this.Connections.Where(t => t.ToObject == this && t.GetType() == typeof(Interaction)).Select(t => t.Text).ToList();
-            List<String> outgoingConnectedMessages = this.Connections.Where(t => t.FromObject == this && t.GetType() == typeof(Interaction)).Select(t => t.Text).ToList();
+            List<String> incomingConnectedMessages = this.Connections.Where(t => t.ToObject == this && t.GetType() == typeof(Interaction)).Select(t => t.Text).Distinct().ToList();
+            List<String> outgoingConnectedMessages = this.Connections.Where(t => t.FromObject == this && t.GetType() == typeof(Interaction)).Select(t => t.Text).Distinct().ToList();
             List<String> incomingMessagesInModel, outgoingMessagesInModel;
 
             //case automata
             if (this.LinkedModel is AutomataModel)
             {
-                incomingMessagesInModel = this.LinkedModel.ObjectList.Where(t => t is NodeConnection && t.Text.Contains('?')).Select(t => t.Text).ToList();
-                outgoingMessagesInModel = this.LinkedModel.ObjectList.Where(t => t is NodeConnection && t.Text.Contains('!')).Select(t => t.Text).ToList();
+                incomingMessagesInModel = this.LinkedModel.ObjectList.Where(t => t is NodeConnection && t.Text.Contains('?')).Select(t => t.Text).Distinct().ToList();
+                outgoingMessagesInModel = this.LinkedModel.ObjectList.Where(t => t is NodeConnection && t.Text.Contains('!')).Select(t => t.Text).Distinct().ToList();
             }
             //case other function model
             else if (this.LinkedModel is FunktionsnetzModel)
